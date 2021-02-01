@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Buttoncoponent from './components/Buttoncoponent'
+import Kortti from './components/Kortti'
 
 export default function App() {
   const [data, setData] = useState([])
@@ -18,8 +18,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={{marginTop:100}}>HIENO ÄPPI</Text>
-      <Text>{data}</Text>
-      <Buttoncoponent></Buttoncoponent>
+      <Text>{data[0]}</Text>
+      <Kortti></Kortti>
       <StatusBar style="auto" />
     </View>
   );

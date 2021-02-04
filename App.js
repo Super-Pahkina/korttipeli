@@ -2,7 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Kortti from './components/Kortti'
-
 export default function App() {
  /* const [data, setData] = useState([])
 

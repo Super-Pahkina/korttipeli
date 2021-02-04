@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Kortti from './components/Kortti'
 
 export default function App() {
-  const [data, setData] = useState([])
+ /* const [data, setData] = useState([])
 
   useEffect( ()=> fetchData())
 
@@ -13,12 +13,12 @@ export default function App() {
     .then(response => response.json())
     .then(json => setData(JSON.stringify(json)))
     .catch((error) => console.error(error))
-  }
+  }*/
 
   return (
     <View style={styles.container}>
       <Text style={{marginTop:100}}>HIENO ÄPPI</Text>
-      <Text>{data[0]}</Text>
+      
       <Kortti></Kortti>
       <StatusBar style="auto" />
     </View>

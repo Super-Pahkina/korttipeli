@@ -8,27 +8,8 @@ import { Card, ListItem, Icon } from 'react-native-elements'
 /* 'https://fineli.fi/fineli/api/v1/foods?q=33128'*/
 export default function Kortti() {
   const [data, setData] = useState([])
-  const [painettu, setPainettu] = useState(false);
+  const [painettu, setPainettu] = useState([false, false, false, false, false, false, false]);
 
-  const url = 'https://fineli.fi/fineli/api/v1/foods/33128'
-  useEffect( ()=> {fetchData(url), []})
-
-  async function fetchData(url) {
-  let response = await fetch(url); 
-
-  const json = await response.json();
-  console.log(JSON.stringify(json));
-  setData( json );
-
-  /*  .then(response => response.json())
-    .then(data => {setData(data)})
-    .catch((error) => console.error(error))
-    
-  )*/
-  
-  console.log(data[0]);
-  }
-  console.log(data);
   const elintarvike = 
     {
     name: 'Suolapähkinä',
@@ -47,57 +28,63 @@ export default function Kortti() {
     }
     
     const nappi =(i)=>{
-      let a = 'Valitsit ' + i
-      if(painettu === true){
-        setPainettu(false);
-      } else {
-        setPainettu(true);
+      let list =  []
+      let b = 0
+      while (b < 7){
+        if (b == i){
+          list.push(true)
+        } else{
+          list.push(false)
+        }
+        b = b + 1;
       }
-      Alert.alert(a)
+      console.log(list)
+      setPainettu(list)
     }
-    const kosketus = {
-      activeOpacity: 1,
-      underlayColor: 'blue',                               // <-- "backgroundColor" will be always overwritten by "underlayColor"
-      style: painettu ? styles.buttonPainettu : styles.rivi, // <-- but you can still apply other style changes
-      onHideUnderlay: () => setPainettu(false),
-      onShowUnderlay: () => setPainettu(true),
-      onPress: () => console.log('HELLO'),                 // <-- "onPress" is apparently required
+
+    const kosketus = (i) => {
+      const a = {
+        activeOpacity: 1,
+        underlayColor: 'blue',                           
+        style: painettu[i] ? styles.buttonPainettu : styles.rivi, 
+        onPress: () => console.log('HELLO'),                
+      }
+      return a
    };
 
   return (
-  
     <View style={styles.container}>
       <Card containerStyle={styles.kortti}>
       <Card.Title>{elintarvike.name}</Card.Title>
       <Card.Divider/>
         <View >
-         <View {...kosketus}>
+         <View {...kosketus(0)}>
           <Text style={styles.name}> suola: {Number(elintarvike.salt).toFixed(3)} </Text> 
-          <TouchableHighlight style={styles.button} onPress={() => nappi('suola')}><Text >Valitse</Text></TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={() => nappi(0)}><Text >Valitse</Text></TouchableHighlight>
           </View>
-          <View style={styles.rivi}>
+          <View {...kosketus(1)}>
           <Text style={styles.name}> rasva: {Number(elintarvike.fat).toFixed(3)}</Text>
-          <TouchableHighlight style={styles.button} onPress={() => nappi('rasva')}><Text >Valitse</Text></TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={() => nappi(1)}><Text >Valitse</Text></TouchableHighlight>
           </View>
-          <View style={styles.rivi}>
+          <View {...kosketus(2)}>
           <Text style={styles.name}> proteiini (g): {Number(elintarvike.protein).toFixed(3)}</Text>
-          <TouchableHighlight style={styles.button} onPress={() => nappi('proteiini')}><Text >Valitse</Text></TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={() => nappi(2)}><Text >Valitse</Text></TouchableHighlight>
           </View>
-          <View style={styles.rivi}>
+          <View {...kosketus(3)}>
           <Text style={styles.name}> sokeri: {Number(elintarvike.sugar).toFixed(3)}</Text>
-          <TouchableHighlight style={styles.button} onPress={() => nappi('sokeri')}><Text >Valitse</Text></TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={() => nappi(3)}><Text >Valitse</Text></TouchableHighlight>
           </View>
-          <View style={styles.rivi}>
+          <View {...kosketus(4)}>
           <Text style={styles.name}> energia: {Number(elintarvike.energyKcal).toFixed(3)}</Text>
-          <TouchableHighlight style={styles.button} onPress={() => nappi('energia')}><Text >Valitse</Text></TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={() => nappi(4)}><Text >Valitse</Text></TouchableHighlight>
           </View>
-          <View style={styles.rivi}>
+          <View {...kosketus(5)}>
           <Text style={styles.name}> hiilihydraatti: {Number(elintarvike.carbohydrate).toFixed(3)}</Text>
-          <TouchableHighlight style={styles.button} onPress={() => nappi('hiilihydraatti')}><Text >Valitse</Text></TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={() => nappi(5)}><Text >Valitse</Text></TouchableHighlight>
           </View>
-          <View style={styles.rivi}>
+          <View {...kosketus(6)}>
           <Text style={styles.name}> kuitu: {Number(elintarvike.fiber).toFixed(3)}</Text>
-          <TouchableHighlight style={styles.button} onPress={() => nappi('kuitu')}><Text >Valitse</Text></TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={() => nappi(6)}><Text >Valitse</Text></TouchableHighlight>
           </View>
         </View>
       
@@ -135,7 +122,8 @@ const styles = StyleSheet.create({
   rivi: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingBottom:8,
+    paddingTop:4,
+    paddingBottom:4,
   },
   kortti: {
     marginLeft: 1,
@@ -146,7 +134,8 @@ const styles = StyleSheet.create({
   buttonPainettu: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    paddingTop:8,
     paddingBottom:8,
-    backgroundColor: 'blue'
+    backgroundColor: '#cdd0d4'
   }
 });

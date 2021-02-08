@@ -1,26 +1,42 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Kortti from './components/Kortti'
-export default function App() {
- /* const [data, setData] = useState([])
+import { StyleSheet, Text, View, Button } from 'react-native';
+import Kortti from './components/Kortti';
+import Ohjeet from './components/Ohjeet';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack'
+//import { Button } from '@material-ui/core';
 
-  useEffect( ()=> fetchData())
+const Stack = createStackNavigator();
 
-  const fetchData =()=> {
-    fetch('https://fineli.fi/fineli/api/v1/foods?q=33128')
-    .then(response => response.json())
-    .then(json => setData(JSON.stringify(json)))
-    .catch((error) => console.error(error))
-  }*/
-
+function Koti({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={{marginTop:100}}>HIENO ÄPPI</Text>
-      
-      <Kortti></Kortti>
-      <StatusBar style="auto" />
+      <Text style={styles.text}>Tervetuloa ravintoaineiden ihmeelliseen maailmaan!</Text>
+      <View style={styles.buttons}>
+        <Button
+          title="Kortti"
+          onPress={() => navigation.navigate('Kortti')}
+        />
+        <Button
+          title="Ohjeet"
+          onPress={() => navigation.navigate('Ohjeet')}
+        />
+      </View>
+      <Text style={styles.footer}>Datan tarjoaja: Terveyden ja hyvinvoinnin laitos, Fineli</Text>
     </View>
+  )
+}
+export default function App() {
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Koti" component={Koti} />
+        <Stack.Screen name="Kortti" component={Kortti} />
+        <Stack.Screen name="Ohjeet" component={Ohjeet} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -29,6 +45,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  text: {
+    fontSize: 28,
+    fontWeight: "bold",
+  },
+  footer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  buttons: {
+    flex: 4,
+    alignItems: 'center',
+    justifyContent: 'space-around',
   },
 });

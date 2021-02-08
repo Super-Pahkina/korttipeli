@@ -11,7 +11,7 @@ export default function Kortti() {
   const [painettu, setPainettu] = useState(false);
 
   const url = 'https://fineli.fi/fineli/api/v1/foods/33128'
-  useEffect( ()=> {fetchData(url)})
+  useEffect( ()=> {fetchData(url), []})
 
   async function fetchData(url) {
   let response = await fetch(url); 

@@ -12,7 +12,8 @@ export default function Kortti() {
   const [viesti, setViesti] = useState();
   const [pisteet, setPisteet] = useState(0);
   const [pisteet2, setPisteet2] = useState(0);
-
+  const [maxPisteet, setMaxPisteet] = useState();
+  
   const elintarvike = {
   name: 'Suolapähkinä',
   nutrition: {

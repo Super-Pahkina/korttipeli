@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Kortti from './components/Kortti';
 import Ohjeet from './components/Ohjeet';
+import Gamerules from './components/Gamerules';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
 //import { Button } from '@material-ui/core';
@@ -14,6 +15,10 @@ function Koti({ navigation }) {
     <View style={styles.container}>
       <Text style={styles.text}>Tervetuloa ravintoaineiden ihmeelliseen maailmaan!</Text>
       <View style={styles.buttons}>
+        <Button
+          title="Pelaa"
+          onPress={() => navigation.navigate('Gamerules')}
+        />
         <Button
           title="Kortti"
           onPress={() => navigation.navigate('Kortti')}
@@ -33,6 +38,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Koti" component={Koti} />
+        <Stack.Screen name="Gamerules" component={Gamerules} />
         <Stack.Screen name="Kortti" component={Kortti} />
         <Stack.Screen name="Ohjeet" component={Ohjeet} />
       </Stack.Navigator>

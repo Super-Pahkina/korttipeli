@@ -8,88 +8,110 @@ import { Card, ListItem, Icon } from 'react-native-elements'
 /* 'https://fineli.fi/fineli/api/v1/foods?q=33128'*/
 export default function Kortti() {
   const [data, setData] = useState([])
-  const [painettu, setPainettu] = useState([false, false, false, false, false, false, false]);
+  const [painettu, setPainettu] = useState();
+  const [viesti, setViesti] = useState();
+  const [pisteet, setPisteet] = useState(0);
+  const [pisteet2, setPisteet2] = useState(0);
 
-  const elintarvike = 
-    {
-    name: 'Suolapähkinä',
+  const elintarvike = {
+  name: 'Suolapähkinä',
+  nutrition: {
     salt: 1,
-    alcohol: 0,
     energyKcal: 485.3860626708132,
     fat: 29.6334998248294,
     protein: 14.7135001530461,
     carbohydrate: 38.1520001521353,
-    organicAcids: 0,
-    saturatedFat: 6.44468431470473,
     sugar: 3.42499991544522,
-    sugarAlcohol: 0,
     fiber: 4.57200000035763,
-    energy: 2031.72898112749
     }
-    
-    const nappi =(i)=>{
-      let list =  []
-      let b = 0
-      while (b < 7){
-        if (b == i){
-          list.push(true)
-        } else{
-          list.push(false)
-        }
-        b = b + 1;
+  }
+
+  const elintarvike2 = {
+    name: 'Random',
+    nutrition: {
+      salt: Math.random() * 2,
+      energyKcal:  Math.random() * 970,
+      fat:  Math.random() * 60,
+      protein:  Math.random() * 30,
+      carbohydrate:  Math.random() * 80,
+      sugar:  Math.random() * 7,
+      fiber: Math.random() * 9,
       }
-      console.log(list)
-      setPainettu(list)
+    }
+
+  const labels = {
+    salt: "Suola",
+    energyKcal: "Energia (Kcal)",
+    fat: "Rasva",
+    protein: "Proteiini",
+    carbohydrate: "Hiilihydraatit",
+    sugar: "Sokeri",
+    fiber: "Kuitu"
+  }
+
+  let ravintoarvot = Object.keys(elintarvike.nutrition);
+['salt', 'energyKcal', 'fat', 'protein', 'carbohydrate',  'sugar',  'fiber']
+
+    const nappi =(i)=>{
+      setPainettu(i)
     }
 
     const kosketus = (i) => {
       const a = {
         activeOpacity: 1,
         underlayColor: 'blue',                           
-        style: painettu[i] ? styles.buttonPainettu : styles.rivi, 
+        style: painettu == i ? styles.buttonPainettu : styles.rivi, 
         onPress: () => console.log('HELLO'),                
       }
       return a
-   };
+  };
+    const lukitse =() => {
+      let a = elintarvike.nutrition[painettu].toFixed(3)
+      let b = elintarvike2.nutrition[painettu].toFixed(3)
+      let c = Number(a)
+      let d = Number(b)
+      
+      if(c > d){
+      setViesti('Valitsit ' + labels[painettu].toLowerCase() + '\n' + "Voitit arvolla: " + a + '\n' + "Vastustajan arvo: " + b)
+        setPisteet(pisteet + 1)
+      } else if(c < d) {
+        setViesti('Valitsit ' + labels[painettu].toLowerCase() + '\n' + "Hävisit arvolla: " + a + '\n' + "Vastustajan arvo: " + b)
+        setPisteet2(pisteet2 + 1)
+      } else{
+        Alert.alert('Tasapeli')
+      }
+    }
 
   return (
     <View style={styles.container}>
+      <View style = {{flexDirection: 'row'}}>
+        <Text>Pisteesi: {pisteet} </Text>
+        <Text>Vastustajan pisteet: {pisteet2} </Text>
+      </View> 
       <Card containerStyle={styles.kortti}>
-      <Card.Title>{elintarvike.name}</Card.Title>
-      <Card.Divider/>
-        <View >
-         <View {...kosketus(0)}>
-          <Text style={styles.name}> suola: {Number(elintarvike.salt).toFixed(3)} </Text> 
-          <TouchableHighlight style={styles.button} onPress={() => nappi(0)}><Text >Valitse</Text></TouchableHighlight>
-          </View>
-          <View {...kosketus(1)}>
-          <Text style={styles.name}> rasva: {Number(elintarvike.fat).toFixed(3)}</Text>
-          <TouchableHighlight style={styles.button} onPress={() => nappi(1)}><Text >Valitse</Text></TouchableHighlight>
-          </View>
-          <View {...kosketus(2)}>
-          <Text style={styles.name}> proteiini (g): {Number(elintarvike.protein).toFixed(3)}</Text>
-          <TouchableHighlight style={styles.button} onPress={() => nappi(2)}><Text >Valitse</Text></TouchableHighlight>
-          </View>
-          <View {...kosketus(3)}>
-          <Text style={styles.name}> sokeri: {Number(elintarvike.sugar).toFixed(3)}</Text>
-          <TouchableHighlight style={styles.button} onPress={() => nappi(3)}><Text >Valitse</Text></TouchableHighlight>
-          </View>
-          <View {...kosketus(4)}>
-          <Text style={styles.name}> energia: {Number(elintarvike.energyKcal).toFixed(3)}</Text>
-          <TouchableHighlight style={styles.button} onPress={() => nappi(4)}><Text >Valitse</Text></TouchableHighlight>
-          </View>
-          <View {...kosketus(5)}>
-          <Text style={styles.name}> hiilihydraatti: {Number(elintarvike.carbohydrate).toFixed(3)}</Text>
-          <TouchableHighlight style={styles.button} onPress={() => nappi(5)}><Text >Valitse</Text></TouchableHighlight>
-          </View>
-          <View {...kosketus(6)}>
-          <Text style={styles.name}> kuitu: {Number(elintarvike.fiber).toFixed(3)}</Text>
-          <TouchableHighlight style={styles.button} onPress={() => nappi(6)}><Text >Valitse</Text></TouchableHighlight>
-          </View>
+        <Card.Title>{elintarvike.name}</Card.Title>
+        <Card.Divider/>
+        { ravintoarvot.map((ravintoarvo, index) => (
+        <View {...kosketus(ravintoarvo)}>
+          <Text style={styles.name}>{labels[ravintoarvo]}: {Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)} </Text> 
+          <TouchableHighlight style={styles.button} onPress={() => nappi(ravintoarvo)}><Text >Valitse</Text></TouchableHighlight>
         </View>
+        ))}
       
-</Card>
-  {console.log(data)}
+      </Card>
+      {console.log(data)}
+      {painettu == null ?
+      <></> : 
+      <View style={styles.nappi}>
+        <Button title="Lukitse valinta" onPress={() => lukitse()}></Button>
+      </View>
+      }
+      {viesti == null ?
+      <></> : 
+      <View style={styles.nappi}>
+        <Text>{viesti}</Text>
+      </View>
+      }
     </View>
   );
 }
@@ -137,5 +159,8 @@ const styles = StyleSheet.create({
     paddingTop:8,
     paddingBottom:8,
     backgroundColor: '#cdd0d4'
+  },
+  nappi: {
+    paddingTop: 20
   }
 });

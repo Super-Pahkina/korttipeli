@@ -8,6 +8,7 @@ import { StyleSheet, Text, Button } from 'react-native';
 
 export default function Gamerules({ navigation }) {
     const [numero, setNumero] = useState(5)
+    const [aika, setAika] = useState(30)
 
     const PlusNumero = () => {
         setNumero(numero + 1)
@@ -17,12 +18,37 @@ export default function Gamerules({ navigation }) {
         setNumero(numero - 1)
     }
 
+    const PlusAika = () => {
+        setAika(aika + 5)
+    }
+
+    const MinusAika = () => {
+        setAika(aika - 5)
+    }
+
     const lukitse = () => {
         
     }
 
     return(
     <View style = {styles.container}>
+        <View style = {styles.text}>
+            <Text>Vuoroaika (5-60)</Text>
+        </View>
+        <View style = { styles.valinta}>
+            {aika < 6 ? 
+            <TouchableOpacity style={styles.buttonFade}><Text style = {styles.nappiTeksti}>-</Text></TouchableOpacity>
+            :
+            <TouchableOpacity style={styles.button}  onPress={() => MinusAika()}><Text style = {styles.nappiTeksti}>-</Text></TouchableOpacity>
+            }
+            <Text style = {styles.nappiTeksti}>{aika}</Text>
+            {aika > 59 ?
+            <TouchableOpacity style={styles.buttonFade}><Text style = {styles.nappiTeksti}>+</Text></TouchableOpacity>
+            :
+            <TouchableOpacity style={styles.button} onPress={() => PlusAika()}><Text style = {styles.nappiTeksti}>+</Text></TouchableOpacity>
+            }
+        </View>
+
         <View style = {styles.text}>
             <Text>Voittoon tarvittavat pisteet (1-20)</Text>
         </View>
@@ -38,17 +64,15 @@ export default function Gamerules({ navigation }) {
             :
             <TouchableOpacity style={styles.button} onPress={() => PlusNumero()}><Text style = {styles.nappiTeksti}>+</Text></TouchableOpacity>
             }
-            </View> 
+        </View> 
         
 
         <View style={styles.nappi}>
             <Button
-            title="Kortti"
-            onPress={() => navigation.navigate('Kortti', {nro: numero})}
+            title="Aloita peliå"
+            onPress={() => navigation.navigate('Kortti', {nro: numero, aika: aika})}
             
             />
-        {/* <TouchableOpacity onPress={() => lukitse()}><Text style = {styles.lukitseButton}>Lukitse valinta</Text></TouchableOpacity> */}
-            
         </View>
    
     </View>
@@ -86,7 +110,7 @@ export default function Gamerules({ navigation }) {
         },
         nappi: {
             paddingTop: 20,
-            flex: 1,
+            flex: 0.1,
         },
         valinta: {
             flex: 0.1,
@@ -97,9 +121,8 @@ export default function Gamerules({ navigation }) {
             flexDirection: 'row'
         },
         text: {
-            flex: 1,
+            flex: 0.1,
             alignItems: 'flex-end',
-            paddingBottom: 15,
             justifyContent: 'flex-end'
         },
         nappiTeksti: {

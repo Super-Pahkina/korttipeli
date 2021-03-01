@@ -4,15 +4,19 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View , Button, TouchableHighlight, Alert} from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Card, ListItem, Icon } from 'react-native-elements'
+import { useNavigation } from '@react-navigation/native';
 
 /* 'https://fineli.fi/fineli/api/v1/foods?q=33128'*/
-export default function Kortti() {
+export default function Kortti(props) {
   const [data, setData] = useState([])
   const [painettu, setPainettu] = useState();
   const [viesti, setViesti] = useState();
   const [pisteet, setPisteet] = useState(0);
   const [pisteet2, setPisteet2] = useState(0);
-  const [maxPisteet, setMaxPisteet] = useState();
+  const { route } = props
+  const { nro } = route.params
+  const [voittoPisteet, setVoittoPisteet] = useState(nro);
+  const navigation = useNavigation();
   
   const elintarvike = {
   name: 'Suolapähkinä',
@@ -75,9 +79,27 @@ export default function Kortti() {
       if(c > d){
       setViesti('Valitsit ' + labels[painettu].toLowerCase() + '\n' + "Voitit arvolla: " + a + '\n' + "Vastustajan arvo: " + b)
         setPisteet(pisteet + 1)
+        if (pisteet + 1 >= voittoPisteet){
+          let Tulos = { 
+              tulos: 'Voitit pelin', 
+              Pisteesi: pisteet + 1,
+              VastustajanPisteet: pisteet2,
+              VoittoPisteet: voittoPisteet
+            }
+          navigation.navigate('Tulossivu', {Tulokset: Tulos})
+        }
       } else if(c < d) {
         setViesti('Valitsit ' + labels[painettu].toLowerCase() + '\n' + "Hävisit arvolla: " + a + '\n' + "Vastustajan arvo: " + b)
         setPisteet2(pisteet2 + 1)
+        if (pisteet2 + 1 >= voittoPisteet){
+          let Tulos = { 
+            tulos: 'Hävisit pelin', 
+            Pisteesi: pisteet,
+            VastustajanPisteet: pisteet2 + 1,
+            VoittoPisteet: voittoPisteet
+          }
+        navigation.navigate('Tulossivu', {Tulokset: Tulos})
+        }
       } else{
         Alert.alert('Tasapeli')
       }
@@ -85,6 +107,7 @@ export default function Kortti() {
 
   return (
     <View style={styles.container}>
+      <Text>Voittoon tarvittavat pisteet: {voittoPisteet} </Text>
       <View style = {{flexDirection: 'row'}}>
         <Text>Pisteesi: {pisteet} </Text>
         <Text>Vastustajan pisteet: {pisteet2} </Text>

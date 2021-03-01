@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Kortti from './components/Kortti';
 import Ohjeet from './components/Ohjeet';
+import Tulossivu from './components/Tulossivu';
 import Gamerules from './components/Gamerules';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
@@ -32,6 +33,7 @@ function Koti({ navigation }) {
     </View>
   )
 }
+
 export default function App() {
 
   return (
@@ -40,6 +42,7 @@ export default function App() {
         <Stack.Screen name="Koti" component={Koti} />
         <Stack.Screen name="Gamerules" component={Gamerules} />
         <Stack.Screen name="Kortti" component={Kortti} />
+        <Stack.Screen name="Tulossivu" component={Tulossivu} />
         <Stack.Screen name="Ohjeet" component={Ohjeet} />
       </Stack.Navigator>
     </NavigationContainer>

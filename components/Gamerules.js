@@ -6,10 +6,7 @@ import { IconButton } from '@material-ui/core';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { StyleSheet, Text, Button } from 'react-native';
 
-
-
-
-export default function Gamerules() {
+export default function Gamerules({ navigation }) {
     const [numero, setNumero] = useState(5)
 
     const PlusNumero = () => {
@@ -27,21 +24,33 @@ export default function Gamerules() {
     return(
     <View style = {styles.container}>
         <View style = {styles.text}>
-            <Text>Voittoon tarvittavat pisteet</Text>
+            <Text>Voittoon tarvittavat pisteet (1-20)</Text>
         </View>
         <View style = { styles.valinta}>
+            {numero < 2 ? 
+            <TouchableOpacity style={styles.buttonFade}><Text style = {styles.nappiTeksti}>-</Text></TouchableOpacity>
+            :
             <TouchableOpacity style={styles.button}  onPress={() => MinusNumero()}><Text style = {styles.nappiTeksti}>-</Text></TouchableOpacity>
+            }
             <Text style = {styles.nappiTeksti}>{numero}</Text>
+            {numero > 19 ?
+            <TouchableOpacity style={styles.buttonFade}><Text style = {styles.nappiTeksti}>+</Text></TouchableOpacity>
+            :
             <TouchableOpacity style={styles.button} onPress={() => PlusNumero()}><Text style = {styles.nappiTeksti}>+</Text></TouchableOpacity>
-            
+            }
             </View> 
         
 
         <View style={styles.nappi}>
-            <TouchableOpacity onPress={() => lukitse()}><Text style = {styles.lukitseButton}>Lukitse valinta</Text></TouchableOpacity>
+            <Button
+            title="Kortti"
+            onPress={() => navigation.navigate('Kortti', {nro: numero})}
+            
+            />
+        {/* <TouchableOpacity onPress={() => lukitse()}><Text style = {styles.lukitseButton}>Lukitse valinta</Text></TouchableOpacity> */}
             
         </View>
-    
+   
     </View>
     );
     
@@ -60,6 +69,15 @@ export default function Gamerules() {
         button: {
             borderStyle:'solid',
             borderColor:'black',
+            borderWidth: 1,
+            paddingLeft: 20,
+            paddingRight: 20,
+            paddingBottom:5,
+            paddingTop:5
+        },
+        buttonFade: {
+            borderStyle:'solid',
+            borderColor:'#cdd0d4',
             borderWidth: 1,
             paddingLeft: 20,
             paddingRight: 20,

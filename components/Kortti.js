@@ -1,6 +1,6 @@
 import * as Expo from 'expo';
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, forceUpdate } from 'react';
 import { StyleSheet, Text, View , Button, TouchableHighlight, Alert, Animated} from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Card, ListItem, Icon } from 'react-native-elements'
@@ -82,14 +82,13 @@ export default function Kortti(props) {
       }
       return a
   };
-    const lukitse =(vuoro) => {
-     
+
+    const lukitse =() => {
       setKey(prevKey => prevKey + 1)
       let a = elintarvike.nutrition[painettu].toFixed(3)
       let b = elintarvike2.nutrition[painettu].toFixed(3)
       let c = Number(a)
       let d = Number(b)
-
       
       if(c > d){
       setViesti('Valitsit ' + labels[painettu].toLowerCase() + '\n' + "Voitit arvolla: " + a + '\n' + "Vastustajan arvo: " + b)
@@ -123,7 +122,7 @@ export default function Kortti(props) {
     if ((pisteet + pisteet2) % 2 == 0 ||(pisteet + pisteet2) == 0){
       console.log(123)
      // setTimeout(tekoalyVuoro(), 5000)
-     tekoalyVuoro()
+      tekoalyVuoro()
     }
      }
 
@@ -131,7 +130,6 @@ export default function Kortti(props) {
       let Valinta = (Math.random() * 6).toFixed(0)
       console.log(Valinta)
         setPainettu(ravintoarvot[Valinta])
-        this.button.props.onPress();
     }
 
     const havio = () => {
@@ -192,7 +190,7 @@ export default function Kortti(props) {
       {painettu == null ?
       <></> : 
       <View style={styles.nappi}>
-        <Button title="Lukitse valinta" onPress={() => lukitse(1)} ref={(button) => {this.button = button; }}></Button>
+        <Button title="Lukitse valinta" onPress={() => lukitse()} ref={button}></Button>
       </View>
       }
       {viesti == null ?

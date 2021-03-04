@@ -21,10 +21,6 @@ function Koti({ navigation }) {
           onPress={() => navigation.navigate('Gamerules')}
         />
         <Button
-          title="Kortti"
-          onPress={() => navigation.navigate('Kortti')}
-        />
-        <Button
           title="Ohjeet"
           onPress={() => navigation.navigate('Ohjeet')}
         />

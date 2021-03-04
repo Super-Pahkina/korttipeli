@@ -21,7 +21,8 @@ export default function Kortti(props) {
   const [voittoPisteet, setVoittoPisteet] = useState(nro);
   const [peliAika, setPeliAika] = useState(aika);
   const navigation = useNavigation();
-  
+
+
   const elintarvike = {
   name: 'Suolapähkinä',
   nutrition: {
@@ -65,6 +66,13 @@ export default function Kortti(props) {
       setPainettu(i)
     }
 
+    const annaPisteet = ()=>{
+      setPisteet(pisteet + 1)
+    }
+    const annaPisteet2 = ()=>{
+      setPisteet2(pisteet2 + 1)
+    }
+
     const kosketus = (i) => {
       const a = {
         activeOpacity: 1,
@@ -74,16 +82,18 @@ export default function Kortti(props) {
       }
       return a
   };
-    const lukitse =() => {
+    const lukitse =(vuoro) => {
+     
       setKey(prevKey => prevKey + 1)
       let a = elintarvike.nutrition[painettu].toFixed(3)
       let b = elintarvike2.nutrition[painettu].toFixed(3)
       let c = Number(a)
       let d = Number(b)
+
       
       if(c > d){
       setViesti('Valitsit ' + labels[painettu].toLowerCase() + '\n' + "Voitit arvolla: " + a + '\n' + "Vastustajan arvo: " + b)
-        setPisteet(pisteet + 1)
+        annaPisteet()
         if (pisteet + 1 >= voittoPisteet){
           let Tulos = { 
               tulos: 'Voitit pelin', 
@@ -95,7 +105,7 @@ export default function Kortti(props) {
         }
       } else if(c < d) {
         setViesti('Valitsit ' + labels[painettu].toLowerCase() + '\n' + "Hävisit arvolla: " + a + '\n' + "Vastustajan arvo: " + b)
-        setPisteet2(pisteet2 + 1)
+        annaPisteet2()
         if (pisteet2 + 1 >= voittoPisteet){
           let Tulos = { 
             tulos: 'Hävisit pelin', 
@@ -108,9 +118,23 @@ export default function Kortti(props) {
       } else{
         Alert.alert('Tasapeli')
       }
+      console.log(pisteet)
+      console.log(pisteet2)
+    if ((pisteet + pisteet2) % 2 == 0 ||(pisteet + pisteet2) == 0){
+      console.log(123)
+     // setTimeout(tekoalyVuoro(), 5000)
+     tekoalyVuoro()
+    }
+     }
+
+    const tekoalyVuoro = () => {
+      let Valinta = (Math.random() * 6).toFixed(0)
+      console.log(Valinta)
+        setPainettu(ravintoarvot[Valinta])
+        this.button.props.onPress();
     }
 
-    const LUUSERI = () => {
+    const havio = () => {
       setPisteet2(pisteet2 + 1);
       if (pisteet2 + 1 >= voittoPisteet){
         let Tulos = { 
@@ -128,7 +152,7 @@ export default function Kortti(props) {
       <View style={styles.timer}>
         <CountdownCircleTimer
         onComplete={() => {
-          LUUSERI()
+          havio()
           return [true, 1000]
         }}
         key = {key}
@@ -168,7 +192,7 @@ export default function Kortti(props) {
       {painettu == null ?
       <></> : 
       <View style={styles.nappi}>
-        <Button title="Lukitse valinta" onPress={() => lukitse()}></Button>
+        <Button title="Lukitse valinta" onPress={() => lukitse(1)} ref={(button) => {this.button = button; }}></Button>
       </View>
       }
       {viesti == null ?

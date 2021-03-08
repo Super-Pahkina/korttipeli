@@ -30,6 +30,15 @@ export default function Gamerules({ navigation }) {
         
     }
 
+    const aloitaPeli = () => {
+        Propsit= {
+            VoittoPisteet: numero,
+            peliAika: aika,
+            kaynnissa: true
+        }
+        navigation.navigate('Kortti', {Propsit: Propsit})
+    }
+
     return(
     <View style = {styles.container}>
         <View style = {styles.text}>
@@ -69,8 +78,8 @@ export default function Gamerules({ navigation }) {
 
         <View style={styles.nappi}>
             <Button
-            title="Aloita peliå"
-            onPress={() => navigation.navigate('Kortti', {nro: numero, aika: aika})}
+            title="Aloita peli"
+            onPress={() => aloitaPeli()}
             
             />
         </View>

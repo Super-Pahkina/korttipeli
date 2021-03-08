@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import Kortti from './components/Kortti';
 import Ohjeet from './components/Ohjeet';
 import Tulossivu from './components/Tulossivu';
+import Tulokset from './components/KierroksenTulos';
+import Vastus from './components/VastustajanVuoro';
 import Gamerules from './components/Gamerules';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
@@ -39,6 +41,8 @@ export default function App() {
         <Stack.Screen name="Gamerules" component={Gamerules} />
         <Stack.Screen name="Kortti" component={Kortti} />
         <Stack.Screen name="Tulossivu" component={Tulossivu} />
+        <Stack.Screen name="KierroksenTulos" component={Tulokset} />
+        <Stack.Screen name="VastustajanVuoro" component={Vastus} />
         <Stack.Screen name="Ohjeet" component={Ohjeet} />
       </Stack.Navigator>
     </NavigationContainer>

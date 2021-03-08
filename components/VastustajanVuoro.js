@@ -6,22 +6,20 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Card, ListItem, Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
-import { useIsFocused } from "@react-navigation/native";
 
 /* 'https://fineli.fi/fineli/api/v1/foods?q=33128'*/
-export default function Kortti(props) {
-  const isFocused = useIsFocused();
-  const [key, setKey] = useState(0);
-  const [data, setData] = useState([])
-  const [painettu, setPainettu] = useState();
-  const [viesti, setViesti] = useState();
-  const [pisteet, setPisteet] = useState(0);
-  const [pisteet2, setPisteet2] = useState(0);
-  const { route } = props
-  const { Propsit } = route.params
-  const [propsit, setPropsit] = useState(Propsit);
-  const navigation = useNavigation();
-  const [kaynnissa, setKaynnissa] = useState(propsit.kaynnissa);
+export default function Vastus(props) {
+    const [key, setKey] = useState(0);
+    const [data, setData] = useState([])
+    const [painettu, setPainettu] = useState();
+    const [viesti, setViesti] = useState();
+    const [pisteet, setPisteet] = useState(0);
+    const [pisteet2, setPisteet2] = useState(0);
+    const { route } = props
+    const { Propsit } = route.params
+    const [propsit, setPropsit] = useState(Propsit);
+    const navigation = useNavigation();
+
 
   const elintarvike = {
   name: 'Suolapähkinä',
@@ -58,11 +56,9 @@ export default function Kortti(props) {
     sugar: "Sokeri",
     fiber: "Kuitu"
   }
-  
-  useEffect(() => {if(isFocused){setKaynnissa(true); }},[ isFocused]);
 
   let ravintoarvot = Object.keys(elintarvike.nutrition);
-  ['salt', 'energyKcal', 'fat', 'protein', 'carbohydrate',  'sugar',  'fiber']
+['salt', 'energyKcal', 'fat', 'protein', 'carbohydrate',  'sugar',  'fiber']
 
     const nappi =(i)=>{
       setPainettu(i)
@@ -83,85 +79,62 @@ export default function Kortti(props) {
         onPress: () => console.log('HELLO'),                
       }
       return a
-    };
+  };
 
-    const lukitse =() => {
-      let Propsit = { 
-        ValittuArvo: painettu,
-        peliAika: propsit.peliAika,
-        Pisteesi: propsit.pisteet,
-        VastustajanPisteet: propsit.pisteet2,
-        VoittoPisteet: propsit.voittoPisteet
-      }
-      setKey(prevKey => prevKey + 1)
-      setKaynnissa(false)
-      navigation.navigate('KierroksenTulos', {Propsit: Propsit})
-     /* setKey(prevKey => prevKey + 1)
-      let a = elintarvike.nutrition[painettu].toFixed(3)
-      let b = elintarvike2.nutrition[painettu].toFixed(3)
-      let c = Number(a)
-      let d = Number(b)
-      
-      if(c > d){
-      setViesti('Valitsit ' + labels[painettu].toLowerCase() + '\n' + "Voitit arvolla: " + a + '\n' + "Vastustajan arvo: " + b)
-        annaPisteet()
-        if (pisteet + 1 >= voittoPisteet){
-          let Tulos = { 
-              tulos: 'Voitit pelin', 
-              Pisteesi: pisteet + 1,
-              VastustajanPisteet: pisteet2,
-              VoittoPisteet: propsit.VoittoPisteet
-            }
-          navigation.navigate('Tulossivu', {Tulokset: Tulos})
-        }
-      } else if(c < d) {
-        setViesti('Valitsit ' + labels[painettu].toLowerCase() + '\n' + "Hävisit arvolla: " + a + '\n' + "Vastustajan arvo: " + b)
-        annaPisteet2()
-        if (pisteet2 + 1 >= voittoPisteet){
-          let Tulos = { 
-            tulos: 'Hävisit pelin', 
-            Pisteesi: pisteet,
-            VastustajanPisteet: pisteet2 + 1,
-            VoittoPisteet: propsit.VoittoPisteet
+  /*  useEffect(() => {
+        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+      //  setTimeout(function(){tekoalyVuoro(), 50000})
+     //   setTimeout(function(){tekoalyVuoro(({timePassed: true})), 5000})
+        tekoalyVuoro()
+        //  onScreenLoad();
+    }, []) */
+
+
+    const lukitse =() => {     
+        let Propsit = { 
+            ValittuArvo: painettu,
+            peliAika: propsit.peliAika,
+            Pisteesi: propsit.pisteet,
+            VastustajanPisteet: propsit.pisteet2,
+            VoittoPisteet: propsit.voittoPisteet
           }
-        navigation.navigate('Tulossivu', {Tulokset: Tulos})
-        }
-      } else{
-        Alert.alert('Tasapeli')
-      }
-      console.log(pisteet)
-      console.log(pisteet2)
-    if ((pisteet + pisteet2) % 2 == 0 ||(pisteet + pisteet2) == 0){
-      console.log(123)
-     // setTimeout(tekoalyVuoro(), 5000)
-      tekoalyVuoro()
-    } */
-     }
+        navigation.navigate('KierroksenTulos', {Propsit: Propsit})
+    }
 
+    const tekoalyVuoro = () => {
+        let Valinta = (Math.random() * 6).toFixed(0)
+        console.log(Valinta)
+        setPainettu(ravintoarvot[Valinta])
+        lukitse()
+    }
+
+    /*
+    Vastustajan vuorolle joku häviö systeemi jos aika loppuu. Tekoälyltä ei voi loppua aika, joten kommentoitu for now. Tarvitaan vasta pelaaja vs pelaaja tilanteessa.
     const havio = () => {
       setPisteet2(pisteet2 + 1);
-      if (pisteet2 + 1 >= propsit.VoittoPisteet){
+      if (pisteet2 + 1 >= voittoPisteet){
         let Tulos = { 
           tulos: 'Hävisit pelin', 
           Pisteesi: pisteet,
           VastustajanPisteet: pisteet2 + 1,
-          VoittoPisteet: propsit.VoittoPisteet
+          VoittoPisteet: voittoPisteet
         }
       navigation.navigate('Tulossivu', {Tulokset: Tulos})
       }
     }
+    */
 
   return (
     <View style={styles.container}>
       <View style={styles.timer}>
         <CountdownCircleTimer
         onComplete={() => {
-          havio()
-          return [true, 1000]
+            tekoalyVuoro()
+            return [true, 1000]
         }}
         key = {key}
-        isPlaying = {kaynnissa}
-        duration={propsit.peliAika}
+        isPlaying
+        duration={5}
         size = {100}
         colors={[
           ['#004777', 0.4],
@@ -187,24 +160,10 @@ export default function Kortti(props) {
         { ravintoarvot.map((ravintoarvo, index) => (
         <View {...kosketus(ravintoarvo)}>
           <Text style={styles.name}>{labels[ravintoarvo]}: {Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)} </Text> 
-          <TouchableHighlight style={styles.button} underlayColor='#808791' onPress={() => nappi(ravintoarvo)}><Text >Valitse</Text></TouchableHighlight>
         </View>
         ))}
       
       </Card>
-      {console.log(data)}
-      {painettu == null ?
-      <></> : 
-      <View style={styles.nappi}>
-        <Button title="Lukitse valinta" onPress={() => lukitse()}></Button>
-      </View>
-      }
-      {viesti == null ?
-      <></> : 
-      <View style={styles.nappi}>
-        <Text>{viesti}</Text>
-      </View>
-      }
     </View>
   );
 }

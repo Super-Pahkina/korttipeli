@@ -7,8 +7,9 @@ import { Card, ListItem, Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 
-/* 'https://fineli.fi/fineli/api/v1/foods?q=33128'*/
+/* 'https://fineli.fi/fineli/api/v1/foods?q=id'*/
 export default function Kortti(props) {
+  //console.log('tulostus ' + JSON.stringify(props))
   const [key, setKey] = useState(0);
   const [data, setData] = useState([])
   const [painettu, setPainettu] = useState();
@@ -18,36 +19,86 @@ export default function Kortti(props) {
   const { route } = props
   const { nro } = route.params
   const { aika } = route.params
+  const { pakka } = route.params
+  console.log("PAKKA" + pakka.length)
   const [voittoPisteet, setVoittoPisteet] = useState(nro);
   const [peliAika, setPeliAika] = useState(aika);
   const navigation = useNavigation();
+  const [cards, setCards] = useState(pakka);
+  const listOfUsedCardIndexes=[];
 
-
-  const elintarvike = {
-  name: 'Suolapähkinä',
-  nutrition: {
-    salt: 1,
-    energyKcal: 485.3860626708132,
-    fat: 29.6334998248294,
-    protein: 14.7135001530461,
-    carbohydrate: 38.1520001521353,
-    sugar: 3.42499991544522,
-    fiber: 4.57200000035763,
+  const [elintarvike, setElintarvike] = useState({
+    name: '',
+    nutrition: {
+      salt: '',
+      energyKcal: '',
+      fat: '',
+      protein: '',
+      carbohydrate: '',
+      sugar: '',
+      fiber: ''
     }
+  })
+
+  const [elintarvike2, setElintarvike2] = useState({
+    name: '',
+    nutrition: {
+      salt: '',
+      energyKcal: '',
+      fat: '',
+      protein: '',
+      carbohydrate: '',
+      sugar: '',
+      fiber: ''
+    }
+  })
+
+  // otaa korttilistalta yhden kortin
+  const selectCard = () => {
+    let randomIndex = Math.floor(Math.random() * cards.length)
+    
+    while (listOfUsedCardIndexes.includes(randomIndex)) {
+      randomIndex = Math.floor(Math.random() * cards.length)
+    }
+    listOfUsedCardIndexes.push(randomIndex)
+
+    return randomIndex
   }
 
-  const elintarvike2 = {
-    name: 'Random',
-    nutrition: {
-      salt: Math.random() * 2,
-      energyKcal:  Math.random() * 970,
-      fat:  Math.random() * 60,
-      protein:  Math.random() * 30,
-      carbohydrate:  Math.random() * 80,
-      sugar:  Math.random() * 7,
-      fiber: Math.random() * 9.144,
+  useEffect(() => {
+    setGameCards()
+  }, [])
+
+  const setGameCards = () => {
+    let chosenCard = cards[selectCard()]
+    let chosenCard2 = cards[selectCard()]
+
+    setElintarvike({
+      name: `${chosenCard.name_fi}`,
+      nutrition: {
+        salt: `${chosenCard.salt}`,
+        energyKcal: `${chosenCard.energyKcal}`,
+        fat: `${chosenCard.fat}`,
+        protein: `${chosenCard.protein}`,
+        carbohydrate: `${chosenCard.carbohydrate}`,
+        sugar: `${chosenCard.sugar}`,
+        fiber: `${chosenCard.fiber}`,
       }
-    }
+    })
+
+    setElintarvike2({
+      name: `${chosenCard2.name_fi}`,
+      nutrition: {
+        salt: `${chosenCard2.salt}`,
+        energyKcal: `${chosenCard2.energyKcal}`,
+        fat: `${chosenCard2.fat}`,
+        protein: `${chosenCard2.protein}`,
+        carbohydrate: `${chosenCard2.carbohydrate}`,
+        sugar: `${chosenCard2.sugar}`,
+        fiber: `${chosenCard2.fiber}`
+      }
+    })
+  }
 
   const labels = {
     salt: "Suola",
@@ -83,13 +134,14 @@ export default function Kortti(props) {
       return a
   };
     const lukitse =(vuoro) => {
-     
+    
       setKey(prevKey => prevKey + 1)
-      let a = elintarvike.nutrition[painettu].toFixed(3)
-      let b = elintarvike2.nutrition[painettu].toFixed(3)
+      let a = parseFloat(elintarvike.nutrition[painettu]).toFixed(3)
+      let b = parseFloat(elintarvike2.nutrition[painettu]).toFixed(3)
       let c = Number(a)
       let d = Number(b)
 
+      setGameCards()
       
       if(c > d){
       setViesti('Valitsit ' + labels[painettu].toLowerCase() + '\n' + "Voitit arvolla: " + a + '\n' + "Vastustajan arvo: " + b)
@@ -192,7 +244,9 @@ export default function Kortti(props) {
       {painettu == null ?
       <></> : 
       <View style={styles.nappi}>
-        <Button title="Lukitse valinta" onPress={() => lukitse(1)} ref={(button) => {this.button = button; }}></Button>
+        <Button title="Lukitse valinta" onPress={() => lukitse(1)}
+                    //ref={(button) => {this.button = button; }}
+        />
       </View>
       }
       {viesti == null ?

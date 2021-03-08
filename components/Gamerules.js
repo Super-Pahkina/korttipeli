@@ -7,8 +7,9 @@ import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { StyleSheet, Text, Button } from 'react-native';
 
 export default function Gamerules({ navigation }) {
-    const [numero, setNumero] = useState(5)
-    const [aika, setAika] = useState(30)
+    const [numero, setNumero] = useState(5);
+    const [aika, setAika] = useState(30);
+    const [pakka, setPakka] = useState([]);
 
     const PlusNumero = () => {
         setNumero(numero + 1)
@@ -29,6 +30,20 @@ export default function Gamerules({ navigation }) {
     const lukitse = () => {
         
     }
+
+    useEffect(() => {
+        fetchCards()
+      }, [numero])
+    
+      // hakee tarvittavan määrän kortteja
+      const fetchCards = async () => {
+        try {
+          let response = await fetch(`http://192.168.0.103:3001/howmany/${numero*2}`) // 
+          setPakka(await response.json())
+        } catch (error) {
+          console.log("ERROR", error)
+        }
+      }
 
     return(
     <View style = {styles.container}>
@@ -69,8 +84,8 @@ export default function Gamerules({ navigation }) {
 
         <View style={styles.nappi}>
             <Button
-            title="Aloita peliå"
-            onPress={() => navigation.navigate('Kortti', {nro: numero, aika: aika})}
+            title="Aloita peli"
+            onPress={() => navigation.navigate('Kortti', {pakka: pakka, nro: numero, aika: aika})}
             
             />
         </View>

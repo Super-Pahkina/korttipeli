@@ -38,7 +38,7 @@ export default function Gamerules({ navigation }) {
       // hakee tarvittavan määrän kortteja
       const fetchCards = async () => {
         try {
-          let response = await fetch(`http://192.168.0.103:3001/howmany/${numero*2}`) // 
+          let response = await fetch(`http://192.168.0.103:3001/howmany/${numero*2}`) // oman koneen IP
           setPakka(await response.json())
         } catch (error) {
           console.log("ERROR", error)

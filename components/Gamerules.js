@@ -34,9 +34,11 @@ export default function Gamerules({ navigation }) {
         Propsit= {
             VoittoPisteet: numero,
             peliAika: aika,
-            kaynnissa: true
-        }
-        navigation.navigate('Kortti', {Propsit: Propsit})
+            kaynnissa: true,
+            Pisteesi: 0,
+            VastustajanPisteet: 0,
+            }
+            navigation.navigate('Kortti', {Propsit: Propsit})
     }
 
     return(

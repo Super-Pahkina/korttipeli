@@ -11,13 +11,11 @@ import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 export default function Vastus(props) {
     const [key, setKey] = useState(0);
     const [data, setData] = useState([])
-    const [painettu, setPainettu] = useState();
     const [viesti, setViesti] = useState();
-    const [pisteet, setPisteet] = useState(0);
-    const [pisteet2, setPisteet2] = useState(0);
-    const { route } = props
-    const { Propsit } = route.params
-    const [propsit, setPropsit] = useState(Propsit);
+    let painettu = ''
+    let { route } = props
+    let { Propsit } = route.params
+    let propsit = Propsit
     const navigation = useNavigation();
 
 
@@ -94,9 +92,9 @@ export default function Vastus(props) {
         let Propsit = { 
             ValittuArvo: painettu,
             peliAika: propsit.peliAika,
-            Pisteesi: propsit.pisteet,
-            VastustajanPisteet: propsit.pisteet2,
-            VoittoPisteet: propsit.voittoPisteet
+            Pisteesi: propsit.Pisteesi,
+            VastustajanPisteet: propsit.VastustajanPisteet,
+            VoittoPisteet: propsit.VoittoPisteet
           }
         navigation.navigate('KierroksenTulos', {Propsit: Propsit})
     }
@@ -104,7 +102,7 @@ export default function Vastus(props) {
     const tekoalyVuoro = () => {
         let Valinta = (Math.random() * 6).toFixed(0)
         console.log(Valinta)
-        setPainettu(ravintoarvot[Valinta])
+        painettu = ravintoarvot[Valinta]
         lukitse()
     }
 
@@ -151,8 +149,8 @@ export default function Vastus(props) {
       </View>
       <Text>Voittoon tarvittavat pisteet: {propsit.VoittoPisteet} </Text>
       <View style = {{flexDirection: 'row'}}>
-        <Text>Pisteesi: {pisteet} </Text>
-        <Text>Vastustajan pisteet: {pisteet2} </Text>
+      <Text>Pisteesi: {propsit.Pisteesi} </Text>
+        <Text>Vastustajan pisteet: {propsit.VastustajanPisteet} </Text>
       </View> 
       <Card containerStyle={styles.kortti}>
         <Card.Title>{elintarvike.name}</Card.Title>

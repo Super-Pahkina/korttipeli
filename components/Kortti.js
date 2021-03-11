@@ -15,11 +15,9 @@ export default function Kortti(props) {
   const [data, setData] = useState([])
   const [painettu, setPainettu] = useState();
   const [viesti, setViesti] = useState();
-  const [pisteet, setPisteet] = useState(0);
-  const [pisteet2, setPisteet2] = useState(0);
-  const { route } = props
-  const { Propsit } = route.params
-  const [propsit, setPropsit] = useState(Propsit);
+  let { route } = props
+  let { Propsit } = route.params
+  let propsit = Propsit
   const navigation = useNavigation();
   const [kaynnissa, setKaynnissa] = useState(propsit.kaynnissa);
 
@@ -46,8 +44,8 @@ export default function Kortti(props) {
       carbohydrate:  Math.random() * 80,
       sugar:  Math.random() * 7,
       fiber: Math.random() * 9.144,
-      }
     }
+  }
 
   const labels = {
     salt: "Suola",
@@ -59,20 +57,13 @@ export default function Kortti(props) {
     fiber: "Kuitu"
   }
   
-  useEffect(() => {if(isFocused){setKaynnissa(true); }},[ isFocused]);
+  useEffect(() => {if(isFocused){setKaynnissa(true); setPainettu() }},[ isFocused]);
 
   let ravintoarvot = Object.keys(elintarvike.nutrition);
   ['salt', 'energyKcal', 'fat', 'protein', 'carbohydrate',  'sugar',  'fiber']
 
     const nappi =(i)=>{
       setPainettu(i)
-    }
-
-    const annaPisteet = ()=>{
-      setPisteet(pisteet + 1)
-    }
-    const annaPisteet2 = ()=>{
-      setPisteet2(pisteet2 + 1)
     }
 
     const kosketus = (i) => {
@@ -89,9 +80,9 @@ export default function Kortti(props) {
       let Propsit = { 
         ValittuArvo: painettu,
         peliAika: propsit.peliAika,
-        Pisteesi: propsit.pisteet,
-        VastustajanPisteet: propsit.pisteet2,
-        VoittoPisteet: propsit.voittoPisteet
+        Pisteesi: propsit.Pisteesi,
+        VastustajanPisteet: propsit.VastustajanPisteet,
+        VoittoPisteet: propsit.VoittoPisteet
       }
       setKey(prevKey => prevKey + 1)
       setKaynnissa(false)
@@ -139,18 +130,18 @@ export default function Kortti(props) {
      }
 
     const havio = () => {
-      setPisteet2(pisteet2 + 1);
-      if (pisteet2 + 1 >= propsit.VoittoPisteet){
-        let Tulos = { 
-          tulos: 'Hävisit pelin', 
-          Pisteesi: pisteet,
-          VastustajanPisteet: pisteet2 + 1,
-          VoittoPisteet: propsit.VoittoPisteet
-        }
-      navigation.navigate('Tulossivu', {Tulokset: Tulos})
+      let Propsit = { 
+        ValittuArvo: '',
+        peliAika: propsit.peliAika,
+        Pisteesi: propsit.Pisteesi,
+        VastustajanPisteet: propsit.VastustajanPisteet + 1,
+        VoittoPisteet: propsit.VoittoPisteet
       }
+      setKey(prevKey => prevKey + 1)
+      setKaynnissa(false)
+      navigation.navigate('KierroksenTulos', {Propsit: Propsit})
     }
-
+ 
   return (
     <View style={styles.container}>
       <View style={styles.timer}>
@@ -178,8 +169,8 @@ export default function Kortti(props) {
       </View>
       <Text>Voittoon tarvittavat pisteet: {propsit.VoittoPisteet} </Text>
       <View style = {{flexDirection: 'row'}}>
-        <Text>Pisteesi: {pisteet} </Text>
-        <Text>Vastustajan pisteet: {pisteet2} </Text>
+        <Text>Pisteesi: {propsit.Pisteesi} </Text>
+        <Text>Vastustajan pisteet: {propsit.VastustajanPisteet} </Text>
       </View> 
       <Card containerStyle={styles.kortti}>
         <Card.Title>{elintarvike.name}</Card.Title>

@@ -5,6 +5,7 @@ import { StyleSheet, Text, View , Button, TouchableHighlight, Alert, Animated} f
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Card, ListItem, Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
+import { useIsFocused } from "@react-navigation/native";
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 
 /* 'https://fineli.fi/fineli/api/v1/foods?q=33128'*/
@@ -17,9 +18,82 @@ export default function Vastus(props) {
     let { Propsit } = route.params
     let propsit = Propsit
     const navigation = useNavigation();
+    const [pelatutKortit, setPelatutKortit] = useState(propsit.pelatutKortit);
+    const isFocused = useIsFocused();
+    const [cards, setCards] = useState(propsit.pakka);
 
 
-  const elintarvike = {
+  const [elintarvike, setElintarvike] = useState({
+    name: '',
+    nutrition: {
+      salt: '',
+      energyKcal: '',
+      fat: '',
+      protein: '',
+      carbohydrate: '',
+      sugar: '',
+      fiber: ''
+    }
+  })
+
+  const [elintarvike2, setElintarvike2] = useState({
+    name: '',
+    nutrition: {
+      salt: '',
+      energyKcal: '',
+      fat: '',
+      protein: '',
+      carbohydrate: '',
+      sugar: '',
+      fiber: ''
+    }
+  })
+
+  // otaa korttilistalta yhden kortin
+  const selectCard = () => {
+    /*let randomIndex = Math.floor(Math.random() * cards.length)
+    
+    while (listOfUsedCardIndexes.includes(randomIndex)) {
+      randomIndex = Math.floor(Math.random() * cards.length)
+    }
+    listOfUsedCardIndexes.push(randomIndex)*/
+
+    return randomIndex
+  }
+
+  const setGameCards = () => {
+    let chosenCard = cards[Number(propsit.pelatutKortit)]
+    let chosenCard2 = cards[Number(propsit.pelatutKortit + 1)]
+    setPelatutKortit(propsit.pelatutKortit + 2)
+
+    setElintarvike({
+      name: `${chosenCard.name_fi}`,
+      nutrition: {
+        salt: `${chosenCard.salt}`,
+        energyKcal: `${chosenCard.energyKcal}`,
+        fat: `${chosenCard.fat}`,
+        protein: `${chosenCard.protein}`,
+        carbohydrate: `${chosenCard.carbohydrate}`,
+        sugar: `${chosenCard.sugar}`,
+        fiber: `${chosenCard.fiber}`,
+      }
+    })
+
+    setElintarvike2({
+      name: `${chosenCard2.name_fi}`,
+      nutrition: {
+        salt: `${chosenCard2.salt}`,
+        energyKcal: `${chosenCard2.energyKcal}`,
+        fat: `${chosenCard2.fat}`,
+        protein: `${chosenCard2.protein}`,
+        carbohydrate: `${chosenCard2.carbohydrate}`,
+        sugar: `${chosenCard2.sugar}`,
+        fiber: `${chosenCard2.fiber}`
+      }
+    })
+  }
+
+  /*const elintarvike = {
   name: 'Suolapähkinä',
   nutrition: {
     salt: 1,
@@ -42,8 +116,8 @@ export default function Vastus(props) {
       carbohydrate:  Math.random() * 80,
       sugar:  Math.random() * 7,
       fiber: Math.random() * 9.144,
-      }
     }
+  }*/
 
   const labels = {
     salt: "Suola",
@@ -54,6 +128,8 @@ export default function Vastus(props) {
     sugar: "Sokeri",
     fiber: "Kuitu"
   }
+
+  useEffect(() => { if (isFocused) {setGameCards(); } }, [isFocused]);
 
   let ravintoarvot = Object.keys(elintarvike.nutrition);
 ['salt', 'energyKcal', 'fat', 'protein', 'carbohydrate',  'sugar',  'fiber']
@@ -94,7 +170,11 @@ export default function Vastus(props) {
             peliAika: propsit.peliAika,
             Pisteesi: propsit.Pisteesi,
             VastustajanPisteet: propsit.VastustajanPisteet,
-            VoittoPisteet: propsit.VoittoPisteet
+            VoittoPisteet: propsit.VoittoPisteet,
+            pelatutKortit: pelatutKortit,
+            elintarvike: elintarvike,
+            elintarvike2: elintarvike2,
+            pakka: propsit.pakka
           }
         navigation.navigate('KierroksenTulos', {Propsit: Propsit})
     }

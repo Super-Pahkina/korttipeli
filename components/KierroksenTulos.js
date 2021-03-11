@@ -21,32 +21,8 @@ export default function Tulokset (props){
     let propsit = Propsit
     let pisteesi = propsit.Pisteesi
     let vastustajanPisteet = propsit.VastustajanPisteet
-
-    const elintarvike = {
-        name: 'Suolapähkinä',
-        nutrition: {
-          salt: 1,
-          energyKcal: 485.3860626708132,
-          fat: 29.6334998248294,
-          protein: 14.7135001530461,
-          carbohydrate: 38.1520001521353,
-          sugar: 3.42499991544522,
-          fiber: 4.57200000035763,
-          }
-        }
-
-    const elintarvike2 = {
-        name: 'Random',
-        nutrition: {
-            salt: 0.5,
-            energyKcal:  Math.random() * 970,
-            fat:  Math.random() * 60,
-            protein:  Math.random() * 30,
-            carbohydrate:  Math.random() * 80,
-            sugar:  Math.random() * 7,
-            fiber: Math.random() * 9.144,
-        }
-    }
+    let elintarvike = propsit.elintarvike
+    let elintarvike2 = propsit.elintarvike2
 
     const labels = {
         salt: "Suola",
@@ -67,7 +43,6 @@ export default function Tulokset (props){
 
     const siirry = () => {
       if (pisteesi == propsit.VoittoPisteet){
-        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         let Tulos = { 
           tulos: 'Voitit pelin', 
           Pisteesi: pisteesi,
@@ -76,7 +51,6 @@ export default function Tulokset (props){
         }
         navigation.navigate('Tulossivu', {Tulokset: Tulos})
       }else if (vastustajanPisteet == propsit.VoittoPisteet){
-        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         let Tulos = { 
           tulos: 'Hävisit pelin', 
           Pisteesi: pisteesi,
@@ -85,13 +59,16 @@ export default function Tulokset (props){
         }
         navigation.navigate('Tulossivu', {Tulokset: Tulos})
       } else{
+      console.log("Kierros", propsit.pelatutKortit)
       let Propsit = { 
         kaynnissa: true,
         ValittuArvo: propsit.ValittuArvo,
         peliAika: propsit.peliAika,
         Pisteesi: pisteesi,
         VastustajanPisteet: vastustajanPisteet,
-        VoittoPisteet: propsit.VoittoPisteet
+        VoittoPisteet: propsit.VoittoPisteet,
+        pelatutKortit: propsit.pelatutKortit,
+        pakka: propsit.pakka
       }
       console.log(Propsit.ValittuArvo)
       if (vuoro == "Pelaaja"){
@@ -146,7 +123,7 @@ export default function Tulokset (props){
             <Text>Vastustajan pisteet: {VastustajanPisteet()} </Text>
           </View> 
           <Card containerStyle={styles.kortti}>
-            <Card.Title style={styles.otsikko}>{elintarvike.name}</Card.Title>
+            <Card.Title style={styles.otsikko}>{elintarvike2.name}</Card.Title>
               { ravintoarvot2.map((ravintoarvo, index) => (
                 <View {...kosketus(ravintoarvo)}>
                     <Text style={styles.name}>{labels[ravintoarvo]}: {Number(elintarvike2.nutrition[ravintoarvo]).toFixed(3)}</Text> 

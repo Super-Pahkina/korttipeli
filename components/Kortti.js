@@ -20,6 +20,7 @@ export default function Kortti(props) {
   let propsit = Propsit
   const navigation = useNavigation();
   const [kaynnissa, setKaynnissa] = useState(propsit.kaynnissa);
+  const [pelatutKortit, setPelatutKortit] = useState(propsit.pelatutKortit);
 
   const [cards, setCards] = useState(propsit.pakka);
 
@@ -50,26 +51,10 @@ export default function Kortti(props) {
     }
   })
 
-  // otaa korttilistalta yhden kortin
-  const selectCard = () => {
-    /*let randomIndex = Math.floor(Math.random() * cards.length)
-    
-    while (listOfUsedCardIndexes.includes(randomIndex)) {
-      randomIndex = Math.floor(Math.random() * cards.length)
-    }
-    listOfUsedCardIndexes.push(randomIndex)*/
-
-    return randomIndex
-  }
-
   const setGameCards = () => {
-    //let chosenCard = cards[selectCard()]
-    let chosenCard = Array(props.pakka)[Number(props.pelatutKortit)]
-    console.log("EKA VALITTU", chosenCard)
-    console.log("NIMI",chosenCard.name_fi)
-    //let chosenCard2 = props.pakka[props.pelatutKortit + 1]
-    let chosenCard2 = Array(props.pakka)[Number(props.pelatutKortit +1)]
-    let pelatutKortit = props.pelatutKortit + 2
+    let chosenCard = cards[Number(propsit.pelatutKortit)]
+    let chosenCard2 = cards[Number(propsit.pelatutKortit + 1)]
+    setPelatutKortit(propsit.pelatutKortit + 2)
 
     setElintarvike({
       name: `${chosenCard.name_fi}`,
@@ -154,13 +139,17 @@ export default function Kortti(props) {
   };
 
   const lukitse = () => {
+    console.log("Kortti", pelatutKortit)
     let Propsit = {
       ValittuArvo: painettu,
       peliAika: propsit.peliAika,
       Pisteesi: propsit.Pisteesi,
       VastustajanPisteet: propsit.VastustajanPisteet,
       VoittoPisteet: propsit.VoittoPisteet,
-      pelatutKortit: propsit.pelatutKortit
+      pelatutKortit: pelatutKortit,
+      elintarvike: elintarvike,
+      elintarvike2: elintarvike2,
+      pakka: propsit.pakka,
     }
     setKey(prevKey => prevKey + 1)
     setKaynnissa(false)
@@ -213,7 +202,11 @@ export default function Kortti(props) {
       peliAika: propsit.peliAika,
       Pisteesi: propsit.Pisteesi,
       VastustajanPisteet: propsit.VastustajanPisteet + 1,
-      VoittoPisteet: propsit.VoittoPisteet
+      VoittoPisteet: propsit.VoittoPisteet,
+      pelatutKortit: pelatutKortit,
+      elintarvike: elintarvike,
+      elintarvike2: elintarvike2,
+      pakka: propsit.pakka
     }
     setKey(prevKey => prevKey + 1)
     setKaynnissa(false)

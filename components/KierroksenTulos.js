@@ -25,13 +25,13 @@ export default function Tulokset (props){
     let elintarvike2 = propsit.elintarvike2
 
     const labels = {
-        salt: "Suola",
-        energyKcal: "Energia (Kcal)",
-        fat: "Rasva",
-        protein: "Proteiini",
-        carbohydrate: "Hiilihydraatit",
-        sugar: "Sokeri",
-        fiber: "Kuitu"
+      salt: "Suola (mg)",
+      energyKcal: "Energia (Kcal)",
+      fat: "Rasva (g)",
+      protein: "Proteiini (g)",
+      carbohydrate: "Hiilihydraatit (g)",
+      sugar: "Sokeri (g)",
+      fiber: "Kuitu (g)"
     }
         
     let ravintoarvot = Object.keys(elintarvike.nutrition);
@@ -115,23 +115,33 @@ export default function Tulokset (props){
       return a
     };
 
+    const tekstinVari = (ravintoarvo) => {
+      const a = {                       
+        style: Vertaa(ravintoarvo) == 2 ?  styles.nameRed : Vertaa(ravintoarvo) == 1 ? styles.nameGreen : styles.nameBlue, 
+        onPress: () => console.log('HELLO'),                
+      }
+      return a
+    };
+
     return (
         <View style={styles.container}>
-          <Text>Voittoon tarvittavat pisteet: {propsit.VoittoPisteet} </Text>
-          <View style = {{flexDirection: 'row'}}>
-            <Text>Pisteesi: {Pisteesi()} </Text>
-            <Text>Vastustajan pisteet: {VastustajanPisteet()} </Text>
+     {/*  <Text>Voittoon tarvittavat pisteet: {propsit.VoittoPisteet} </Text> */}
+        <Text></Text>
+          <View>
+            <Text>Pisteesi: {Pisteesi()} / {propsit.VoittoPisteet} </Text>
+            <Text>Vastustajan pisteet: {VastustajanPisteet()} / {propsit.VoittoPisteet} </Text>
           </View> 
           <Card containerStyle={styles.kortti}>
             <Card.Title style={styles.otsikko}>{elintarvike2.name}</Card.Title>
               { ravintoarvot2.map((ravintoarvo, index) => (
                 <View {...kosketus(ravintoarvo)}>
-                    <Text style={styles.name}>{labels[ravintoarvo]}: {Number(elintarvike2.nutrition[ravintoarvo]).toFixed(3)}</Text> 
-                    {Vertaa(ravintoarvo) == 1 ? 
-                      <AntDesign style={styles.kuvake} name="caretdown" size={24} color="red" /> 
-                      : Vertaa(ravintoarvo) == 2 ? 
-                      <AntDesign name="caretup" size={24} color="green" /> 
-                      : 
+                    <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
+                    <Text style={styles.nutrition2}>{Number(elintarvike2.nutrition[ravintoarvo]).toFixed(3)}</Text>
+                    {Vertaa(ravintoarvo) == 2 ? 
+                      <AntDesign name="caretup" size={24} color="green" />
+                    : Vertaa(ravintoarvo) == 1 ? 
+                      <AntDesign name="caretdown" size={24} color="red" /> 
+                    : 
                       <FontAwesome5 name="equals" size={24} color="blue" />}
                 </View>
             ))}
@@ -140,7 +150,8 @@ export default function Tulokset (props){
              <Card.Title style={styles.otsikko}>{elintarvike.name}</Card.Title> 
                 { ravintoarvot.map((ravintoarvo, index) => (
                 <View {...kosketus(ravintoarvo)}>
-                    <Text style={styles.name}>{labels[ravintoarvo]}: {Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)} </Text> 
+                    <Text {...tekstinVari(ravintoarvo)}>{labels[ravintoarvo]}: </Text> 
+                    <Text style={styles.nutrition2}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
                     {Vertaa(ravintoarvo) == 1 ? 
                       <AntDesign name="caretup" size={24} color="green" />
                     : Vertaa(ravintoarvo) == 2 ? 
@@ -165,7 +176,8 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'flex-start',
-      width:'100%'
+      width:'100%',
+      backgroundColor: "#c2efff"
     },
     kuvake: {
       alignContent: 'flex-end',
@@ -181,9 +193,51 @@ const styles = StyleSheet.create({
       justifyContent: 'space-around',
       color: "black"
     },
+    nutrition: {
+      alignContent: 'flex-end',
+      justifyContent: 'flex-end',
+      color: 'brown',
+      textAlign: "right",
+
+    },
+    nutrition2: {
+      alignContent: 'flex-end',
+      justifyContent: 'flex-end',
+      color: 'black',
+      fontWeight: "bold",
+      textAlign: "right",
+    },
     name: {
       fontSize: 15,
+      width: 160,
       color: 'brown',
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start',
+      paddingLeft: 15,
+      paddingRight: 15,
+    },
+    nameRed: {
+      fontSize: 15,
+      width: 160,
+      color: 'red',
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start',
+      paddingLeft:15,
+      paddingRight: 15,
+    },
+    nameGreen: {
+      fontSize: 15,
+      width: 160,
+      color: 'darkgreen',
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start',
+      paddingLeft:15,
+      paddingRight: 15,
+    },
+    nameBlue: {
+      fontSize: 15,
+      width: 160,
+      color: 'blue',
       alignItems: 'flex-start',
       justifyContent: 'flex-start',
       paddingLeft:15,
@@ -217,7 +271,7 @@ const styles = StyleSheet.create({
       borderRadius:10,
       borderStyle:'solid',
       borderColor:'#808791',
-      backgroundColor: '#e6eaf0',
+      backgroundColor: '#e0f7ff',
       width:300
     },
     buttonPainettu: {

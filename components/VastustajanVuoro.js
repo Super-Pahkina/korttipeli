@@ -120,13 +120,13 @@ export default function Vastus(props) {
   }*/
 
   const labels = {
-    salt: "Suola",
+    salt: "Suola (mg)",
     energyKcal: "Energia (Kcal)",
-    fat: "Rasva",
-    protein: "Proteiini",
-    carbohydrate: "Hiilihydraatit",
-    sugar: "Sokeri",
-    fiber: "Kuitu"
+    fat: "Rasva (g)",
+    protein: "Proteiini (g)",
+    carbohydrate: "Hiilihydraatit (g)",
+    sugar: "Sokeri (g)",
+    fiber: "Kuitu (g)"
   }
 
   useEffect(() => { if (isFocused) {setGameCards(); } }, [isFocused]);
@@ -215,7 +215,7 @@ export default function Vastus(props) {
         duration={5}
         size = {100}
         colors={[
-          ['#004777', 0.4],
+          ['#13ad0e', 0.4],
           ['#F7B801', 0.4],
           ['#A30000', 0.2],
         ]}
@@ -234,10 +234,10 @@ export default function Vastus(props) {
       </View> 
       <Card containerStyle={styles.kortti}>
         <Card.Title>{elintarvike.name}</Card.Title>
-        <Card.Divider style={styles.divider}/>
         { ravintoarvot.map((ravintoarvo, index) => (
         <View {...kosketus(ravintoarvo)}>
-          <Text style={styles.name}>{labels[ravintoarvo]}: {Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)} </Text> 
+          <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
+          <Text style={styles.nutrition}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
         </View>
         ))}
       
@@ -252,11 +252,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    width:'100%'
+    width:'100%',
+    backgroundColor: "#c2efff"
   },
   divider: {
     backgroundColor: '#808791',
     height: 1.5,
+  },
+  nutrition: {
+    alignContent: 'flex-end',
+    justifyContent: 'flex-end',
+    color: 'brown',
   },
   name: {
     fontSize: 15,
@@ -277,7 +283,7 @@ const styles = StyleSheet.create({
     flex: 0.2,
     alignItems: 'flex-start',
     justifyContent: 'space-around',
-    borderColor:'#fff',
+    borderColor:'#c2efff',
     borderWidth: 1,
     paddingTop: 2
     
@@ -295,7 +301,7 @@ const styles = StyleSheet.create({
     borderRadius:10,
     borderStyle:'solid',
     borderColor:'#808791',
-    backgroundColor: '#e6eaf0',
+    backgroundColor: '#e0f7ff',
     width:300
   },
   buttonPainettu: {

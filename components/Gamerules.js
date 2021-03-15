@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import Remove from '@material-ui/icons/Remove';
-import Add from '@material-ui/icons/Add';
-import { IconButton } from '@material-ui/core';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StyleSheet, Text, Button } from 'react-native';
 
 export default function Gamerules({ navigation }) {
@@ -25,27 +22,27 @@ export default function Gamerules({ navigation }) {
         }
     }
 
-
+    //Voittopiste-laskurin käyttämä funktio pisteiden kasvattamiseen
     const PlusVoittopisteet = () => {
         setVoittopisteet(voittopisteet + 1)
     }
 
+    //Voittopiste-laskurin käyttämä funktio pisteiden vähentämiseen
     const MinusVoittopisteet = () => {
         setVoittopisteet(voittopisteet - 1)
     }
 
+    //Aika-laskurin käyttämä funktio ajan lisäämiseen
     const PlusAika = () => {
         setAika(aika + 5)
     }
 
+    //Aika-laskurin käyttämä funktio ajan vähentämiseen
     const MinusAika = () => {
         setAika(aika - 5)
     }
 
-    const lukitse = () => {
-
-    }
-
+    //Ohjataan käyttäjän vuorolle ja annetaan tarvittavat tiedot
     const aloitaPeli = () => {
         console.log("PAKKA F", pakka[0])
         Propsit = {
@@ -118,7 +115,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
-
+        backgroundColor: '#c2efff',
     },
     button: {
         borderStyle: 'solid',
@@ -148,7 +145,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        backgroundColor: '#c2efff',
     },
     text: {
         flex: 0.1,

@@ -1,18 +1,13 @@
-import * as Expo from 'expo';
-import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState, useRef, forceUpdate } from 'react';
-import { StyleSheet, Text, View, Button, TouchableHighlight, Alert, Animated } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { Card, ListItem, Icon } from 'react-native-elements'
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Button, TouchableHighlight, Animated } from 'react-native';
+import { Card } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import { useIsFocused } from "@react-navigation/native";
 
-/* 'https://fineli.fi/fineli/api/v1/foods?q=33128'*/
 export default function Kortti(props) {
   const isFocused = useIsFocused();
   const [key, setKey] = useState(0);
-  const [data, setData] = useState([])
   const [painettu, setPainettu] = useState();
   const [viesti, setViesti] = useState();
   let { route } = props
@@ -23,8 +18,7 @@ export default function Kortti(props) {
   const [pelatutKortit, setPelatutKortit] = useState(propsit.pelatutKortit);
 
   const [cards, setCards] = useState(propsit.pakka);
-
-
+  
   const [elintarvike, setElintarvike] = useState({
     name: '',
     nutrition: {
@@ -83,32 +77,6 @@ export default function Kortti(props) {
     })
   }
 
-  /*const elintarvike = {
-  name: 'Suolapähkinä',
-  nutrition: {
-    salt: 1,
-    energyKcal: 485.3860626708132,
-    fat: 29.6334998248294,
-    protein: 14.7135001530461,
-    carbohydrate: 38.1520001521353,
-    sugar: 3.42499991544522,
-    fiber: 4.57200000035763,
-    }
-  }
-
-  const elintarvike2 = {
-    name: 'Random',
-    nutrition: {
-      salt: Math.random() * 2,
-      energyKcal:  Math.random() * 970,
-      fat:  Math.random() * 60,
-      protein:  Math.random() * 30,
-      carbohydrate:  Math.random() * 80,
-      sugar:  Math.random() * 7,
-      fiber: Math.random() * 9.144,
-    }
-  }*/
-
   const labels = {
     salt: "Suola (mg)",
     energyKcal: "Energia (Kcal)",
@@ -119,6 +87,7 @@ export default function Kortti(props) {
     fiber: "Kuitu (g)"
   }
 
+  //Annetaan uudet kortit vuoron alussa, resetoidaan valinta viimevuorolta ja käynnistetään vuoroaika
   useEffect(() => { if (isFocused) { setKaynnissa(true); setPainettu(); setGameCards(); } }, [isFocused]);
 
   let ravintoarvot = Object.keys(elintarvike.nutrition);
@@ -128,6 +97,7 @@ export default function Kortti(props) {
     setPainettu(i)
   }
 
+  //Valitun arvon korostaminen
   const kosketus = (i) => {
     const a = {
       activeOpacity: 1,
@@ -138,8 +108,8 @@ export default function Kortti(props) {
     return a
   };
 
+  //Lähetetään tarvittavat tiedot KierroksenTulos-sivulle
   const lukitse = () => {
-    console.log("Kortti", pelatutKortit)
     let Propsit = {
       ValittuArvo: painettu,
       peliAika: propsit.peliAika,
@@ -154,48 +124,9 @@ export default function Kortti(props) {
     setKey(prevKey => prevKey + 1)
     setKaynnissa(false)
     navigation.navigate('KierroksenTulos', { Propsit: Propsit })
-    /* setKey(prevKey => prevKey + 1)
-     let a = elintarvike.nutrition[painettu].toFixed(3)
-     let b = elintarvike2.nutrition[painettu].toFixed(3)
-     let c = Number(a)
-     let d = Number(b)
-     
-     if(c > d){
-     setViesti('Valitsit ' + labels[painettu].toLowerCase() + '\n' + "Voitit arvolla: " + a + '\n' + "Vastustajan arvo: " + b)
-       annaPisteet()
-       if (pisteet + 1 >= voittoPisteet){
-         let Tulos = { 
-             tulos: 'Voitit pelin', 
-             Pisteesi: pisteet + 1,
-             VastustajanPisteet: pisteet2,
-             VoittoPisteet: propsit.VoittoPisteet
-           }
-         navigation.navigate('Tulossivu', {Tulokset: Tulos})
-       }
-     } else if(c < d) {
-       setViesti('Valitsit ' + labels[painettu].toLowerCase() + '\n' + "Hävisit arvolla: " + a + '\n' + "Vastustajan arvo: " + b)
-       annaPisteet2()
-       if (pisteet2 + 1 >= voittoPisteet){
-         let Tulos = { 
-           tulos: 'Hävisit pelin', 
-           Pisteesi: pisteet,
-           VastustajanPisteet: pisteet2 + 1,
-           VoittoPisteet: propsit.VoittoPisteet
-         }
-       navigation.navigate('Tulossivu', {Tulokset: Tulos})
-       }
-     } else{
-       Alert.alert('Tasapeli')
-     }
-     console.log(pisteet)
-     console.log(pisteet2)
-   if ((pisteet + pisteet2) % 2 == 0 ||(pisteet + pisteet2) == 0){
-     console.log(123)
-    // setTimeout(tekoalyVuoro(), 5000)
-     tekoalyVuoro()
-   } */
   }
 
+  //Funktio, jota kutsutaan vuoroajan loppuessa. Vastustajalle annetaan piste ja lähetetään tarvittavat tiedot KierroksenTulos-sivulle
   const havio = () => {
     let Propsit = {
       ValittuArvo: '',
@@ -254,7 +185,6 @@ export default function Kortti(props) {
         ))}
 
       </Card>
-      {console.log(data)}
       {painettu == null ?
         <></> :
         <View style={styles.nappi}>

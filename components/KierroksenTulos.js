@@ -1,12 +1,7 @@
-import * as Expo from 'expo';
-import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState, useRef, forceUpdate } from 'react';
-import { StyleSheet, Text, View , Button, TouchableHighlight, Alert, Animated} from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { Card, ListItem, Icon } from 'react-native-elements'
+import React, {  useState } from 'react';
+import { StyleSheet, Text, View , Button} from 'react-native';
+import { Card } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
-import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
-import { useIsFocused } from "@react-navigation/native";
 import { AntDesign } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
 
@@ -15,7 +10,6 @@ export default function Tulokset (props){
 
     const [vuoro, setVuoro] = useState("Vastus")
     const navigation = useNavigation();
-    const isFocused = useIsFocused();
     let { route } = props
     let { Propsit } = route.params
     let propsit = Propsit
@@ -40,26 +34,27 @@ export default function Tulokset (props){
     let ravintoarvot2 = Object.keys(elintarvike2.nutrition);
     ['salt', 'energyKcal', 'fat', 'protein', 'carbohydrate',  'sugar',  'fiber']
 
-
-    const siirry = () => {
-      if (pisteesi == propsit.VoittoPisteet){
-        let Tulos = { 
-          tulos: 'Voitit pelin', 
-          Pisteesi: pisteesi,
-          VastustajanPisteet: vastustajanPisteet,
-          VoittoPisteet: propsit.VoittoPisteet
-        }
-        navigation.navigate('Tulossivu', {Tulokset: Tulos})
-      }else if (vastustajanPisteet == propsit.VoittoPisteet){
-        let Tulos = { 
-          tulos: 'Hävisit pelin', 
-          Pisteesi: pisteesi,
-          VastustajanPisteet: vastustajanPisteet,
-          VoittoPisteet: propsit.VoittoPisteet
-        }
-        navigation.navigate('Tulossivu', {Tulokset: Tulos})
-      } else{
-      console.log("Kierros", propsit.pelatutKortit)
+  //Funktio, joka määrittää mihin sivuun siirrytään ja annetaan tarvittavat propsit. Jos pisteet ovat sama kuin voittoon tarvittavat pisteet, 
+  //siirrytään voittoruutuun. Muussa tapauksessa annetaan vuoro edellisen vuoron perusteella.
+  const siirry = () => {
+    if (pisteesi == propsit.VoittoPisteet){
+      let Tulos = { 
+        tulos: 'Voitit pelin', 
+        Pisteesi: pisteesi,
+        VastustajanPisteet: vastustajanPisteet,
+        VoittoPisteet: propsit.VoittoPisteet
+      }
+      navigation.navigate('Tulossivu', {Tulokset: Tulos})
+    }else if (vastustajanPisteet == propsit.VoittoPisteet){
+      let Tulos = { 
+        tulos: 'Hävisit pelin', 
+        Pisteesi: pisteesi,
+        VastustajanPisteet: vastustajanPisteet,
+        VoittoPisteet: propsit.VoittoPisteet
+      }
+      navigation.navigate('Tulossivu', {Tulokset: Tulos})
+    } else{
+    console.log("Kierros", propsit.pelatutKortit)
       let Propsit = { 
         kaynnissa: true,
         ValittuArvo: propsit.ValittuArvo,
@@ -79,53 +74,57 @@ export default function Tulokset (props){
         navigation.navigate('VastustajanVuoro', {Propsit: Propsit})
       }
     }
+  }
+
+  //Elintarvikkeiden ravintoarvon vertailu -funktio
+  const Vertaa = (ravintoarvo) => {
+    if (Number(elintarvike.nutrition[ravintoarvo]) > Number(elintarvike2.nutrition[ravintoarvo])){
+      return 1;
+    } else if (Number(elintarvike.nutrition[ravintoarvo]) < Number(elintarvike2.nutrition[ravintoarvo])){
+      return 2;
+    } else {
+      return 3;
     }
+  }
 
-    const Vertaa = (ravintoarvo) => {
-      if (Number(elintarvike.nutrition[ravintoarvo]) > Number(elintarvike2.nutrition[ravintoarvo])){
-        return 1;
-      } else if (Number(elintarvike.nutrition[ravintoarvo]) < Number(elintarvike2.nutrition[ravintoarvo])){
-        return 2;
-      } else {
-        return 3;
-      }
+  //Pistetilanteen päivitys -funktio
+  const Pisteesi = () => {
+    if (Number(elintarvike.nutrition[propsit.ValittuArvo]) > Number(elintarvike2.nutrition[propsit.ValittuArvo])){
+      pisteesi = pisteesi + 1
     }
+    return pisteesi
+  }
 
-    const Pisteesi = () => {
-      if (Number(elintarvike.nutrition[propsit.ValittuArvo]) > Number(elintarvike2.nutrition[propsit.ValittuArvo])){
-        pisteesi = pisteesi + 1
-      }
-      return pisteesi
+  //Pistetilanteen päivitys -funktio
+  const VastustajanPisteet = () => {
+    if (Number(elintarvike.nutrition[propsit.ValittuArvo]) < Number(elintarvike2.nutrition[propsit.ValittuArvo])){
+      vastustajanPisteet = vastustajanPisteet + 1;
     }
+    return vastustajanPisteet
+  }
 
-    const VastustajanPisteet = () => {
-      if (Number(elintarvike.nutrition[propsit.ValittuArvo]) < Number(elintarvike2.nutrition[propsit.ValittuArvo])){
-        vastustajanPisteet = vastustajanPisteet + 1;
-      }
-      return vastustajanPisteet
+  //Valitun arvon korostaminen
+  const kosketus = (i) => {
+    const a = {
+      activeOpacity: 1,
+      underlayColor: 'blue',                           
+      style: propsit.ValittuArvo == i ? styles.buttonPainettu : styles.rivi, 
+      onPress: () => console.log('HELLO'),                
     }
+    return a
+  };
 
-    const kosketus = (i) => {
-      const a = {
-        activeOpacity: 1,
-        underlayColor: 'blue',                           
-        style: propsit.ValittuArvo == i ? styles.buttonPainettu : styles.rivi, 
-        onPress: () => console.log('HELLO'),                
-      }
-      return a
-    };
-
-    const tekstinVari = (ravintoarvo) => {
-      const a = {                       
-        style: Vertaa(ravintoarvo) == 2 ?  styles.nameRed : Vertaa(ravintoarvo) == 1 ? styles.nameGreen : styles.nameBlue, 
-        onPress: () => console.log('HELLO'),                
-      }
-      return a
-    };
+  //Tekstin värin muokkaaminen vertailun perusteella
+  const tekstinVari = (ravintoarvo) => {
+    const a = {                       
+      style: Vertaa(ravintoarvo) == 2 ?  styles.nameRed : Vertaa(ravintoarvo) == 1 ? styles.nameGreen : styles.nameBlue, 
+      onPress: () => console.log('HELLO'),                
+    }
+    return a
+  };
 
     return (
         <View style={styles.container}>
-     {/*  <Text>Voittoon tarvittavat pisteet: {propsit.VoittoPisteet} </Text> */}
         <Text></Text>
           <View>
             <Text>Pisteesi: {Pisteesi()} / {propsit.VoittoPisteet} </Text>

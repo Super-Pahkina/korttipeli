@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Kortti from './components/Kortti';
 import Ohjeet from './components/Ohjeet';
@@ -12,7 +11,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 //import { Button } from '@material-ui/core';
 
 const Stack = createStackNavigator();
-
+console.disableYellowBox = true;
 function Koti({ navigation }) {
   return (
     <View style={styles.container}>
@@ -52,7 +51,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#c2efff',
     alignItems: 'center',
   },
   text: {

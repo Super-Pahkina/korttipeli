@@ -2,23 +2,48 @@ import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StyleSheet, Text, Button } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function Gamerules({ navigation }) {
     const [voittopisteet, setVoittopisteet] = useState(5)
     const [aika, setAika] = useState(30)
     const [pakka, setPakka] = useState([]);
+    const [korttisarja, setKorttisarja] = useState({});
+    const [url, setUrl] = useState('')
 
+    // VAIHDA OMAN KONEEN IP URLIIN !!!!!!
+
+    // miksi voi pelata ainoastaan yhden pelin? kun aloittaa toisen pelin heti perään tulee herja:
+    /**
+     * TypeError: undefined is not an object (evaluating 'chosenCard.name_fi')
+     * kortti.js
+     * pakka on undefined
+     */
     useEffect(() => {
+        urlSetter()
+        console.log("URLI", url)
         fetchCards()
-    }, [voittopisteet])
+    }, [url][voittopisteet])
 
     // hakee tarvittavan määrän kortteja
     const fetchCards = async () => {
         try {
-            let response = await fetch(`http://192.168.1.106:3001/howmany/${voittopisteet * 4}`) // oman koneen IP
+            let response = await fetch(url)
             setPakka(await response.json())
         } catch (error) {
             console.log("ERROR", error)
+        }
+    }
+
+    // määrittelee fetchattavan urlin valinnan perusteella
+    const urlSetter = () => {
+        if (korttisarja.parent === 'raaka') {
+            setUrl(`http://192.168.0.101:3001/howmany/ingredient/${voittopisteet * 4}/${korttisarja.value}`);
+        }
+        else if (korttisarja.parent === 'valio') {
+            setUrl(`http://192.168.0.101:3001/howmany/diet/${voittopisteet * 4}/${korttisarja.value}`);
+        } else {
+            setUrl(`http://192.168.1.106:3001/howmany/${voittopisteet * 4}`);
         }
     }
 
@@ -92,8 +117,37 @@ export default function Gamerules({ navigation }) {
                     <TouchableOpacity style={styles.button} onPress={() => PlusVoittopisteet()}><Text style={styles.nappiTeksti}>+</Text></TouchableOpacity>
                 }
             </View>
-
-
+            <View style={{ justifyContent: 'flex-start' }}>
+                <Text style={{ paddingTop: 10 }}>Valitse pelattavien elintarvikkeiden luokka,</Text>
+                <Text>tai pelaa kaikilla elintarvikkeilla</Text>
+                <DropDownPicker
+                    items={[
+                        { label: 'Raaka-aineluokat ->', value: 'raaka', untouchable: true },
+                        { label: 'Lihatuotteet', value: 'meat', parent: 'raaka' },
+                        { label: 'Hedelmät', value: 'fruit', parent: 'raaka' },
+                        { label: 'Vihannekset', value: 'vegetables', parent: 'raaka' },
+                        { label: 'Maitotuotteet', value: 'dairy', parent: 'raaka' },
+                        { label: 'Viljatuotteet', value: 'grain', parent: 'raaka' },
+                        { label: 'Makeat', value: 'sweet', parent: 'raaka' },
+                        { label: 'Juomat', value: 'drink', parent: 'raaka' },
+                        { label: 'Erikoisruokavaliot ->', value: 'valio', untouchable: true },
+                        { label: 'Kolesteroliton', value: 'CHOLFREE', parent: 'valio' },
+                        { label: 'Gluteeniton', value: 'GLUTFREE', parent: 'valio' },
+                        { label: 'Runsaskuituinen', value: 'HIGHFIBR', parent: 'valio' },
+                        { label: 'Laktoositon', value: 'LACSFREE', parent: 'valio' },
+                        { label: 'Lakto-ovo-vegetaarinen', value: 'LACOVEGE', parent: 'valio' },
+                        { label: 'Vähärasvainen', value: 'LOWFAT', parent: 'valio' },
+                        { label: 'Vegan', value: 'VEGAN', parent: 'valio' },
+                        { label: 'Kaikki tuotteet', value: 'ALL' }
+                    ]}
+                    placeholder='Valitse yksi'
+                    multiple={false}
+                    onChangeItem={item => setKorttisarja({ ...item }) || console.log("RIVI137", item)}
+                    containerStyle={{ height: 40, width: 300, }}
+                    labelStyle={{ fontWeight: 'bold' }}
+                    itemStyle={{ justifyContent: 'flex-end' }}
+                />
+            </View>
             <View style={styles.nappi}>
                 <Button
                     title="Aloita peli"
@@ -113,7 +167,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         width: '100%',
         backgroundColor: '#c2efff',
     },
@@ -136,7 +190,7 @@ const styles = StyleSheet.create({
         paddingTop: 5
     },
     nappi: {
-        paddingTop: 20,
+        paddingTop: 170,
         flex: 0.1,
     },
     valinta: {
@@ -151,7 +205,7 @@ const styles = StyleSheet.create({
     text: {
         flex: 0.1,
         alignItems: 'flex-end',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
     },
     nappiTeksti: {
         alignItems: 'center',

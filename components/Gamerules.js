@@ -13,12 +13,6 @@ export default function Gamerules({ navigation }) {
 
     // MUISTA VAIHTAA OMAN KONEEN IP URLEIHIN !!!!!!
 
-    // miksi voi pelata ainoastaan yhden pelin? kun aloittaa toisen pelin heti perään tulee herja:
-    /**
-     * TypeError: undefined is not an object (evaluating 'chosenCard.name_fi')
-     * kortti.js
-     * pakka on undefined
-     */
     useEffect(() => {
         urlSetter()
         console.log("URLI", url)

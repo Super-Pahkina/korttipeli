@@ -9,9 +9,9 @@ export default function Gamerules({ navigation }) {
     const [aika, setAika] = useState(30)
     const [pakka, setPakka] = useState([]);
     const [korttisarja, setKorttisarja] = useState({});
-    const [url, setUrl] = useState('')
+    const [url, setUrl] = useState('http://192.168.0.101:3001/howmany/20')
 
-    // VAIHDA OMAN KONEEN IP URLIIN !!!!!!
+    // MUISTA VAIHTAA OMAN KONEEN IP URLEIHIN !!!!!!
 
     // miksi voi pelata ainoastaan yhden pelin? kun aloittaa toisen pelin heti perään tulee herja:
     /**
@@ -43,7 +43,7 @@ export default function Gamerules({ navigation }) {
         else if (korttisarja.parent === 'valio') {
             setUrl(`http://192.168.0.101:3001/howmany/diet/${voittopisteet * 4}/${korttisarja.value}`);
         } else {
-            setUrl(`http://192.168.1.106:3001/howmany/${voittopisteet * 4}`);
+            setUrl(`http://192.168.0.101:3001/howmany/${voittopisteet * 4}`);
         }
     }
 
@@ -155,7 +155,6 @@ export default function Gamerules({ navigation }) {
 
                 />
             </View>
-
         </View>
     );
 

@@ -5,29 +5,14 @@ import { StyleSheet, Text, Button } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function Gamerules({ navigation }) {
-    const [voittopisteet, setVoittopisteet] = useState(5)
-    const [aika, setAika] = useState(30)
-    const [pakka, setPakka] = useState([]);
+    const [voittopisteet, setVoittopisteet] = useState(5);
+    const [aika, setAika] = useState(30);
     const [korttisarja, setKorttisarja] = useState({});
-    const [url, setUrl] = useState('http://192.168.0.101:3001/howmany/20')
-
-    // MUISTA VAIHTAA OMAN KONEEN IP URLEIHIN !!!!!!
+    const [url, setUrl] = useState('') // http://192.168.0.101:3001/howmany/20
 
     useEffect(() => {
         urlSetter()
-        console.log("URLI", url)
-        fetchCards()
-    }, [url][voittopisteet])
-
-    // hakee tarvittavan määrän kortteja
-    const fetchCards = async () => {
-        try {
-            let response = await fetch(url)
-            setPakka(await response.json())
-        } catch (error) {
-            console.log("ERROR", error)
-        }
-    }
+    }, [korttisarja])
 
     // määrittelee fetchattavan urlin valinnan perusteella
     const urlSetter = () => {
@@ -63,17 +48,17 @@ export default function Gamerules({ navigation }) {
 
     //Ohjataan käyttäjän vuorolle ja annetaan tarvittavat tiedot
     const aloitaPeli = () => {
-        console.log("PAKKA F", pakka[0])
+        //console.log("PAKKA F", pakka[0])
         Propsit = {
+            url: url,
             VoittoPisteet: voittopisteet,
             peliAika: aika,
             kaynnissa: true,
             Pisteesi: 0,
             VastustajanPisteet: 0,
-            pakka: pakka,
             pelatutKortit: 0
         }
-        navigation.navigate('Kortti', { Propsit: Propsit })
+        navigation.navigate('PakanValinta', { Propsit: Propsit })
     }
 
     return (
@@ -146,7 +131,6 @@ export default function Gamerules({ navigation }) {
                 <Button
                     title="Aloita peli"
                     onPress={() => aloitaPeli()}
-
                 />
             </View>
         </View>

@@ -6,6 +6,7 @@ import Tulossivu from './components/Tulossivu';
 import Tulokset from './components/KierroksenTulos';
 import Vastus from './components/VastustajanVuoro';
 import Gamerules from './components/Gamerules';
+import PakanValinta from './components/PakanValinta';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
 //import { Button } from '@material-ui/core';
@@ -43,6 +44,7 @@ export default function App() {
         <Stack.Screen name="KierroksenTulos" component={Tulokset} />
         <Stack.Screen name="VastustajanVuoro" component={Vastus} />
         <Stack.Screen name="Ohjeet" component={Ohjeet} />
+        <Stack.Screen name="PakanValinta" component={PakanValinta} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -11,8 +11,12 @@ export default function PakanValinta(props) {
     let propsit = Propsit
     let url = propsit.url
 
+    // TODO:
+    // cancel all subscriptions and asynchronous tasks in a useEffect cleanup function
     useEffect(() => {
         fetchCards()
+        console.log("URRLI", url)
+        console.log("PAKKA", pakka.length)
     }, [])
 
     // hakee tarvittavan määrän kortteja

@@ -6,6 +6,7 @@ import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import { useIsFocused } from "@react-navigation/native";
 
 export default function Kortti(props) {
+
   const isFocused = useIsFocused();
   const [key, setKey] = useState(0);
   const [painettu, setPainettu] = useState();

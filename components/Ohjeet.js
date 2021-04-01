@@ -7,18 +7,22 @@ export default function Ohjeet() {
         <View style={styles.container}>
             <ScrollView style={styles.scrollview}>
 
-                <CollapsibleView title="Pelistä" style={styles.collapsibleview}>
-                    <Text>Tämä on tietoa Pelistä</Text>
+                <CollapsibleView title="Pelin kulku lyhyesti" style={styles.collapsibleview}>
+                    <Text>{'\n'}</Text>
+                    <Text>Ennen pelin aloitusta voit määritellä asetuksia, asetuksets on näytetty alempana.</Text>
                 </CollapsibleView>
 
                 <CollapsibleView title="Pelin asetukset" style={styles.collapsibleview}>
-
+                    <Text>Gamerules-sivulla voit määritellä seuravat asetukset:{'\n'}</Text>
                     <CollapsibleView title="Ajan asetus" style={styles.collapsibleview}>
-                        <Text>Tämä on tietoa ajasta</Text>
+                        <Text>Voit määrittää vuorosi keston painamalla '-' tai '+' -painiketta 'Vuoroaika (5-60)' kohdalla.
+                        </Text>
                     </CollapsibleView>
 
                     <CollapsibleView title="Voittopisteiden asetus" style={styles.collapsibleview}>
-                        <Text>Tämä on tietoa Pelistä</Text>
+                        <Text>Voit määrittää voittoon tarvittavien pisteiden määrän painamalla '-' tai '+' -painikkeita
+                        'Voittoon tarvittavat pisteet (1-20)' kohdalla.
+                        </Text>
                     </CollapsibleView>
 
                     <CollapsibleView title="Kategorian asetus" style={styles.collapsibleview}>
@@ -26,28 +30,28 @@ export default function Ohjeet() {
                         <Text>Voit valita yhden seuraavista elintarvikekategorioista:{'\n'}</Text>
 
                         <CollapsibleView title="Liha" style={styles.collapsibleview}>
-                            <Text>Tämä on tietoa Pelistä</Text>
+                            <Text>Liha-, kala-, ja kanatuotteet</Text>
                         </CollapsibleView>
                         <CollapsibleView title="Hedelmät" style={styles.collapsibleview}>
-                            <Text>Tämä on tietoa Pelistä</Text>
+                            <Text>Hedelmät ja marjat</Text>
                         </CollapsibleView>
                         <CollapsibleView title="Vihannekset" style={styles.collapsibleview}>
-                            <Text>Tämä on tietoa Pelistä</Text>
+                            <Text>Juurekset, kasvikset ja sienet</Text>
                         </CollapsibleView>
                         <CollapsibleView title="Maitotuotteet" style={styles.collapsibleview}>
-                            <Text>Tämä on tietoa Pelistä</Text>
+                            <Text>Maidot, juustot, jogurtit, jäätelöt ym...</Text>
                         </CollapsibleView>
                         <CollapsibleView title="Viljatuotteet" style={styles.collapsibleview}>
-                            <Text>Tämä on tietoa Pelistä</Text>
+                            <Text>Pastat, riisit, ohrat, kaurat, vehnät, rukiit ym...</Text>
                         </CollapsibleView>
                         <CollapsibleView title="Juomat" style={styles.collapsibleview}>
-                            <Text>Tämä on tietoa Pelistä</Text>
+                            <Text>Maitojuomat, kasvisjuomat, kahvit ja teet, virvoitusjuomat ym...</Text>
                         </CollapsibleView>
                         <CollapsibleView title="Makeat" style={styles.collapsibleview}>
-                            <Text>Tämä on tietoa Pelistä</Text>
+                            <Text>Jäätelöt, makeiset, suklaat, hillot, virvoitusjuomat</Text>
                         </CollapsibleView>
 
-                        <Text>{'\n'}Tai yhden seuraavista erikoisruokavalioista:</Text>
+                        <Text>{'\n'}Tai yhden seuraavista erikoisruokavalioista:{'\n'}</Text>
 
                         <CollapsibleView title="Kolesteroliton" style={styles.collapsibleview}>
                             <Text>Sydän- ja verisuonisairausten ja diabeteksen ruokavaliohoidossa vähennetään runsaasti kolesterolia sisältävien elintarvikkeiden käyttöä.
@@ -59,7 +63,7 @@ export default function Ohjeet() {
                         </CollapsibleView>
                         <CollapsibleView title="Runsaskuituinen" style={styles.collapsibleview}>
                             <Text>Runsaskuituinen ruokavalio soveltuu hyvin kaikille, erityisesti laihduttajille sekä diabeteksen, sydän- ja verisuonisairauksien sekä ummetuksen hoitoon.
-                                Runsaskuituiseen ruokavalioon on valittu elintarvikkeet, jotka sisältävät vähintään 6 g kuitua sataa grammaa elintarviketta kohden</Text>
+                                Runsaskuituiseen ruokavalioon on valittu elintarvikkeet, jotka sisältävät vähintään 6 g kuitua sataa grammaa elintarviketta kohden.</Text>
                         </CollapsibleView>
                         <CollapsibleView title="Laktoositon" style={styles.collapsibleview}>
                             <Text>Laktoosin imeytymishäiriossä maitosokerin eli laktoosin pilkkoutuminen vähenee, mikä johtuu laktaasientsyymin puutoksesta.
@@ -86,7 +90,7 @@ export default function Ohjeet() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#c2efff',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -99,6 +103,7 @@ const styles = StyleSheet.create({
 
     },
     collapsibleview: {
+        backgroundColor: 'white',
         alignItems: 'flex-start'
     }
 });

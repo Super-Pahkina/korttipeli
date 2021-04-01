@@ -8,13 +8,16 @@ export default function Gamerules({ navigation }) {
     const [voittopisteet, setVoittopisteet] = useState(5);
     const [aika, setAika] = useState(30);
     const [korttisarja, setKorttisarja] = useState({});
-    const [url, setUrl] = useState('') // http://192.168.0.101:3001/howmany/20
+    const [url, setUrl] = useState('');
 
     useEffect(() => {
         urlSetter()
     }, [korttisarja])
 
-    // määrittelee fetchattavan urlin valinnan perusteella
+
+    //* määrittelee fetchattavan urlin valinnan perusteella 
+    //* tai käyttää urlia http://192.168.0.101:3001/howmany/20
+
     const urlSetter = () => {
         if (korttisarja.parent === 'raaka') {
             setUrl(`http://192.168.0.101:3001/howmany/ingredient/${voittopisteet * 4}/${korttisarja.value}`);
@@ -101,30 +104,36 @@ export default function Gamerules({ navigation }) {
                 <Text>tai pelaa kaikilla elintarvikkeilla</Text>
                 <DropDownPicker
                     items={[
-                        { label: 'Raaka-aineluokat ->', value: 'raaka', untouchable: true },
-                        { label: 'Lihatuotteet', value: 'meat', parent: 'raaka' },
-                        { label: 'Hedelmät', value: 'fruit', parent: 'raaka' },
-                        { label: 'Maitotuotteet', value: 'dairy', parent: 'raaka' },
-                        { label: 'Vihannekset', value: 'vegetable', parent: 'raaka' },
-                        { label: 'Viljatuotteet', value: 'grain', parent: 'raaka' },
-                        { label: 'Makeat', value: 'sweet', parent: 'raaka' },
-                        { label: 'Juomat', value: 'drink', parent: 'raaka' },
-                        { label: 'Erikoisruokavaliot ->', value: 'valio', untouchable: true },
-                        { label: 'Kolesteroliton', value: 'CHOLFREE', parent: 'valio' },
-                        { label: 'Gluteeniton', value: 'GLUTFREE', parent: 'valio' },
-                        { label: 'Runsaskuituinen', value: 'HIGHFIBR', parent: 'valio' },
-                        { label: 'Laktoositon', value: 'LACSFREE', parent: 'valio' },
-                        { label: 'Lakto-ovo-vegetaarinen', value: 'LACOVEGE', parent: 'valio' },
-                        { label: 'Vähärasvainen', value: 'LOWFAT', parent: 'valio' },
-                        { label: 'Vegan', value: 'VEGAN', parent: 'valio' },
-                        { label: 'Kaikki tuotteet', value: 'ALL' }
+                        { label: 'Kaikki tuotteet', value: 'ALL', textStyle: { color: 'blue', paddingLeft: 30 } },
+                        { label: 'Raaka-aineluokat (7):', value: 'raaka', untouchable: true, textStyle: { fontWeight: 'bold' } },
+                        { label: 'Lihatuotteet', value: 'meat', parent: 'raaka', textStyle: { color: 'blue' } },
+                        { label: 'Hedelmät', value: 'fruit', parent: 'raaka', textStyle: { color: 'blue' } },
+                        { label: 'Maitotuotteet', value: 'dairy', parent: 'raaka', textStyle: { color: 'blue' } },
+                        { label: 'Vihannekset', value: 'vegetable', parent: 'raaka', textStyle: { color: 'blue' } },
+                        { label: 'Viljatuotteet', value: 'grain', parent: 'raaka', textStyle: { color: 'blue' } },
+                        { label: 'Makeat', value: 'sweet', parent: 'raaka', textStyle: { color: 'blue' } },
+                        { label: 'Juomat', value: 'drink', parent: 'raaka', textStyle: { color: 'blue' } },
+                        { label: 'Erikoisruokavaliot (7):', value: 'valio', untouchable: true, textStyle: { fontWeight: 'bold' } },
+                        { label: 'Kolesteroliton', value: 'CHOLFREE', parent: 'valio', textStyle: { color: 'blue' } },
+                        { label: 'Gluteeniton', value: 'GLUTFREE', parent: 'valio', textStyle: { color: 'blue' } },
+                        { label: 'Runsaskuituinen', value: 'HIGHFIBR', parent: 'valio', textStyle: { color: 'blue' } },
+                        { label: 'Laktoositon', value: 'LACSFREE', parent: 'valio', textStyle: { color: 'blue' } },
+                        { label: 'Lakto-ovovegetaarinen', value: 'LACOVEGE', parent: 'valio', textStyle: { color: 'blue' } },
+                        { label: 'Vähärasvainen', value: 'LOWFAT', parent: 'valio', textStyle: { color: 'blue' } },
+                        { label: 'Vegan', value: 'VEGAN', parent: 'valio', textStyle: { color: 'blue' } },
                     ]}
-                    placeholder='Valitse yksi'
+                    placeholder='Valitse'
                     multiple={false}
                     onChangeItem={item => setKorttisarja({ ...item }) || console.log("RIVI137", item)}
                     containerStyle={{ height: 40, width: 300, }}
-                    labelStyle={{ fontWeight: 'bold' }}
-                    itemStyle={{ justifyContent: 'flex-end' }}
+                    style={{ backgroundColor: '#e0f7ff' }}
+                    //dropDownStyle={{ backgroundColor: '#e0f7ff' }}
+                    //labelStyle={parent ? { backgroundColor: '#e0f7ff' } : { color: blue }}
+                    //labelStyle={label.untouchable ? { color: 'red' } : { color: 'black' }}
+                    itemStyle={{
+                        justifyContent: 'flex-start',
+                        //backgroundColor: '#e0f7ff'
+                    }}
                 />
             </View>
             <View style={styles.nappi}>
@@ -168,7 +177,7 @@ const styles = StyleSheet.create({
     },
     nappi: {
         paddingTop: 170,
-        flex: 0.1,
+        flex: 0.5,
     },
     valinta: {
         flex: 0.1,

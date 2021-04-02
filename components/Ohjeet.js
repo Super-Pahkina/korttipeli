@@ -9,7 +9,12 @@ export default function Ohjeet() {
 
                 <CollapsibleView title="Pelin kulku lyhyesti" style={styles.collapsibleview}>
                     <Text>{'\n'}</Text>
-                    <Text>Ennen pelin aloitusta voit määritellä asetuksia, asetuksets on näytetty alempana.</Text>
+                    <Text>Ennen pelin aloitusta voit määritellä asetuksia, asetukset on näytetty alempana.{'\n'}
+                        Omalla vuorollaan pelaaja valitsee elintarvikekortista ravintoarvon, jonka arvelee
+                        olevan arvoltaan suurempi kuin vastustajalla. Se, jolla on suurempi arvo, saa pisteen.
+                        Tasapelitilanteessa kumpikaan ei saa pistettä.{'\n'}
+                        Ravintosisältö perustuu 100g määrään elintarviketta.
+                    </Text>
                 </CollapsibleView>
 
                 <CollapsibleView title="Pelin asetukset" style={styles.collapsibleview}>

@@ -7,51 +7,47 @@ import DropDownPicker from 'react-native-dropdown-picker';
 export default function Gamerules({ navigation }) {
     const [voittopisteet, setVoittopisteet] = useState(5);
     const [aika, setAika] = useState(30);
-    const [korttisarja, setKorttisarja] = useState({});
+    const [valittuElintarvikeLuokka, setValittuElintarvikeLuokka] = useState({});
     const [url, setUrl] = useState('');
+
+    // baseUrlissa toistaiseksi oman koneen IP, koska backend ei ole vielä julkaistu
+    const baseUrl = 'http://192.168.0.101:3001/howmany';
 
     useEffect(() => {
         urlSetter()
-    }, [korttisarja])
+    }, [valittuElintarvikeLuokka])
 
-
-    //* määrittelee fetchattavan urlin valinnan perusteella 
-    //* tai käyttää urlia http://192.168.0.101:3001/howmany/20
-
+    // Tällä sivulla määritetään fetchattava url joka siirretään propseilla eteenpäin
     const urlSetter = () => {
-        if (korttisarja.parent === 'raaka') {
-            setUrl(`http://192.168.0.101:3001/howmany/ingredient/${voittopisteet * 4}/${korttisarja.value}`);
+        if (valittuElintarvikeLuokka.parent === 'raaka') {
+            setUrl(`${baseUrl}/ingredient/${voittopisteet * 4}/${valittuElintarvikeLuokka.value}`);
         }
-        else if (korttisarja.parent === 'valio') {
-            setUrl(`http://192.168.0.101:3001/howmany/diet/${voittopisteet * 4}/${korttisarja.value}`);
+        else if (valittuElintarvikeLuokka.parent === 'valio') {
+            setUrl(`${baseUrl}/diet/${voittopisteet * 4}/${valittuElintarvikeLuokka.value}`);
         } else {
-            setUrl(`http://192.168.0.101:3001/howmany/${voittopisteet * 4}`);
+            setUrl(`${baseUrl}/${voittopisteet * 4}`);
         }
     }
 
-    //Voittopiste-laskurin käyttämä funktio pisteiden kasvattamiseen
+    // Funktiot voittoon tarvittavien pisteiden ja käytössä olevan vuoroajan määrittelemiseen
     const PlusVoittopisteet = () => {
         setVoittopisteet(voittopisteet + 1)
     }
 
-    //Voittopiste-laskurin käyttämä funktio pisteiden vähentämiseen
     const MinusVoittopisteet = () => {
         setVoittopisteet(voittopisteet - 1)
     }
 
-    //Aika-laskurin käyttämä funktio ajan lisäämiseen
     const PlusAika = () => {
         setAika(aika + 5)
     }
 
-    //Aika-laskurin käyttämä funktio ajan vähentämiseen
     const MinusAika = () => {
         setAika(aika - 5)
     }
 
-    //Ohjataan käyttäjän vuorolle ja annetaan tarvittavat tiedot
+    // Ohjaa käyttäjän pakanvalintasivulle ja välittää tarvittavat propsit
     const aloitaPeli = () => {
-        //console.log("PAKKA F", pakka[0])
         Propsit = {
             url: url,
             VoittoPisteet: voittopisteet,
@@ -67,36 +63,51 @@ export default function Gamerules({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.text}>
-                <Text>Vuoroaika (5-60)</Text>
+                <Text>Valitse vuoroaika (5-60)</Text>
             </View>
             <View style={styles.valinta}>
                 {aika < 6 ?
-                    <TouchableOpacity style={styles.buttonFade}><Text style={styles.nappiTeksti}>-</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.buttonFade}>
+                        <Text style={styles.nappiTeksti}>-</Text>
+                    </TouchableOpacity>
                     :
-                    <TouchableOpacity style={styles.button} onPress={() => MinusAika()}><Text style={styles.nappiTeksti}>-</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => MinusAika()}>
+                        <Text style={styles.nappiTeksti}>-</Text>
+                    </TouchableOpacity>
                 }
                 <Text style={styles.nappiTeksti}>{aika}</Text>
                 {aika > 59 ?
-                    <TouchableOpacity style={styles.buttonFade}><Text style={styles.nappiTeksti}>+</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.buttonFade}>
+                        <Text style={styles.nappiTeksti}>+</Text>
+                    </TouchableOpacity>
                     :
-                    <TouchableOpacity style={styles.button} onPress={() => PlusAika()}><Text style={styles.nappiTeksti}>+</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => PlusAika()}>
+                        <Text style={styles.nappiTeksti}>+</Text>
+                    </TouchableOpacity>
                 }
             </View>
-
             <View style={styles.text}>
-                <Text>Voittoon tarvittavat pisteet (1-20)</Text>
+                <Text>Valitse voittoon tarvittavat pisteet (1-20)</Text>
             </View>
             <View style={styles.valinta}>
                 {voittopisteet < 2 ?
-                    <TouchableOpacity style={styles.buttonFade}><Text style={styles.nappiTeksti}>-</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.buttonFade}>
+                        <Text style={styles.nappiTeksti}>-</Text>
+                    </TouchableOpacity>
                     :
-                    <TouchableOpacity style={styles.button} onPress={() => MinusVoittopisteet()}><Text style={styles.nappiTeksti}>-</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => MinusVoittopisteet()}>
+                        <Text style={styles.nappiTeksti}>-</Text>
+                    </TouchableOpacity>
                 }
                 <Text style={styles.nappiTeksti}>{voittopisteet}</Text>
                 {voittopisteet > 19 ?
-                    <TouchableOpacity style={styles.buttonFade}><Text style={styles.nappiTeksti}>+</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.buttonFade}>
+                        <Text style={styles.nappiTeksti}>+</Text>
+                    </TouchableOpacity>
                     :
-                    <TouchableOpacity style={styles.button} onPress={() => PlusVoittopisteet()}><Text style={styles.nappiTeksti}>+</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => PlusVoittopisteet()}>
+                        <Text style={styles.nappiTeksti}>+</Text>
+                    </TouchableOpacity>
                 }
             </View>
             <View style={{ justifyContent: 'flex-start' }}>
@@ -124,15 +135,11 @@ export default function Gamerules({ navigation }) {
                     ]}
                     placeholder='Valitse'
                     multiple={false}
-                    onChangeItem={item => setKorttisarja({ ...item }) || console.log("RIVI137", item)}
+                    onChangeItem={item => setValittuElintarvikeLuokka({ ...item })}
                     containerStyle={{ height: 40, width: 300, }}
                     style={{ backgroundColor: '#e0f7ff' }}
-                    //dropDownStyle={{ backgroundColor: '#e0f7ff' }}
-                    //labelStyle={parent ? { backgroundColor: '#e0f7ff' } : { color: blue }}
-                    //labelStyle={label.untouchable ? { color: 'red' } : { color: 'black' }}
                     itemStyle={{
                         justifyContent: 'flex-start',
-                        //backgroundColor: '#e0f7ff'
                     }}
                 />
             </View>
@@ -144,7 +151,6 @@ export default function Gamerules({ navigation }) {
             </View>
         </View>
     );
-
 }
 
 
@@ -199,15 +205,5 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingLeft: 20,
         paddingRight: 20
-    },
-    lukitseButton: {
-        borderStyle: 'solid',
-        borderColor: 'black',
-        backgroundColor: '#cdd0d4',
-        borderWidth: 1,
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingBottom: 5,
-        paddingTop: 5
     },
 })

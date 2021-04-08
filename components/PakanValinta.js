@@ -11,23 +11,18 @@ export default function PakanValinta(props) {
     let propsit = Propsit
     let url = propsit.url
 
-    // TODO:
-    // cancel all subscriptions and asynchronous tasks in a useEffect cleanup function
-    useEffect(() => {
-        fetchCards()
-        console.log("URRLI", url)
-        console.log("PAKKA", pakka.length)
-    }, [])
 
-    // hakee tarvittavan määrän kortteja
-    const fetchCards = async () => {
-        try {
-            let response = await fetch(url)
-            setPakka(await response.json())
-        } catch (error) {
-            console.log("ERROR FETCHISSÄ", error)
+    useEffect(() => {
+        const fetchCards = async () => {
+            try {
+                let response = await fetch(url)
+                setPakka(await response.json())
+            } catch (error) {
+                console.log("ERROR FETCHISSÄ", error)
+            }
         }
-    }
+        fetchCards()
+    }, [])
 
     //Ohjataan käyttäjän vuorolle ja annetaan tarvittavat tiedot
     const aloitaPeli = () => {

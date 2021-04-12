@@ -35,9 +35,27 @@ export default function PakanValinta(props) {
         console.log(nyt, "ny");
         console.log(currentIndex, "Indeks");
     }
+
+    useEffect(() => {
+        let mounted = true;
+        const fetchCards = async () => {
+            try {
+                let response = await fetch(url)
+                let pakkaJson = await response.json()
+                if (mounted)
+                    setPakka(pakkaJson)
+            } catch (error) {
+                console.log("ERROR FETCHISSÄ", error)
+            }
+        }
+        fetchCards()
+        return () => {
+            mounted = false;
+        }
+    }, [])
     // TODO:
     // cancel all subscriptions and asynchronous tasks in a useEffect cleanup function
-    useEffect(() => {
+    /*useEffect(() => {
         //const testi = valittavatKortit();
         fetchCards()
         console.log("URRLI", url)
@@ -53,7 +71,7 @@ export default function PakanValinta(props) {
             console.log("ERROR FETCHISSÄ", error)
         }
     }
-
+ */
     //Ohjataan käyttäjän vuorolle ja annetaan tarvittavat tiedot
     const aloitaPeli = () => {
         console.log(pakka.length)

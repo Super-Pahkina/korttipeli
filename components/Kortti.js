@@ -17,8 +17,8 @@ export default function Kortti(props) {
   const navigation = useNavigation();
   const [kaynnissa, setKaynnissa] = useState(propsit.kaynnissa);
   const [pelatutKortit, setPelatutKortit] = useState(propsit.pelatutKortit);
-
-  const [cards, setCards] = useState(propsit.pakka);
+  const [omaPakka, setOmaPakka] = useState(propsit.omaPakka)
+  const [vastustajanPakka, setVastustajanPakka] = useState(propsit.vastustajanPakka);
   
   const [elintarvike, setElintarvike] = useState({
     name: '',
@@ -47,9 +47,9 @@ export default function Kortti(props) {
   })
 
   const setGameCards = () => {
-    let chosenCard = cards[Number(propsit.pelatutKortit)]
-    let chosenCard2 = cards[Number(propsit.pelatutKortit + 1)]
-    setPelatutKortit(propsit.pelatutKortit + 2)
+    let chosenCard = omaPakka[Number(propsit.pelatutKortit)]
+    let chosenCard2 = vastustajanPakka[Number(propsit.pelatutKortit)]
+    setPelatutKortit(propsit.pelatutKortit + 1)
 
     setElintarvike({
       name: `${chosenCard.name_fi}`,
@@ -120,7 +120,8 @@ export default function Kortti(props) {
       pelatutKortit: pelatutKortit,
       elintarvike: elintarvike,
       elintarvike2: elintarvike2,
-      pakka: propsit.pakka,
+      omaPakka: propsit.omaPakka,
+      vastustajanPakka: propsit.vastustajanPakka,
     }
     setKey(prevKey => prevKey + 1)
     setKaynnissa(false)

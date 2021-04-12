@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { StyleSheet, Text, Button } from 'react-native';
+import { StyleSheet, Text, Button, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function Gamerules({ navigation }) {
@@ -11,7 +10,7 @@ export default function Gamerules({ navigation }) {
     const [url, setUrl] = useState('');
 
     // baseUrlissa toistaiseksi oman koneen IP, koska backend ei ole vielä julkaistu
-    const baseUrl = 'http://192.168.0.101:3001/howmany';
+    const baseUrl = 'http://192.168.1.106:3001/howmany';
 
     useEffect(() => {
         urlSetter()
@@ -20,12 +19,12 @@ export default function Gamerules({ navigation }) {
     // Tällä sivulla määritetään fetchattava url joka siirretään propseilla eteenpäin
     const urlSetter = () => {
         if (valittuElintarvikeLuokka.parent === 'raaka') {
-            setUrl(`${baseUrl}/ingredient/${voittopisteet * 4}/${valittuElintarvikeLuokka.value}`);
+            setUrl(`${baseUrl}/ingredient/${voittopisteet * 5}/${valittuElintarvikeLuokka.value}`);
         }
         else if (valittuElintarvikeLuokka.parent === 'valio') {
-            setUrl(`${baseUrl}/diet/${voittopisteet * 4}/${valittuElintarvikeLuokka.value}`);
+            setUrl(`${baseUrl}/diet/${voittopisteet * 5}/${valittuElintarvikeLuokka.value}`);
         } else {
-            setUrl(`${baseUrl}/${voittopisteet * 4}`);
+            setUrl(`${baseUrl}/${voittopisteet * 5}`);
         }
     }
 
@@ -62,6 +61,7 @@ export default function Gamerules({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <View style={styles.gamerules}>
             <View style={styles.text}>
                 <Text>Valitse vuoroaika (5-60)</Text>
             </View>
@@ -111,7 +111,7 @@ export default function Gamerules({ navigation }) {
                 }
             </View>
             <View style={{ justifyContent: 'flex-start' }}>
-                <Text style={{ paddingTop: 10 }}>Valitse pelattavien elintarvikkeiden luokka,</Text>
+                <Text style={{ paddingTop: 20 }}>Valitse pelattavien elintarvikkeiden luokka,</Text>
                 <Text>tai pelaa kaikilla elintarvikkeilla</Text>
                 <DropDownPicker
                     items={[
@@ -143,6 +143,7 @@ export default function Gamerules({ navigation }) {
                     }}
                 />
             </View>
+            </View>
             <View style={styles.nappi}>
                 <Button
                     title="Aloita peli"
@@ -162,6 +163,12 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         width: '100%',
         backgroundColor: '#c2efff',
+    },
+    gamerules: {
+        flex: 3,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
     },
     button: {
         borderStyle: 'solid',
@@ -195,7 +202,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#c2efff',
     },
     text: {
-        flex: 0.1,
+        flex: 0.2,
+        paddingBottom: 5,
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
     },

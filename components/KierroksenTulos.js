@@ -63,7 +63,8 @@ export default function Tulokset (props){
         VastustajanPisteet: vastustajanPisteet,
         VoittoPisteet: propsit.VoittoPisteet,
         pelatutKortit: propsit.pelatutKortit,
-        pakka: propsit.pakka
+        omaPakka: propsit.omaPakka,
+        vastustajanPakka: propsit.vastustajanPakka,
       }
       console.log(Propsit.ValittuArvo)
       if (vuoro == "Pelaaja"){

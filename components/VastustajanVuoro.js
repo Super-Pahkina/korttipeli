@@ -14,7 +14,8 @@ export default function Vastus(props) {
     const navigation = useNavigation();
     const [pelatutKortit, setPelatutKortit] = useState(propsit.pelatutKortit);
     const isFocused = useIsFocused();
-    const [cards, setCards] = useState(propsit.pakka);
+    const [omaPakka, setOmaPakka] = useState(propsit.omaPakka)
+    const [vastustajanPakka, setVastustajanPakka] = useState(propsit.vastustajanPakka);
 
   //Annetaan uudet kortit vuoron alussa.
   useEffect(() => { if (isFocused) {setGameCards(); } }, [isFocused]);
@@ -47,9 +48,9 @@ export default function Vastus(props) {
 
   //Otetaan valmiiksi randomoidusta pakasta 2 korttia ja laitetaan niiden arvot elintarvike-muuttujiin.
   const setGameCards = () => {
-    let chosenCard = cards[Number(propsit.pelatutKortit)]
-    let chosenCard2 = cards[Number(propsit.pelatutKortit + 1)]
-    setPelatutKortit(propsit.pelatutKortit + 2)
+    let chosenCard = omaPakka[Number(propsit.pelatutKortit)]
+    let chosenCard2 = vastustajanPakka[Number(propsit.pelatutKortit)]
+    setPelatutKortit(propsit.pelatutKortit + 1)
 
     setElintarvike({
       name: `${chosenCard.name_fi}`,
@@ -102,7 +103,8 @@ export default function Vastus(props) {
         pelatutKortit: pelatutKortit,
         elintarvike: elintarvike,
         elintarvike2: elintarvike2,
-        pakka: propsit.pakka
+        omaPakka: propsit.omaPakka,
+        vastustajanPakka: propsit.vastustajanPakka,
       }
     navigation.navigate('KierroksenTulos', {Propsit: Propsit})
    }

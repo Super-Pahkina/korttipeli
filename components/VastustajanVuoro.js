@@ -1,24 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View , Animated} from 'react-native';
+import { StyleSheet, Text, View , Animated, TouchableHighlight, Button} from 'react-native';
 import { Card } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import { useIsFocused } from "@react-navigation/native";
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
+import Carousel from 'react-native-snap-carousel'
+import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarouselCardItem'
 
 export default function Vastus(props) {
     const [key, setKey] = useState(0);
-    let painettu = ''
+    const [painettu, setPainettu] = useState('');
     let { route } = props
     let { Propsit } = route.params
     let propsit = Propsit
+    let indeksi = propsit.omaPakka.length - 1;
     const navigation = useNavigation();
+    let kaynnissa = true;
+    const isCarousel = React.useRef((c) => { this._carousel = c; })
     const [pelatutKortit, setPelatutKortit] = useState(propsit.pelatutKortit);
     const isFocused = useIsFocused();
     const [omaPakka, setOmaPakka] = useState(propsit.omaPakka)
+    const [pelattavanKortinValinta, setPelattavanKortinValinta] = useState(0);
     const [vastustajanPakka, setVastustajanPakka] = useState(propsit.vastustajanPakka);
+    const [vastustajanValinta, setVastustajanValinta] = useState(true);
+    const [aika, setAika] = useState(5);
 
   //Annetaan uudet kortit vuoron alussa.
-  useEffect(() => { if (isFocused) {setGameCards(); } }, [isFocused]);
+  //useEffect(() => { if (isFocused) {setGameCards(); } }, [isFocused]);
 
   const [elintarvike, setElintarvike] = useState({
     name: '',
@@ -46,11 +54,19 @@ export default function Vastus(props) {
     }
   })
 
+  const vaihdaIndeksia = (currentIndex) => {
+    indeksi = currentIndex;
+    console.log(indeksi, "ny");
+    console.log(currentIndex, "Indeksi");
+  }
+
   //Otetaan valmiiksi randomoidusta pakasta 2 korttia ja laitetaan niiden arvot elintarvike-muuttujiin.
-  const setGameCards = () => {
-    let chosenCard = omaPakka[Number(propsit.pelatutKortit)]
+  const setGameCards = (indeksi) => {
+    let chosenCard = omaPakka[indeksi]
+    omaPakka.splice(indeksi, 1);
     let chosenCard2 = vastustajanPakka[Number(propsit.pelatutKortit)]
     setPelatutKortit(propsit.pelatutKortit + 1)
+    setPelattavanKortinValinta(1)
 
     setElintarvike({
       name: `${chosenCard.name_fi}`,
@@ -94,27 +110,52 @@ export default function Vastus(props) {
 
   //Lähetetään tarvittavat tiedot KierroksenTulokset -sivulle
   const lukitse =() => {     
+    console.log(elintarvike)
+    console.log(painettu)
     let Propsit = { 
-        ValittuArvo: painettu,
-        peliAika: propsit.peliAika,
-        Pisteesi: propsit.Pisteesi,
-        VastustajanPisteet: propsit.VastustajanPisteet,
-        VoittoPisteet: propsit.VoittoPisteet,
-        pelatutKortit: pelatutKortit,
-        elintarvike: elintarvike,
-        elintarvike2: elintarvike2,
-        omaPakka: propsit.omaPakka,
-        vastustajanPakka: propsit.vastustajanPakka,
-      }
-    navigation.navigate('KierroksenTulos', {Propsit: Propsit})
-   }
+      ValittuArvo: painettu,
+      peliAika: propsit.peliAika,
+      Pisteesi: propsit.Pisteesi,
+      VastustajanPisteet: propsit.VastustajanPisteet,
+      VoittoPisteet: propsit.VoittoPisteet,
+      pelatutKortit: pelatutKortit,
+      elintarvike: elintarvike,
+      elintarvike2: elintarvike2,
+      omaPakka: omaPakka,
+      vastustajanPakka: propsit.vastustajanPakka,
+    }
+    setKey(prevKey => prevKey + 1)
+    kaynnissa = false
+    navigation.navigate('KierroksenTulos', { Propsit: Propsit })
+  }
 
   //Tekoälynä toimiva Math.random() funktio tekee tekoälyn
   const tekoalyVuoro = () => {
-      let Valinta = (Math.random() * 6).toFixed(0)
-      console.log(Valinta)
-      painettu = ravintoarvot[Valinta]
-      lukitse()
+      if (vastustajanValinta){
+        let Valinta = (Math.random() * 6).toFixed(0)
+        console.log(Valinta)
+        setAika(propsit.peliAika)
+        setVastustajanValinta(false);
+        setPainettu(ravintoarvot[Valinta])
+        setKey(prevKey => prevKey + 1)
+      } else {
+        setPelattavanKortinValinta(0);
+        let Propsit = {
+          ValittuArvo: '',
+          peliAika: propsit.peliAika,
+          Pisteesi: propsit.Pisteesi,
+          VastustajanPisteet: propsit.VastustajanPisteet + 1,
+          VoittoPisteet: propsit.VoittoPisteet,
+          pelatutKortit: pelatutKortit,
+          elintarvike: elintarvike,
+          elintarvike2: elintarvike2,
+          omaPakka: propsit.omaPakka,
+          vastustajanPakka: propsit.vastustajanPakka,
+        }
+        setKey(prevKey => prevKey + 1)
+        kaynnissa = false
+        navigation.navigate('KierroksenTulos', { Propsit: Propsit })
+      }
   }
   
   const kosketus = (i) => {
@@ -136,8 +177,8 @@ export default function Vastus(props) {
             return [true, 1000]
         }}
         key = {key}
-        isPlaying
-        duration={5}
+        isPlaying={kaynnissa}
+        duration={aika}
         size = {100}
         colors={[
           ['#13ad0e', 0.4],
@@ -154,9 +195,29 @@ export default function Vastus(props) {
       </View>
       <Text>Voittoon tarvittavat pisteet: {propsit.VoittoPisteet} </Text>
       <View style = {{flexDirection: 'row'}}>
-      <Text>Pisteesi: {propsit.Pisteesi} </Text>
+        <Text>Pisteesi: {propsit.Pisteesi} </Text>
         <Text>Vastustajan pisteet: {propsit.VastustajanPisteet} </Text>
       </View> 
+      {painettu.length > 1 ?  <Text>Vastustaja valitsi arvon: {labels[painettu]} </Text> : <></>}
+      { pelattavanKortinValinta == 0 ? 
+      <View style={styles.carousel} >
+        <Carousel
+            layout="stack"
+            layoutCardOffset={9}
+            ref={isCarousel}
+            data={propsit.omaPakka}
+            firstItem={propsit.omaPakka.length - 1}
+            renderItem={CarouselCardItem}
+            sliderWidth={350}
+            itemWidth={310}
+            sliderHeight={2000}
+            itemHeight={2000}
+            inactiveSlideShift={0}
+            useScrollView={true}
+            onSnapToItem={vaihdaIndeksia}
+        />
+      </View>
+      : 
       <Card containerStyle={styles.kortti}>
         <Card.Title>{elintarvike.name}</Card.Title>
         { ravintoarvot.map((ravintoarvo, index) => (
@@ -165,8 +226,21 @@ export default function Vastus(props) {
           <Text style={styles.nutrition}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
         </View>
         ))}
-      
       </Card>
+      }
+      { pelattavanKortinValinta == 0 ? 
+        <View style={styles.napit}>
+          <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { setGameCards(indeksi) }}><Text style={styles.teksti}>Valitse kortti</Text></TouchableHighlight>
+        </View>
+      :
+        <></>
+      }
+      {painettu == null ?
+        <></> :
+        <View style={styles.nappi}>
+          <Button title="Lukitse valinta" onPress={() => lukitse()}></Button>
+        </View>
+      }
     </View>
   );
 }
@@ -196,6 +270,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingLeft:15,
     paddingRight: 15,
+  },
+  carousel: {
+    flex: 0.6,
   },
   button: {
     alignContent: 'flex-end',

@@ -132,7 +132,7 @@ export default function PakanValinta(props) {
             <View style={styles.carousel} >
                 <Carousel
                     {...korostus()}
-                    layout="tinder"
+                    layout="stack"
                     layoutCardOffset={9}
                     ref={isCarousel}
                     //ref={(c) => { this._carousel = c; }}
@@ -145,6 +145,7 @@ export default function PakanValinta(props) {
                     inactiveSlideShift={0}
                     useScrollView={true}
                     onSnapToItem={changeIndex}
+                    
                 />
             </View>
             <View style={styles.napit}>

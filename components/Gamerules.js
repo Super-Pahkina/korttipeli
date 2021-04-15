@@ -10,7 +10,7 @@ export default function Gamerules({ navigation }) {
     const [url, setUrl] = useState('');
 
     // baseUrlissa toistaiseksi oman koneen IP, koska backend ei ole vielä julkaistu
-    const baseUrl = 'http://192.168.1.106:3001/howmany';
+    const baseUrl = 'http://192.168.0.101:3002/howmany';
 
     useEffect(() => {
         urlSetter()
@@ -26,6 +26,7 @@ export default function Gamerules({ navigation }) {
         } else {
             setUrl(`${baseUrl}/${voittopisteet * 5}`);
         }
+        console.log("urli", url)
     }
 
     // Funktiot voittoon tarvittavien pisteiden ja käytössä olevan vuoroajan määrittelemiseen
@@ -62,87 +63,87 @@ export default function Gamerules({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.gamerules}>
-            <View style={styles.text}>
-                <Text>Valitse vuoroaika (5-60)</Text>
-            </View>
-            <View style={styles.valinta}>
-                {aika < 6 ?
-                    <TouchableOpacity style={styles.buttonFade}>
-                        <Text style={styles.nappiTeksti}>-</Text>
-                    </TouchableOpacity>
-                    :
-                    <TouchableOpacity style={styles.button} onPress={() => MinusAika()}>
-                        <Text style={styles.nappiTeksti}>-</Text>
-                    </TouchableOpacity>
-                }
-                <Text style={styles.nappiTeksti}>{aika}</Text>
-                {aika > 59 ?
-                    <TouchableOpacity style={styles.buttonFade}>
-                        <Text style={styles.nappiTeksti}>+</Text>
-                    </TouchableOpacity>
-                    :
-                    <TouchableOpacity style={styles.button} onPress={() => PlusAika()}>
-                        <Text style={styles.nappiTeksti}>+</Text>
-                    </TouchableOpacity>
-                }
-            </View>
-            <View style={styles.text}>
-                <Text>Valitse voittoon tarvittavat pisteet (1-20)</Text>
-            </View>
-            <View style={styles.valinta}>
-                {voittopisteet < 2 ?
-                    <TouchableOpacity style={styles.buttonFade}>
-                        <Text style={styles.nappiTeksti}>-</Text>
-                    </TouchableOpacity>
-                    :
-                    <TouchableOpacity style={styles.button} onPress={() => MinusVoittopisteet()}>
-                        <Text style={styles.nappiTeksti}>-</Text>
-                    </TouchableOpacity>
-                }
-                <Text style={styles.nappiTeksti}>{voittopisteet}</Text>
-                {voittopisteet > 19 ?
-                    <TouchableOpacity style={styles.buttonFade}>
-                        <Text style={styles.nappiTeksti}>+</Text>
-                    </TouchableOpacity>
-                    :
-                    <TouchableOpacity style={styles.button} onPress={() => PlusVoittopisteet()}>
-                        <Text style={styles.nappiTeksti}>+</Text>
-                    </TouchableOpacity>
-                }
-            </View>
-            <View style={{ justifyContent: 'flex-start' }}>
-                <Text style={{ paddingTop: 20 }}>Valitse pelattavien elintarvikkeiden luokka,</Text>
-                <Text>tai pelaa kaikilla elintarvikkeilla</Text>
-                <DropDownPicker
-                    items={[
-                        { label: 'Kaikki tuotteet', value: 'ALL', textStyle: { color: 'blue', paddingLeft: 30 } },
-                        { label: 'Raaka-aineluokat (7):', value: 'raaka', untouchable: true, textStyle: { fontWeight: 'bold' } },
-                        { label: 'Lihatuotteet', value: 'meat', parent: 'raaka', textStyle: { color: 'blue' } },
-                        { label: 'Hedelmät', value: 'fruit', parent: 'raaka', textStyle: { color: 'blue' } },
-                        { label: 'Maitotuotteet', value: 'dairy', parent: 'raaka', textStyle: { color: 'blue' } },
-                        { label: 'Vihannekset', value: 'vegetable', parent: 'raaka', textStyle: { color: 'blue' } },
-                        { label: 'Viljatuotteet', value: 'grain', parent: 'raaka', textStyle: { color: 'blue' } },
-                        { label: 'Makeat', value: 'sweet', parent: 'raaka', textStyle: { color: 'blue' } },
-                        { label: 'Juomat', value: 'drink', parent: 'raaka', textStyle: { color: 'blue' } },
-                        { label: 'Erikoisruokavaliot (7):', value: 'valio', untouchable: true, textStyle: { fontWeight: 'bold' } },
-                        { label: 'Kolesteroliton', value: 'CHOLFREE', parent: 'valio', textStyle: { color: 'blue' } },
-                        { label: 'Gluteeniton', value: 'GLUTFREE', parent: 'valio', textStyle: { color: 'blue' } },
-                        { label: 'Runsaskuituinen', value: 'HIGHFIBR', parent: 'valio', textStyle: { color: 'blue' } },
-                        { label: 'Laktoositon', value: 'LACSFREE', parent: 'valio', textStyle: { color: 'blue' } },
-                        { label: 'Lakto-ovovegetaarinen', value: 'LACOVEGE', parent: 'valio', textStyle: { color: 'blue' } },
-                        { label: 'Vähärasvainen', value: 'LOWFAT', parent: 'valio', textStyle: { color: 'blue' } },
-                        { label: 'Vegan', value: 'VEGAN', parent: 'valio', textStyle: { color: 'blue' } },
-                    ]}
-                    placeholder='Valitse'
-                    multiple={false}
-                    onChangeItem={item => setValittuElintarvikeLuokka({ ...item })}
-                    containerStyle={{ height: 40, width: 300, }}
-                    style={{ backgroundColor: '#e0f7ff' }}
-                    itemStyle={{
-                        justifyContent: 'flex-start',
-                    }}
-                />
-            </View>
+                <View style={styles.text}>
+                    <Text>Valitse vuoroaika (5-60)</Text>
+                </View>
+                <View style={styles.valinta}>
+                    {aika < 6 ?
+                        <TouchableOpacity style={styles.buttonFade}>
+                            <Text style={styles.nappiTeksti}>-</Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity style={styles.button} onPress={() => MinusAika()}>
+                            <Text style={styles.nappiTeksti}>-</Text>
+                        </TouchableOpacity>
+                    }
+                    <Text style={styles.nappiTeksti}>{aika}</Text>
+                    {aika > 59 ?
+                        <TouchableOpacity style={styles.buttonFade}>
+                            <Text style={styles.nappiTeksti}>+</Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity style={styles.button} onPress={() => PlusAika()}>
+                            <Text style={styles.nappiTeksti}>+</Text>
+                        </TouchableOpacity>
+                    }
+                </View>
+                <View style={styles.text}>
+                    <Text>Valitse voittoon tarvittavat pisteet (1-20)</Text>
+                </View>
+                <View style={styles.valinta}>
+                    {voittopisteet < 2 ?
+                        <TouchableOpacity style={styles.buttonFade}>
+                            <Text style={styles.nappiTeksti}>-</Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity style={styles.button} onPress={() => MinusVoittopisteet()}>
+                            <Text style={styles.nappiTeksti}>-</Text>
+                        </TouchableOpacity>
+                    }
+                    <Text style={styles.nappiTeksti}>{voittopisteet}</Text>
+                    {voittopisteet > 19 ?
+                        <TouchableOpacity style={styles.buttonFade}>
+                            <Text style={styles.nappiTeksti}>+</Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity style={styles.button} onPress={() => PlusVoittopisteet()}>
+                            <Text style={styles.nappiTeksti}>+</Text>
+                        </TouchableOpacity>
+                    }
+                </View>
+                <View style={{ justifyContent: 'flex-start' }}>
+                    <Text style={{ paddingTop: 20 }}>Valitse pelattavien elintarvikkeiden luokka,</Text>
+                    <Text>tai pelaa kaikilla elintarvikkeilla</Text>
+                    <DropDownPicker
+                        items={[
+                            { label: 'Kaikki tuotteet', value: 'ALL', textStyle: { color: 'blue', paddingLeft: 30 } },
+                            { label: 'Raaka-aineluokat (7):', value: 'raaka', untouchable: true, textStyle: { fontWeight: 'bold' } },
+                            { label: 'Lihatuotteet', value: 'meat', parent: 'raaka', textStyle: { color: 'blue' } },
+                            { label: 'Hedelmät', value: 'fruit', parent: 'raaka', textStyle: { color: 'blue' } },
+                            { label: 'Maitotuotteet', value: 'dairy', parent: 'raaka', textStyle: { color: 'blue' } },
+                            { label: 'Vihannekset', value: 'vegetable', parent: 'raaka', textStyle: { color: 'blue' } },
+                            { label: 'Viljatuotteet', value: 'grain', parent: 'raaka', textStyle: { color: 'blue' } },
+                            { label: 'Makeat', value: 'sweet', parent: 'raaka', textStyle: { color: 'blue' } },
+                            { label: 'Juomat', value: 'drink', parent: 'raaka', textStyle: { color: 'blue' } },
+                            { label: 'Erikoisruokavaliot (7):', value: 'valio', untouchable: true, textStyle: { fontWeight: 'bold' } },
+                            { label: 'Kolesteroliton', value: 'CHOLFREE', parent: 'valio', textStyle: { color: 'blue' } },
+                            { label: 'Gluteeniton', value: 'GLUTFREE', parent: 'valio', textStyle: { color: 'blue' } },
+                            { label: 'Runsaskuituinen', value: 'HIGHFIBR', parent: 'valio', textStyle: { color: 'blue' } },
+                            { label: 'Laktoositon', value: 'LACSFREE', parent: 'valio', textStyle: { color: 'blue' } },
+                            { label: 'Lakto-ovovegetaarinen', value: 'LACOVEGE', parent: 'valio', textStyle: { color: 'blue' } },
+                            { label: 'Vähärasvainen', value: 'LOWFAT', parent: 'valio', textStyle: { color: 'blue' } },
+                            { label: 'Vegan', value: 'VEGAN', parent: 'valio', textStyle: { color: 'blue' } },
+                        ]}
+                        placeholder='Valitse'
+                        multiple={false}
+                        onChangeItem={item => setValittuElintarvikeLuokka({ ...item })}
+                        containerStyle={{ height: 40, width: 300, }}
+                        style={{ backgroundColor: '#e0f7ff' }}
+                        itemStyle={{
+                            justifyContent: 'flex-start',
+                        }}
+                    />
+                </View>
             </View>
             <View style={styles.nappi}>
                 <Button

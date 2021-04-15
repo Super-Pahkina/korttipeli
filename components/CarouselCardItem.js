@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight } from "react-native"
-import { Card } from 'react-native-elements'
+import { Card, Icon } from 'react-native-elements'
 import testi from "./PakanValinta";
 
 export const SLIDER_WIDTH = Dimensions.get('window').width + 80
@@ -13,12 +13,14 @@ const CarouselCardItem = ({ item, index }) => {
 
   let elintarvike = ({
     name: `${item.name_fi}`,
+    jokeri: `${item.jokeri}`,
+    pommi: `${item.pommi}`,
     nutrition: {
       salt: `${item.salt}`,
       energyKcal: `${item.energyKcal}`,
       fat: `${item.fat}`,
       protein: `${item.protein}`,
-      carbohydrate: `${item.carbohydrate}`,
+      carbohydrate: `${item.carbohydrate}`, /// ** // ??? // (:
       sugar: `${item.sugar}`,
       fiber: `${item.fiber}`,
     }
@@ -40,9 +42,26 @@ const CarouselCardItem = ({ item, index }) => {
     testi(elintarvike);
   }
 
+  const valitseIkoni = () => {
+    if (elintarvike.jokeri === 'true') {
+      return <Icon
+        name='diamond'
+        type='font-awesome'
+      />
+    }
+    else if (elintarvike.pommi === 'true') {
+      return <Icon
+        name='snowflake-o'
+        type='font-awesome'
+      />
+    } else {
+      return null;
+    }
+  }
+
   return (
     <Card containerStyle={styles.kortti}>
-      <Card.Title>{elintarvike.name}</Card.Title>
+      <Card.Title>{valitseIkoni()}{elintarvike.name}</Card.Title>
       {ravintoarvot.map((ravintoarvo, index) => (
         <View style={styles.rivi}>
           <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>

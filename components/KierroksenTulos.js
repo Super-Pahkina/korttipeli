@@ -109,13 +109,12 @@ export default function Tulokset(props) {
   const Pisteesi = () => {
     if (Number(elintarvike.nutrition[propsit.ValittuArvo]) >= Number(elintarvike2.nutrition[propsit.ValittuArvo])) {
       if (elintarvike.pommi === 'true') {
-        pisteesi = pisteesi + 2
-      }
-      else if (elintarvike2.jokeri === 'true') {
-        pisteesi = pisteesi + 2
-      } else {
         pisteesi = pisteesi + 1
       }
+      if (elintarvike2.jokeri === 'true') {
+        pisteesi = pisteesi + 1
+      }
+      pisteesi = pisteesi + 1
     }
     return pisteesi
   }
@@ -124,13 +123,12 @@ export default function Tulokset(props) {
   const VastustajanPisteet = () => {
     if (Number(elintarvike.nutrition[propsit.ValittuArvo]) <= Number(elintarvike2.nutrition[propsit.ValittuArvo])) {
       if (elintarvike2.pommi === 'true') {
-        vastustajanPisteet = vastustajanPisteet + 2
-      }
-      else if (elintarvike.jokeri === 'true') {
-        vastustajanPisteet = vastustajanPisteet + 2
-      } else {
         vastustajanPisteet = vastustajanPisteet + 1
       }
+      if (elintarvike.jokeri === 'true') {
+        vastustajanPisteet = vastustajanPisteet + 1
+      }
+      vastustajanPisteet = vastustajanPisteet + 1
     }
     return vastustajanPisteet
   }

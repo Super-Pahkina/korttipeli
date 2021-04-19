@@ -8,21 +8,19 @@ export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7)
 export const SLIDER_HEIGHT = Dimensions.get('window').height + 900
 export const ITEM_HEIGHT = Math.round(SLIDER_HEIGHT * 0.9)
 
-
-const CarouselCardItem = ({ item, index }) => {
-
+const CarouselCardItem = ( {item, index} ) => {
   let elintarvike = ({
-    name: `${item.name_fi}`,
-    jokeri: `${item.jokeri}`,
-    pommi: `${item.pommi}`,
+    name: `${item.kortti.name_fi}`,
+    jokeri: `${item.kortti.jokeri}`,
+    pommi: `${item.kortti.pommi}`,
     nutrition: {
-      salt: `${item.salt}`,
-      energyKcal: `${item.energyKcal}`,
-      fat: `${item.fat}`,
-      protein: `${item.protein}`,
-      carbohydrate: `${item.carbohydrate}`, /// ** // ??? // (:
-      sugar: `${item.sugar}`,
-      fiber: `${item.fiber}`,
+      salt: `${item.kortti.salt}`,
+      energyKcal: `${item.kortti.energyKcal}`,
+      fat: `${item.kortti.fat}`,
+      protein: `${item.kortti.protein}`,
+      carbohydrate: `${item.kortti.carbohydrate}`, /// ** // ??? // (:
+      sugar: `${item.kortti.sugar}`,
+      fiber: `${item.kortti.fiber}`,
     }
   })
 
@@ -59,20 +57,46 @@ const CarouselCardItem = ({ item, index }) => {
     }
   }
 
+  const kosketus = (i) => {
+    const a = {
+      activeOpacity: 1,
+      underlayColor: 'blue',
+      style: item.valittu.includes(item.kortti) ? styles.kortti : styles.korttiValittu,
+      onPress: () => console.log('HELLO'),
+    }
+    return a
+  };
+
   return (
+    <>
+    {item.valittu.includes(item.kortti) ? <Card containerStyle={styles.korttiValittu}>
+    <Card.Title>{valitseIkoni()}{elintarvike.name}</Card.Title>
+    {ravintoarvot.map((ravintoarvo, index) => (
+      <View style={styles.rivi}>
+        <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
+        <Text style={styles.nutrition}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
+      </View>
+    ))}
+    {//<TouchableHighlight style={styles.button} underlayColor='#808791' onPress={() => valintaNappi()}><Text >Valitse</Text></TouchableHighlight>
+    }
+  </Card> 
+  : 
     <Card containerStyle={styles.kortti}>
-      <Card.Title>{valitseIkoni()}{elintarvike.name}</Card.Title>
-      {ravintoarvot.map((ravintoarvo, index) => (
-        <View style={styles.rivi}>
-          <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
-          <Text style={styles.nutrition}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
-        </View>
-      ))}
-      {//<TouchableHighlight style={styles.button} underlayColor='#808791' onPress={() => valintaNappi()}><Text >Valitse</Text></TouchableHighlight>
-      }
-    </Card>
+    <Card.Title>{valitseIkoni()}{elintarvike.name}</Card.Title>
+    {ravintoarvot.map((ravintoarvo, index) => (
+      <View style={styles.rivi}>
+        <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
+        <Text style={styles.nutrition}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
+      </View>
+    ))}
+    {//<TouchableHighlight style={styles.button} underlayColor='#808791' onPress={() => valintaNappi()}><Text >Valitse</Text></TouchableHighlight>
+    }
+  </Card>}
+  </>
   )
+  
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 4,
@@ -133,6 +157,16 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: '#808791',
     backgroundColor: '#e0f7ff',
+    width: 300
+  },
+  korttiValittu:{
+    flex: 1,
+    marginLeft: 1,
+    marginRight: 1,
+    borderRadius: 10,
+    borderStyle: 'solid',
+    borderColor: '#808791',
+    backgroundColor: '#c5eba4',
     width: 300
   },
   buttonPainettu: {

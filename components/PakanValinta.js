@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { View, StyleSheet, Text, Button } from 'react-native';
 import { SafeAreaView } from 'react-native'
 import Carousel from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarouselCardItem'
+import {CarouselTest} from './CarouselCardItem'
 
-
-export function testi(kortti) {
-    let lista = [];
-    console.log(kortti);
-    lista.push(kortti);
-    return lista;
-}
 export default function PakanValinta(props) {
     const [pakka, setPakka] = useState([]);
     //const [kortit, setKortit] = useState([]);
@@ -23,15 +17,17 @@ export default function PakanValinta(props) {
     let propsit = Propsit
     let url = propsit.url
     //const [state, setState] = useState({currentIndex:0});
-    let nyt = 0;
+    const [nyt, setNyt] =  useState(0);
+    let kortit = pakka.slice(0, Math.round((propsit.VoittoPisteet * 2 - 1) * 1.5))
     const [valittuPakka, setValittuPakka] = useState([]);
+    const [valitutIndeksit, setValitutIndeksit] = useState([])
     let tarvittavienKorttienMaara = propsit.VoittoPisteet * 2 - 1;
-    let text = "Valitse kortteja: " + valittuPakka.length + "/" + tarvittavienKorttienMaara;
-    const [teksti, setTeksti] = useState(text);
+    let teksti = "Valitse kortteja: " + String(valittuPakka.length) + "/" + String(tarvittavienKorttienMaara);
+    const [napinTeksti, setNapinTeksti] = useState(teksti);
     //this.changeIndex = this.changeIndex.bind(this);
 
     const changeIndex = (currentIndex) => {
-        nyt = currentIndex;
+        setNyt(currentIndex);
         console.log(nyt, "ny");
         console.log(currentIndex, "Indeks");
     }
@@ -95,21 +91,23 @@ export default function PakanValinta(props) {
 
     //Napin painaminen lisää kortin pelattavaan pakkaan, ei duplikaatteja.
     const kokeilu = (i) => {
-        console.log(pakka.length)
+        console.log("NO NYTTE", i)
         if (valittuPakka.includes(pakka[i], 0)) {
             
             var x = 0;
             while (x <= valittuPakka.length) {
                 if (valittuPakka[x] === pakka[i]) {
                     valittuPakka.splice(x, 1);
+                    valitutIndeksit.splice(x, 1);
                 }
                 x++;
             }
         } else {
             valittuPakka.push(pakka[i]);
+            valitutIndeksit.push(i)
         }
-        text = "Valitse kortteja: " + String(valittuPakka.length) + "/" + String(tarvittavienKorttienMaara);
-        setTeksti(text);
+        teksti = "Valitse kortteja: " + String(valittuPakka.length) + "/" + String(tarvittavienKorttienMaara);
+        setNapinTeksti(teksti);
     }
 
     const korostus = (i) => {
@@ -129,14 +127,15 @@ export default function PakanValinta(props) {
             : 
             <Text style={{ fontWeight: 'bold' , fontSize: 20}}>Valitse {tarvittavienKorttienMaara} korttia</Text>}   
             {/*Kortin tulostus*/}
-            <View style={styles.carousel} >
+            <View style={styles.carousel}>
+            <TouchableWithoutFeedback style={styles.carousel} onPress={() => { kokeilu(nyt) }}>
                 <Carousel
                     {...korostus()}
                     layout="stack"
                     layoutCardOffset={9}
                     ref={isCarousel}
                     //ref={(c) => { this._carousel = c; }}
-                    data={pakka.slice(0, Math.round((propsit.VoittoPisteet * 2 - 1) * 1.5))}
+                    data={kortit.map((kortti, index) => ({kortti, valittu: valittuPakka}))}
                     renderItem={CarouselCardItem}
                     sliderWidth={SLIDER_WIDTH}
                     itemWidth={ITEM_WIDTH}
@@ -145,11 +144,17 @@ export default function PakanValinta(props) {
                     inactiveSlideShift={0}
                     useScrollView={true}
                     onSnapToItem={changeIndex}
-                    
                 />
+            </TouchableWithoutFeedback>
             </View>
+
             <View style={styles.napit}>
-                <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { kokeilu(nyt) }}><Text style={styles.teksti}>Valitse kortti</Text></TouchableHighlight>
+                <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { kokeilu(nyt) }}>
+                    {valitutIndeksit.includes(nyt) ? 
+                    <Text style={styles.teksti}>Poista kortti</Text>
+                    : 
+                    <Text style={styles.teksti}>Valitse kortti</Text>}
+                </TouchableHighlight>
             </View>
             <View style={styles.napit}>
                 {valittuPakka.length == tarvittavienKorttienMaara ?
@@ -162,13 +167,13 @@ export default function PakanValinta(props) {
                     valittuPakka.length > tarvittavienKorttienMaara ?
                     <Button
                         color="#f22727"
-                        title={teksti}
+                        title={napinTeksti}
                         paddingTop= "20"
                     />
                     :
                     <Button
                         color="#cdd0d4"
-                        title={teksti}
+                        title={napinTeksti}
                         paddingTop= "20"
                     />
                 }

@@ -205,7 +205,7 @@ export default function Vastus(props) {
             layout="stack"
             layoutCardOffset={9}
             ref={isCarousel}
-            data={propsit.omaPakka}
+            data={propsit.omaPakka.map((kortti, index) => ({kortti, valittu: []}))}
             firstItem={propsit.omaPakka.length - 1}
             renderItem={CarouselCardItem}
             sliderWidth={350}

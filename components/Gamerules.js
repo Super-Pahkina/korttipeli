@@ -10,7 +10,7 @@ export default function Gamerules({ navigation }) {
     const [url, setUrl] = useState('');
 
     // baseUrlissa toistaiseksi oman koneen IP, koska backend ei ole vielä julkaistu
-    const baseUrl = 'http://192.168.0.101:3002/howmany';
+    const baseUrl = 'http://192.168.1.106:3002/howmany';
 
     useEffect(() => {
         urlSetter()

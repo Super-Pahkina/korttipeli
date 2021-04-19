@@ -37,24 +37,24 @@ export default function Tulokset(props) {
       return <Icon
         name='diamond'
         type='font-awesome'
-        size='15'
+        size={15}
       />
     }
     else if (elintarvike.pommi === 'true') {
       return <Icon
         name='snowflake-o'
         type='font-awesome'
-        size='15'
+        size={15}
       />
     } else {
-      return null;
+      return "";
     }
   }
 
   //Funktio, joka määrittää mihin sivuun siirrytään ja annetaan tarvittavat propsit. Jos pisteet ovat sama kuin voittoon tarvittavat pisteet, 
   //siirrytään voittoruutuun. Muussa tapauksessa annetaan vuoro edellisen vuoron perusteella.
   const siirry = () => {
-    if (pisteesi == propsit.VoittoPisteet) {
+    if (pisteesi >= propsit.VoittoPisteet) {
       let Tulos = {
         tulos: 'Voitit pelin',
         Pisteesi: pisteesi,
@@ -62,7 +62,7 @@ export default function Tulokset(props) {
         VoittoPisteet: propsit.VoittoPisteet
       }
       navigation.navigate('Tulossivu', { Tulokset: Tulos })
-    } else if (vastustajanPisteet == propsit.VoittoPisteet) {
+    } else if (vastustajanPisteet >= propsit.VoittoPisteet) {
       let Tulos = {
         tulos: 'Hävisit pelin',
         Pisteesi: pisteesi,

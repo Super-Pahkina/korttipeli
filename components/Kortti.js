@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button, TouchableHighlight, Animated } from 'react-native';
-import { Card } from 'react-native-elements'
+import { Card, Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import { useIsFocused } from "@react-navigation/native";
@@ -24,7 +24,24 @@ export default function Kortti(props) {
   const [pelatutKortit, setPelatutKortit] = useState(propsit.pelatutKortit);
   const [omaPakka, setOmaPakka] = useState(propsit.omaPakka)
   const [vastustajanPakka, setVastustajanPakka] = useState(propsit.vastustajanPakka);
-  
+
+  const valitseIkoni = () => {
+    if (elintarvike.jokeri === 'true') {
+      return <Icon
+        name='diamond'
+        type='font-awesome'
+      />
+    }
+    else if (elintarvike.pommi === 'true') {
+      return <Icon
+        name='snowflake-o'
+        type='font-awesome'
+      />
+    } else {
+      return null;
+    }
+  }
+
   const vaihdaIndeksia = (currentIndex) => {
     indeksi = currentIndex;
     console.log(indeksi, "ny");
@@ -33,6 +50,8 @@ export default function Kortti(props) {
 
   const [elintarvike, setElintarvike] = useState({
     name: '',
+    jokeri: '',
+    pommi: '',
     nutrition: {
       salt: '',
       energyKcal: '',
@@ -46,6 +65,8 @@ export default function Kortti(props) {
 
   const [elintarvike2, setElintarvike2] = useState({
     name: '',
+    jokeri: '',
+    pommi: '',
     nutrition: {
       salt: '',
       energyKcal: '',
@@ -65,6 +86,8 @@ export default function Kortti(props) {
 
     setElintarvike({
       name: `${chosenCard.name_fi}`,
+      jokeri: `${chosenCard.jokeri}`,
+      pommi: `${chosenCard.pommi}`,
       nutrition: {
         salt: `${chosenCard.salt}`,
         energyKcal: `${chosenCard.energyKcal}`,
@@ -78,6 +101,8 @@ export default function Kortti(props) {
 
     setElintarvike2({
       name: `${chosenCard2.name_fi}`,
+      jokeri: `${chosenCard2.jokeri}`,
+      pommi: `${chosenCard2.pommi}`,
       nutrition: {
         salt: `${chosenCard2.salt}`,
         energyKcal: `${chosenCard2.energyKcal}`,
@@ -102,7 +127,7 @@ export default function Kortti(props) {
   }
 
   //Annetaan uudet kortit vuoron alussa, resetoidaan valinta viimevuorolta ja käynnistetään vuoroaika
-  useEffect(() => { if (isFocused) { setKaynnissa(true); setPainettu();  } }, [isFocused]);
+  useEffect(() => { if (isFocused) { setKaynnissa(true); setPainettu(); } }, [isFocused]);
 
   let ravintoarvot = Object.keys(elintarvike.nutrition);
   ['salt', 'energyKcal', 'fat', 'protein', 'carbohydrate', 'sugar', 'fiber']
@@ -192,9 +217,9 @@ export default function Kortti(props) {
         <Text>Pisteesi: {propsit.Pisteesi} </Text>
         <Text>Vastustajan pisteet: {propsit.VastustajanPisteet} </Text>
       </View>
-      { pelattavanKortinValinta == 0 ? 
-      <View style={styles.carousel} >
-        <Carousel
+      { pelattavanKortinValinta == 0 ?
+        <View style={styles.carousel} >
+          <Carousel
             layout="stack"
             layoutCardOffset={9}
             ref={isCarousel}
@@ -208,25 +233,25 @@ export default function Kortti(props) {
             inactiveSlideShift={0}
             useScrollView={true}
             onSnapToItem={vaihdaIndeksia}
-        />
-      </View>
-      : 
-      <Card containerStyle={styles.kortti}>
-        <Card.Title>{elintarvike.name}</Card.Title>
-        {ravintoarvot.map((ravintoarvo, index) => (
-          <View {...kosketus(ravintoarvo)}>
-            <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
-            <Text style={styles.nutrition}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
-            <TouchableHighlight style={styles.button} underlayColor='#808791' onPress={() => nappi(ravintoarvo)}><Text >Valitse</Text></TouchableHighlight>
-          </View>
-        ))}
-      </Card>
+          />
+        </View>
+        :
+        <Card containerStyle={styles.kortti}>
+          <Card.Title>{valitseIkoni()}{elintarvike.name}</Card.Title>
+          {ravintoarvot.map((ravintoarvo, index) => (
+            <View {...kosketus(ravintoarvo)}>
+              <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
+              <Text style={styles.nutrition}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
+              <TouchableHighlight style={styles.button} underlayColor='#808791' onPress={() => nappi(ravintoarvo)}><Text >Valitse</Text></TouchableHighlight>
+            </View>
+          ))}
+        </Card>
       }
-      { pelattavanKortinValinta == 0 ? 
+      { pelattavanKortinValinta == 0 ?
         <View style={styles.napit}>
           <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { setGameCards(indeksi) }}><Text style={styles.teksti}>Valitse kortti</Text></TouchableHighlight>
         </View>
-      :
+        :
         <></>
       }
       {painettu == null ?

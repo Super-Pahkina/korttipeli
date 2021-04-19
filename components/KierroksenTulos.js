@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
-import { Card } from 'react-native-elements'
+import { Card, Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
-
 
 export default function Tulokset(props) {
 
@@ -33,6 +32,25 @@ export default function Tulokset(props) {
 
   let ravintoarvot2 = Object.keys(elintarvike2.nutrition);
   ['salt', 'energyKcal', 'fat', 'protein', 'carbohydrate', 'sugar', 'fiber']
+
+  const valitseIkoni = (elintarvike) => {
+    if (elintarvike.jokeri === 'true') {
+      return <Icon
+        name='diamond'
+        type='font-awesome'
+        size='20'
+      />
+    }
+    else if (elintarvike.pommi === 'true') {
+      return <Icon
+        name='snowflake-o'
+        type='font-awesome'
+        size='20'
+      />
+    } else {
+      return null;
+    }
+  }
 
   //Funktio, joka määrittää mihin sivuun siirrytään ja annetaan tarvittavat propsit. Jos pisteet ovat sama kuin voittoon tarvittavat pisteet, 
   //siirrytään voittoruutuun. Muussa tapauksessa annetaan vuoro edellisen vuoron perusteella.
@@ -132,7 +150,7 @@ export default function Tulokset(props) {
         <Text>Vastustajan pisteet: {VastustajanPisteet()} / {propsit.VoittoPisteet} </Text>
       </View>
       <Card containerStyle={styles.kortti}>
-        <Card.Title style={styles.otsikko}>{elintarvike2.name}</Card.Title>
+        <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike2)}{elintarvike2.name}</Card.Title>
         {ravintoarvot2.map((ravintoarvo, index) => (
           <View {...kosketus(ravintoarvo)}>
             <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
@@ -147,7 +165,7 @@ export default function Tulokset(props) {
         ))}
       </Card>
       <Card containerStyle={styles.kortti}>
-        <Card.Title style={styles.otsikko}>{elintarvike.name}</Card.Title>
+        <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike)}{elintarvike.name}</Card.Title>
         {ravintoarvot.map((ravintoarvo, index) => (
           <View {...kosketus(ravintoarvo)}>
             <Text {...tekstinVari(ravintoarvo)}>{labels[ravintoarvo]}: </Text>

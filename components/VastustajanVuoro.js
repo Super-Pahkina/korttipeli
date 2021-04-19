@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View , Animated, TouchableHighlight, Button} from 'react-native';
+import { StyleSheet, Text, View, Animated, TouchableHighlight, Button } from 'react-native';
 import { Card } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import { useIsFocused } from "@react-navigation/native";
@@ -8,28 +8,30 @@ import Carousel from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarouselCardItem'
 
 export default function Vastus(props) {
-    const [key, setKey] = useState(0);
-    const [painettu, setPainettu] = useState('');
-    let { route } = props
-    let { Propsit } = route.params
-    let propsit = Propsit
-    let indeksi = propsit.omaPakka.length - 1;
-    const navigation = useNavigation();
-    let kaynnissa = true;
-    const isCarousel = React.useRef((c) => { this._carousel = c; })
-    const [pelatutKortit, setPelatutKortit] = useState(propsit.pelatutKortit);
-    const isFocused = useIsFocused();
-    const [omaPakka, setOmaPakka] = useState(propsit.omaPakka)
-    const [pelattavanKortinValinta, setPelattavanKortinValinta] = useState(0);
-    const [vastustajanPakka, setVastustajanPakka] = useState(propsit.vastustajanPakka);
-    const [vastustajanValinta, setVastustajanValinta] = useState(true);
-    const [aika, setAika] = useState(5);
+  const [key, setKey] = useState(0);
+  const [painettu, setPainettu] = useState('');
+  let { route } = props
+  let { Propsit } = route.params
+  let propsit = Propsit
+  let indeksi = propsit.omaPakka.length - 1;
+  const navigation = useNavigation();
+  let kaynnissa = true;
+  const isCarousel = React.useRef((c) => { this._carousel = c; })
+  const [pelatutKortit, setPelatutKortit] = useState(propsit.pelatutKortit);
+  const isFocused = useIsFocused();
+  const [omaPakka, setOmaPakka] = useState(propsit.omaPakka)
+  const [pelattavanKortinValinta, setPelattavanKortinValinta] = useState(0);
+  const [vastustajanPakka, setVastustajanPakka] = useState(propsit.vastustajanPakka);
+  const [vastustajanValinta, setVastustajanValinta] = useState(true);
+  const [aika, setAika] = useState(5);
 
   //Annetaan uudet kortit vuoron alussa.
   //useEffect(() => { if (isFocused) {setGameCards(); } }, [isFocused]);
 
   const [elintarvike, setElintarvike] = useState({
     name: '',
+    jokeri: '',
+    pommi: '',
     nutrition: {
       salt: '',
       energyKcal: '',
@@ -43,6 +45,8 @@ export default function Vastus(props) {
 
   const [elintarvike2, setElintarvike2] = useState({
     name: '',
+    jokeri: '',
+    pommi: '',
     nutrition: {
       salt: '',
       energyKcal: '',
@@ -70,6 +74,8 @@ export default function Vastus(props) {
 
     setElintarvike({
       name: `${chosenCard.name_fi}`,
+      jokeri: `${chosenCard.jokeri}`,
+      pommi: `${chosenCard.pommi}`,
       nutrition: {
         salt: `${chosenCard.salt}`,
         energyKcal: `${chosenCard.energyKcal}`,
@@ -83,6 +89,8 @@ export default function Vastus(props) {
 
     setElintarvike2({
       name: `${chosenCard2.name_fi}`,
+      jokeri: `${chosenCard.jokeri}`,
+      pommi: `${chosenCard.pommi}`,
       nutrition: {
         salt: `${chosenCard2.salt}`,
         energyKcal: `${chosenCard2.energyKcal}`,
@@ -106,13 +114,13 @@ export default function Vastus(props) {
   }
 
   let ravintoarvot = Object.keys(elintarvike.nutrition);
-['salt', 'energyKcal', 'fat', 'protein', 'carbohydrate',  'sugar',  'fiber']
+  ['salt', 'energyKcal', 'fat', 'protein', 'carbohydrate', 'sugar', 'fiber']
 
   //Lähetetään tarvittavat tiedot KierroksenTulokset -sivulle
-  const lukitse =() => {     
+  const lukitse = () => {
     console.log(elintarvike)
     console.log(painettu)
-    let Propsit = { 
+    let Propsit = {
       ValittuArvo: painettu,
       peliAika: propsit.peliAika,
       Pisteesi: propsit.Pisteesi,
@@ -131,33 +139,33 @@ export default function Vastus(props) {
 
   //Tekoälynä toimiva Math.random() funktio tekee tekoälyn
   const tekoalyVuoro = () => {
-      if (vastustajanValinta){
-        let Valinta = (Math.random() * 6).toFixed(0)
-        console.log(Valinta)
-        setAika(propsit.peliAika)
-        setVastustajanValinta(false);
-        setPainettu(ravintoarvot[Valinta])
-        setKey(prevKey => prevKey + 1)
-      } else {
-        setPelattavanKortinValinta(0);
-        let Propsit = {
-          ValittuArvo: '',
-          peliAika: propsit.peliAika,
-          Pisteesi: propsit.Pisteesi,
-          VastustajanPisteet: propsit.VastustajanPisteet + 1,
-          VoittoPisteet: propsit.VoittoPisteet,
-          pelatutKortit: pelatutKortit,
-          elintarvike: elintarvike,
-          elintarvike2: elintarvike2,
-          omaPakka: propsit.omaPakka,
-          vastustajanPakka: propsit.vastustajanPakka,
-        }
-        setKey(prevKey => prevKey + 1)
-        kaynnissa = false
-        navigation.navigate('KierroksenTulos', { Propsit: Propsit })
+    if (vastustajanValinta) {
+      let Valinta = (Math.random() * 6).toFixed(0)
+      console.log(Valinta)
+      setAika(propsit.peliAika)
+      setVastustajanValinta(false);
+      setPainettu(ravintoarvot[Valinta])
+      setKey(prevKey => prevKey + 1)
+    } else {
+      setPelattavanKortinValinta(0);
+      let Propsit = {
+        ValittuArvo: '',
+        peliAika: propsit.peliAika,
+        Pisteesi: propsit.Pisteesi,
+        VastustajanPisteet: propsit.VastustajanPisteet + 1,
+        VoittoPisteet: propsit.VoittoPisteet,
+        pelatutKortit: pelatutKortit,
+        elintarvike: elintarvike,
+        elintarvike2: elintarvike2,
+        omaPakka: propsit.omaPakka,
+        vastustajanPakka: propsit.vastustajanPakka,
       }
+      setKey(prevKey => prevKey + 1)
+      kaynnissa = false
+      navigation.navigate('KierroksenTulos', { Propsit: Propsit })
+    }
   }
-  
+
   const kosketus = (i) => {
     const a = {
       activeOpacity: 1,
@@ -172,36 +180,36 @@ export default function Vastus(props) {
     <View style={styles.container}>
       <View style={styles.timer}>
         <CountdownCircleTimer
-        onComplete={() => {
+          onComplete={() => {
             tekoalyVuoro()
             return [true, 1000]
-        }}
-        key = {key}
-        isPlaying={kaynnissa}
-        duration={aika}
-        size = {100}
-        colors={[
-          ['#13ad0e', 0.4],
-          ['#F7B801', 0.4],
-          ['#A30000', 0.2],
-        ]}
-      >
-        {({ remainingTime, animatedColor }) => (
-          <Animated.Text style={{ color: animatedColor }}>
-            {remainingTime}
-          </Animated.Text>
-        )}
+          }}
+          key={key}
+          isPlaying={kaynnissa}
+          duration={aika}
+          size={100}
+          colors={[
+            ['#13ad0e', 0.4],
+            ['#F7B801', 0.4],
+            ['#A30000', 0.2],
+          ]}
+        >
+          {({ remainingTime, animatedColor }) => (
+            <Animated.Text style={{ color: animatedColor }}>
+              {remainingTime}
+            </Animated.Text>
+          )}
         </CountdownCircleTimer>
       </View>
       <Text>Voittoon tarvittavat pisteet: {propsit.VoittoPisteet} </Text>
-      <View style = {{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <Text>Pisteesi: {propsit.Pisteesi} </Text>
         <Text>Vastustajan pisteet: {propsit.VastustajanPisteet} </Text>
-      </View> 
-      {painettu.length > 1 ?  <Text>Vastustaja valitsi arvon: {labels[painettu]} </Text> : <></>}
-      { pelattavanKortinValinta == 0 ? 
-      <View style={styles.carousel} >
-        <Carousel
+      </View>
+      {painettu.length > 1 ? <Text>Vastustaja valitsi arvon: {labels[painettu]} </Text> : <></>}
+      { pelattavanKortinValinta == 0 ?
+        <View style={styles.carousel} >
+          <Carousel
             layout="stack"
             layoutCardOffset={9}
             ref={isCarousel}
@@ -215,24 +223,24 @@ export default function Vastus(props) {
             inactiveSlideShift={0}
             useScrollView={true}
             onSnapToItem={vaihdaIndeksia}
-        />
-      </View>
-      : 
-      <Card containerStyle={styles.kortti}>
-        <Card.Title>{elintarvike.name}</Card.Title>
-        { ravintoarvot.map((ravintoarvo, index) => (
-        <View {...kosketus(ravintoarvo)}>
-          <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
-          <Text style={styles.nutrition}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
+          />
         </View>
-        ))}
-      </Card>
+        :
+        <Card containerStyle={styles.kortti}>
+          <Card.Title>{elintarvike.name}</Card.Title>
+          {ravintoarvot.map((ravintoarvo, index) => (
+            <View {...kosketus(ravintoarvo)}>
+              <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
+              <Text style={styles.nutrition}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
+            </View>
+          ))}
+        </Card>
       }
-      { pelattavanKortinValinta == 0 ? 
+      { pelattavanKortinValinta == 0 ?
         <View style={styles.napit}>
           <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { setGameCards(indeksi) }}><Text style={styles.teksti}>Valitse kortti</Text></TouchableHighlight>
         </View>
-      :
+        :
         <></>
       }
       {painettu == null ?
@@ -251,7 +259,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    width:'100%',
+    width: '100%',
     backgroundColor: "#c2efff"
   },
   divider: {
@@ -268,7 +276,7 @@ const styles = StyleSheet.create({
     color: 'brown',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    paddingLeft:15,
+    paddingLeft: 15,
     paddingRight: 15,
   },
   carousel: {
@@ -277,40 +285,40 @@ const styles = StyleSheet.create({
   button: {
     alignContent: 'flex-end',
     justifyContent: 'space-around',
-    borderStyle:'solid',
-    borderColor:'#808791',
+    borderStyle: 'solid',
+    borderColor: '#808791',
     borderWidth: 1,
   },
   timer: {
     flex: 0.2,
     alignItems: 'flex-start',
     justifyContent: 'space-around',
-    borderColor:'#c2efff',
+    borderColor: '#c2efff',
     borderWidth: 1,
     paddingTop: 2
-    
+
   },
   rivi: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop:3.5,
-    paddingBottom:3.5,
+    paddingTop: 3.5,
+    paddingBottom: 3.5,
   },
   kortti: {
     flex: 0.5,
     marginLeft: 1,
     marginRight: 1,
-    borderRadius:10,
-    borderStyle:'solid',
-    borderColor:'#808791',
+    borderRadius: 10,
+    borderStyle: 'solid',
+    borderColor: '#808791',
     backgroundColor: '#e0f7ff',
-    width:300
+    width: 300
   },
   buttonPainettu: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop:8,
-    paddingBottom:8,
+    paddingTop: 8,
+    paddingBottom: 8,
     backgroundColor: '#cdd0d4'
   },
   nappi: {

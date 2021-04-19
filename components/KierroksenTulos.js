@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { Card, Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
-import { AntDesign } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 
 export default function Tulokset(props) {
 
@@ -38,14 +37,14 @@ export default function Tulokset(props) {
       return <Icon
         name='diamond'
         type='font-awesome'
-        size='20'
+        size='15'
       />
     }
     else if (elintarvike.pommi === 'true') {
       return <Icon
         name='snowflake-o'
         type='font-awesome'
-        size='20'
+        size='15'
       />
     } else {
       return null;
@@ -108,16 +107,30 @@ export default function Tulokset(props) {
 
   //Pistetilanteen päivitys -funktio
   const Pisteesi = () => {
-    if (Number(elintarvike.nutrition[propsit.ValittuArvo]) > Number(elintarvike2.nutrition[propsit.ValittuArvo])) {
-      pisteesi = pisteesi + 1
+    if (Number(elintarvike.nutrition[propsit.ValittuArvo]) >= Number(elintarvike2.nutrition[propsit.ValittuArvo])) {
+      if (elintarvike.pommi === 'true') {
+        pisteesi = pisteesi + 2
+      }
+      else if (elintarvike2.jokeri === 'true') {
+        pisteesi = pisteesi + 2
+      } else {
+        pisteesi = pisteesi + 1
+      }
     }
     return pisteesi
   }
 
   //Pistetilanteen päivitys -funktio
   const VastustajanPisteet = () => {
-    if (Number(elintarvike.nutrition[propsit.ValittuArvo]) < Number(elintarvike2.nutrition[propsit.ValittuArvo])) {
-      vastustajanPisteet = vastustajanPisteet + 1;
+    if (Number(elintarvike.nutrition[propsit.ValittuArvo]) <= Number(elintarvike2.nutrition[propsit.ValittuArvo])) {
+      if (elintarvike2.pommi === 'true') {
+        vastustajanPisteet = vastustajanPisteet + 2
+      }
+      else if (elintarvike.jokeri === 'true') {
+        vastustajanPisteet = vastustajanPisteet + 2
+      } else {
+        vastustajanPisteet = vastustajanPisteet + 1
+      }
     }
     return vastustajanPisteet
   }
@@ -206,7 +219,7 @@ const styles = StyleSheet.create({
     height: 1.5,
   },
   otsikko: {
-    height: "9%",
+    height: "10%",
     alignContent: "center",
     justifyContent: 'space-around',
     color: "black"

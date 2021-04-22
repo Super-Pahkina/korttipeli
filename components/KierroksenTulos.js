@@ -178,7 +178,7 @@ export default function Tulokset(props) {
       <Card containerStyle={styles.kortti}>
         <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike)}{elintarvike.name}</Card.Title>
         {ravintoarvot.map((ravintoarvo, index) => (
-          <View {...kosketus(ravintoarvo)}>
+          <View key={index} {...kosketus(ravintoarvo)}>
             <Text {...tekstinVari(ravintoarvo)}>{labels[ravintoarvo]}: </Text>
             <Text style={styles.nutrition2}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
             {Vertaa(ravintoarvo) == 1 ?

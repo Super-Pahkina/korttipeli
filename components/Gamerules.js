@@ -10,7 +10,7 @@ export default function Gamerules({ navigation }) {
     const [url, setUrl] = useState('');
 
     const baseUrl = 'https://elintarvikepeli.herokuapp.com/howmany';
-
+    // const baseUrl = 'http://192.168.1.106:3002/howmany';
     useEffect(() => {
         urlSetter()
     }, [valittuElintarvikeLuokka])
@@ -63,10 +63,10 @@ export default function Gamerules({ navigation }) {
         <View style={styles.container}>
             <View style={styles.gamerules}>
                 <View style={styles.text}>
-                    <Text>Valitse vuoroaika (5-60)</Text>
+                    <Text>Valitse vuoroaika (10-60)</Text>
                 </View>
                 <View style={styles.valinta}>
-                    {aika < 6 ?
+                    {aika < 11 ?
                         <TouchableOpacity style={styles.buttonFade}>
                             <Text style={styles.nappiTeksti}>-</Text>
                         </TouchableOpacity>
@@ -87,7 +87,7 @@ export default function Gamerules({ navigation }) {
                     }
                 </View>
                 <View style={styles.text}>
-                    <Text>Valitse voittoon tarvittavat pisteet (1-20)</Text>
+                    <Text>Valitse voittoon tarvittavat pisteet (1-10)</Text>
                 </View>
                 <View style={styles.valinta}>
                     {voittopisteet < 2 ?
@@ -100,7 +100,7 @@ export default function Gamerules({ navigation }) {
                         </TouchableOpacity>
                     }
                     <Text style={styles.nappiTeksti}>{voittopisteet}</Text>
-                    {voittopisteet > 19 ?
+                    {voittopisteet > 9 ?
                         <TouchableOpacity style={styles.buttonFade}>
                             <Text style={styles.nappiTeksti}>+</Text>
                         </TouchableOpacity>

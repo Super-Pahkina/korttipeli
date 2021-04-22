@@ -74,7 +74,7 @@ export default function Tulokset(props) {
       console.log("Kierros", propsit.pelatutKortit)
       let Propsit = {
         kaynnissa: true,
-        ValittuArvo: propsit.ValittuArvo,
+        valittuArvo: propsit.valittuArvo,
         peliAika: propsit.peliAika,
         Pisteesi: pisteesi,
         VastustajanPisteet: vastustajanPisteet,
@@ -83,7 +83,7 @@ export default function Tulokset(props) {
         omaPakka: propsit.omaPakka,
         vastustajanPakka: propsit.vastustajanPakka,
       }
-      console.log(Propsit.ValittuArvo)
+      console.log(Propsit.valittuArvo)
       if (vuoro == "Pelaaja") {
         setVuoro("Vastus")
         navigation.navigate('Kortti', { Propsit: Propsit })
@@ -107,7 +107,7 @@ export default function Tulokset(props) {
 
   //Pistetilanteen päivitys -funktio
   const Pisteesi = () => {
-    if (Number(elintarvike.nutrition[propsit.ValittuArvo]) >= Number(elintarvike2.nutrition[propsit.ValittuArvo])) {
+    if (Number(elintarvike.nutrition[propsit.valittuArvo]) >= Number(elintarvike2.nutrition[propsit.valittuArvo])) {
       if (elintarvike.pommi === 'true') {
         pisteesi = pisteesi + 1
       }
@@ -121,7 +121,7 @@ export default function Tulokset(props) {
 
   //Pistetilanteen päivitys -funktio
   const VastustajanPisteet = () => {
-    if (Number(elintarvike.nutrition[propsit.ValittuArvo]) <= Number(elintarvike2.nutrition[propsit.ValittuArvo])) {
+    if (Number(elintarvike.nutrition[propsit.valittuArvo]) <= Number(elintarvike2.nutrition[propsit.valittuArvo])) {
       if (elintarvike2.pommi === 'true') {
         vastustajanPisteet = vastustajanPisteet + 1
       }
@@ -138,7 +138,7 @@ export default function Tulokset(props) {
     const a = {
       activeOpacity: 1,
       underlayColor: 'blue',
-      style: propsit.ValittuArvo == i ? styles.buttonPainettu : styles.rivi,
+      style: propsit.valittuArvo == i ? styles.buttonPainettu : styles.rivi,
       onPress: () => console.log('HELLO'),
     }
     return a

@@ -71,7 +71,7 @@ export default function PakanValinta(props) {
     //Ohjataan käyttäjän vuorolle ja annetaan tarvittavat tiedot
     const aloitaPeli = () => {
         console.log(pakka.length)
-        let vastuksenKortit = pakka.slice(Math.round((propsit.VoittoPisteet * 2 - 1) * 1.5))
+        let vastuksenKortit = pakka.splice(Math.round((propsit.VoittoPisteet * 2 - 1) * 1.5))
         console.log(pakka.length)
         Propsit = {
             VoittoPisteet: propsit.VoittoPisteet,
@@ -105,6 +105,25 @@ export default function PakanValinta(props) {
         } else {
             valittuPakka.push(pakka[i]);
             valitutIndeksit.push(i)
+        }
+        teksti = "Valitse kortteja: " + String(valittuPakka.length) + "/" + String(tarvittavienKorttienMaara);
+        setNapinTeksti(teksti);
+    }
+
+    const satunnaisetKortit = () => {
+        let i = 0;
+        while (valittuPakka.length < tarvittavienKorttienMaara){
+            if (!valittuPakka.includes(pakka[i], 0)){
+                let valitaanko = Math.floor(Math.random() * 2)
+                if (valitaanko == 1){
+                    valittuPakka.push(pakka[i])
+                    valitutIndeksit.push(i)
+                }
+            }
+            i = i + 1
+            if (i == kortit.length){
+                i = 0;
+            }
         }
         teksti = "Valitse kortteja: " + String(valittuPakka.length) + "/" + String(tarvittavienKorttienMaara);
         setNapinTeksti(teksti);
@@ -157,6 +176,11 @@ export default function PakanValinta(props) {
                 </TouchableHighlight>
             </View>
             <View style={styles.napit}>
+                <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { satunnaisetKortit() }}>
+                    <Text style={styles.teksti}>Valitse satunnaiset kortit</Text>
+                </TouchableHighlight>
+            </View>
+            <View style={styles.napit}>
                 {valittuPakka.length == tarvittavienKorttienMaara ?
                     <Button
                         title="Aloita peli"
@@ -201,7 +225,7 @@ const styles = StyleSheet.create({
         paddingLeft: 25
     },
     napit: {
-        flex: 1,
+        flex: 0.66,
         alignItems: 'center',
         justifyContent: 'center',
     },

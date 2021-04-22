@@ -23,7 +23,7 @@ export default function Vastus(props) {
   const [pelattavanKortinValinta, setPelattavanKortinValinta] = useState(0);
   const [vastustajanPakka, setVastustajanPakka] = useState(propsit.vastustajanPakka);
   const [vastustajanValinta, setVastustajanValinta] = useState(true);
-  const [aika, setAika] = useState(5);
+  const [aika, setAika] = useState(3);
 
   //Annetaan uudet kortit vuoron alussa.
   //useEffect(() => { if (isFocused) {setGameCards(); } }, [isFocused]);
@@ -121,7 +121,7 @@ export default function Vastus(props) {
     console.log(elintarvike)
     console.log(painettu)
     let Propsit = {
-      ValittuArvo: painettu,
+      valittuArvo: painettu,
       peliAika: propsit.peliAika,
       Pisteesi: propsit.Pisteesi,
       VastustajanPisteet: propsit.VastustajanPisteet,
@@ -140,16 +140,16 @@ export default function Vastus(props) {
   //Tekoälynä toimiva Math.random() funktio tekee tekoälyn
   const tekoalyVuoro = () => {
     if (vastustajanValinta) {
-      let Valinta = (Math.random() * 6).toFixed(0)
-      console.log(Valinta)
+      let valinta = (Math.random() * 6).toFixed(0)
+      console.log(valinta)
       setAika(propsit.peliAika)
       setVastustajanValinta(false);
-      setPainettu(ravintoarvot[Valinta])
+      setPainettu(ravintoarvot[valinta])
       setKey(prevKey => prevKey + 1)
     } else {
       setPelattavanKortinValinta(0);
       let Propsit = {
-        ValittuArvo: '',
+        valittuArvo: painettu,
         peliAika: propsit.peliAika,
         Pisteesi: propsit.Pisteesi,
         VastustajanPisteet: propsit.VastustajanPisteet + 1,
@@ -206,7 +206,7 @@ export default function Vastus(props) {
         <Text>Pisteesi: {propsit.Pisteesi} </Text>
         <Text>Vastustajan pisteet: {propsit.VastustajanPisteet} </Text>
       </View>
-      {painettu.length > 1 ? <Text>Vastustaja valitsi arvon: {labels[painettu]} </Text> : <></>}
+      {painettu.length > 1 ? <Text style={styles.text}>Vastustaja valitsi arvon: {labels[painettu]} </Text> : <></>}
       { pelattavanKortinValinta == 0 ?
         <View style={styles.carousel} >
           <Carousel
@@ -236,14 +236,14 @@ export default function Vastus(props) {
           ))}
         </Card>
       }
-      { pelattavanKortinValinta == 0 ?
+      {vastustajanValinta ? <></> : pelattavanKortinValinta == 0 ?
         <View style={styles.napit}>
           <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { setGameCards(indeksi) }}><Text style={styles.teksti}>Valitse kortti</Text></TouchableHighlight>
         </View>
         :
         <></>
       }
-      {painettu == null ?
+      {vastustajanValinta ? <></> : painettu == null ?
         <></> :
         <View style={styles.nappi}>
           <Button title="Lukitse valinta" onPress={() => lukitse()}></Button>
@@ -261,6 +261,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     width: '100%',
     backgroundColor: "#c2efff"
+  },
+  text: {
+    fontWeight: "bold",
   },
   divider: {
     backgroundColor: '#808791',

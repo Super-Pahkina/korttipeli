@@ -9,7 +9,6 @@ export default function Gamerules({ navigation }) {
     const [valittuElintarvikeLuokka, setValittuElintarvikeLuokka] = useState({});
     const [url, setUrl] = useState('');
 
-    // baseUrlissa toistaiseksi oman koneen IP, koska backend ei ole vielä julkaistu
     const baseUrl = 'https://elintarvikepeli.herokuapp.com/howmany';
 
     useEffect(() => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, Button } from 'react-native';
 import { Card, Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
@@ -15,6 +15,7 @@ export default function Tulokset(props) {
   let vastustajanPisteet = propsit.VastustajanPisteet
   let elintarvike = propsit.elintarvike
   let elintarvike2 = propsit.elintarvike2
+  const taustakuva = propsit.kuvaUrl
 
   const labels = {
     salt: "Suola (mg)",
@@ -82,6 +83,7 @@ export default function Tulokset(props) {
         pelatutKortit: propsit.pelatutKortit,
         omaPakka: propsit.omaPakka,
         vastustajanPakka: propsit.vastustajanPakka,
+        kuvaUrl: propsit.kuvaUrl,
       }
       console.log(Propsit.ValittuArvo)
       if (vuoro == "Pelaaja") {
@@ -156,46 +158,51 @@ export default function Tulokset(props) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text></Text>
-      <View>
-        <Text>Pisteesi: {Pisteesi()} / {propsit.VoittoPisteet} </Text>
-        <Text>Vastustajan pisteet: {VastustajanPisteet()} / {propsit.VoittoPisteet} </Text>
+    <ImageBackground
+      source={{ uri: taustakuva }}
+      style={{ width: '100%', height: '100%' }}
+    >
+      <View style={styles.container}>
+        <Text></Text>
+        <View>
+          <Text>Pisteesi: {Pisteesi()} / {propsit.VoittoPisteet} </Text>
+          <Text>Vastustajan pisteet: {VastustajanPisteet()} / {propsit.VoittoPisteet} </Text>
+        </View>
+        <Card containerStyle={styles.kortti}>
+          <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike2)}{elintarvike2.name}</Card.Title>
+          {ravintoarvot2.map((ravintoarvo, index) => (
+            <View {...kosketus(ravintoarvo)}>
+              <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
+              <Text style={styles.nutrition2}>{Number(elintarvike2.nutrition[ravintoarvo]).toFixed(3)}</Text>
+              {Vertaa(ravintoarvo) == 2 ?
+                <AntDesign name="caretup" size={24} color="green" />
+                : Vertaa(ravintoarvo) == 1 ?
+                  <AntDesign name="caretdown" size={24} color="red" />
+                  :
+                  <FontAwesome5 name="equals" size={24} color="blue" />}
+            </View>
+          ))}
+        </Card>
+        <Card containerStyle={styles.kortti}>
+          <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike)}{elintarvike.name}</Card.Title>
+          {ravintoarvot.map((ravintoarvo, index) => (
+            <View {...kosketus(ravintoarvo)}>
+              <Text {...tekstinVari(ravintoarvo)}>{labels[ravintoarvo]}: </Text>
+              <Text style={styles.nutrition2}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
+              {Vertaa(ravintoarvo) == 1 ?
+                <AntDesign name="caretup" size={24} color="green" />
+                : Vertaa(ravintoarvo) == 2 ?
+                  <AntDesign name="caretdown" size={24} color="red" />
+                  :
+                  <FontAwesome5 name="equals" size={24} color="blue" />}
+            </View>
+          ))}
+        </Card>
+        <View style={styles.nappi}>
+          <Button title="Siirry" onPress={() => siirry()}></Button>
+        </View>
       </View>
-      <Card containerStyle={styles.kortti}>
-        <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike2)}{elintarvike2.name}</Card.Title>
-        {ravintoarvot2.map((ravintoarvo, index) => (
-          <View {...kosketus(ravintoarvo)}>
-            <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
-            <Text style={styles.nutrition2}>{Number(elintarvike2.nutrition[ravintoarvo]).toFixed(3)}</Text>
-            {Vertaa(ravintoarvo) == 2 ?
-              <AntDesign name="caretup" size={24} color="green" />
-              : Vertaa(ravintoarvo) == 1 ?
-                <AntDesign name="caretdown" size={24} color="red" />
-                :
-                <FontAwesome5 name="equals" size={24} color="blue" />}
-          </View>
-        ))}
-      </Card>
-      <Card containerStyle={styles.kortti}>
-        <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike)}{elintarvike.name}</Card.Title>
-        {ravintoarvot.map((ravintoarvo, index) => (
-          <View {...kosketus(ravintoarvo)}>
-            <Text {...tekstinVari(ravintoarvo)}>{labels[ravintoarvo]}: </Text>
-            <Text style={styles.nutrition2}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
-            {Vertaa(ravintoarvo) == 1 ?
-              <AntDesign name="caretup" size={24} color="green" />
-              : Vertaa(ravintoarvo) == 2 ?
-                <AntDesign name="caretdown" size={24} color="red" />
-                :
-                <FontAwesome5 name="equals" size={24} color="blue" />}
-          </View>
-        ))}
-      </Card>
-      <View style={styles.nappi}>
-        <Button title="Siirry" onPress={() => siirry()}></Button>
-      </View>
-    </View>
+    </ImageBackground>
   )
 }
 
@@ -204,11 +211,11 @@ export default function Tulokset(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 4,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
     width: '100%',
-    backgroundColor: "#c2efff"
+    //  backgroundColor: "#c2efff"
   },
   kuvake: {
     alignContent: 'flex-end',

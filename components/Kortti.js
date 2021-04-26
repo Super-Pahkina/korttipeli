@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, TouchableHighlight, Animated } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, Button, TouchableHighlight, Animated } from 'react-native';
 import { Card, Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
@@ -24,6 +24,7 @@ export default function Kortti(props) {
   const [pelatutKortit, setPelatutKortit] = useState(propsit.pelatutKortit);
   const [omaPakka, setOmaPakka] = useState(propsit.omaPakka)
   const [vastustajanPakka, setVastustajanPakka] = useState(propsit.vastustajanPakka);
+  const taustakuva = propsit.kuvaUrl
 
   const valitseIkoni = () => {
     if (elintarvike.jokeri === 'true') {
@@ -46,6 +47,8 @@ export default function Kortti(props) {
     indeksi = currentIndex;
     console.log(indeksi, "ny");
     console.log(currentIndex, "Indeksi");
+    console.log("kuvaurl", taustakuva)
+    console.log("kuvaurl2", propsit.kuvaUrl)
   }
 
   const [elintarvike, setElintarvike] = useState({
@@ -161,6 +164,7 @@ export default function Kortti(props) {
       elintarvike2: elintarvike2,
       omaPakka: propsit.omaPakka,
       vastustajanPakka: propsit.vastustajanPakka,
+      kuvaUrl: propsit.kuvaUrl,
     }
     setKey(prevKey => prevKey + 1)
     setKaynnissa(false)
@@ -181,6 +185,7 @@ export default function Kortti(props) {
       elintarvike2: elintarvike2,
       omaPakka: propsit.omaPakka,
       vastustajanPakka: propsit.vastustajanPakka,
+      kuvaUrl: propsit.kuvaUrl,
     }
     setKey(prevKey => prevKey + 1)
     setKaynnissa(false)
@@ -188,96 +193,101 @@ export default function Kortti(props) {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.timer}>
-        <CountdownCircleTimer
-          onComplete={() => {
-            havio()
-            return [true, 1000]
-          }}
-          key={key}
-          isPlaying={kaynnissa}
-          duration={propsit.peliAika}
-          size={100}
-          colors={[
-            ['#13ad0e', 0.4],
-            ['#F7B801', 0.4],
-            ['#A30000', 0.2],
-          ]}
-        >
-          {({ remainingTime, animatedColor }) => (
-            <Animated.Text style={{ color: animatedColor }}>
-              {remainingTime}
-            </Animated.Text>
-          )}
-        </CountdownCircleTimer>
+    <ImageBackground
+      source={{ uri: taustakuva }}
+      style={{ width: '100%', height: '100%' }}
+    >
+      <View style={styles.container}>
+        <View style={styles.timer}>
+          <CountdownCircleTimer
+            onComplete={() => {
+              havio()
+              return [true, 1000]
+            }}
+            key={key}
+            isPlaying={kaynnissa}
+            duration={propsit.peliAika}
+            size={100}
+            colors={[
+              ['#13ad0e', 0.4],
+              ['#F7B801', 0.4],
+              ['#A30000', 0.2],
+            ]}
+          >
+            {({ remainingTime, animatedColor }) => (
+              <Animated.Text style={{ color: animatedColor }}>
+                {remainingTime}
+              </Animated.Text>
+            )}
+          </CountdownCircleTimer>
+        </View>
+        <Text>Voittoon tarvittavat pisteet: {propsit.VoittoPisteet} </Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text>Pisteesi: {propsit.Pisteesi} </Text>
+          <Text>Vastustajan pisteet: {propsit.VastustajanPisteet} </Text>
+        </View>
+        {pelattavanKortinValinta == 0 ?
+          <View style={styles.carousel} >
+            <Carousel
+              layout="stack"
+              layoutCardOffset={9}
+              ref={isCarousel}
+              data={propsit.omaPakka.map((kortti, index) => ({ kortti, valittu: [] }))}
+              firstItem={propsit.omaPakka.length - 1}
+              renderItem={CarouselCardItem}
+              sliderWidth={350}
+              itemWidth={310}
+              sliderHeight={2000}
+              itemHeight={2000}
+              inactiveSlideShift={0}
+              useScrollView={true}
+              onSnapToItem={vaihdaIndeksia}
+            />
+          </View>
+          :
+          <Card containerStyle={styles.kortti}>
+            <Card.Title>{valitseIkoni()}{elintarvike.name}</Card.Title>
+            {ravintoarvot.map((ravintoarvo, index) => (
+              <View {...kosketus(ravintoarvo)}>
+                <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
+                <Text style={styles.nutrition}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
+                <TouchableHighlight style={styles.button} underlayColor='#808791' onPress={() => nappi(ravintoarvo)}><Text >Valitse</Text></TouchableHighlight>
+              </View>
+            ))}
+          </Card>
+        }
+        {pelattavanKortinValinta == 0 ?
+          <View style={styles.napit}>
+            <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { setGameCards(indeksi) }}><Text style={styles.teksti}>Valitse kortti</Text></TouchableHighlight>
+          </View>
+          :
+          <></>
+        }
+        {painettu == null ?
+          <></> :
+          <View style={styles.nappi}>
+            <Button title="Lukitse valinta" onPress={() => lukitse()}></Button>
+          </View>
+        }
+        {viesti == null ?
+          <></> :
+          <View style={styles.nappi}>
+            <Text>{viesti}</Text>
+          </View>
+        }
       </View>
-      <Text>Voittoon tarvittavat pisteet: {propsit.VoittoPisteet} </Text>
-      <View style={{ flexDirection: 'row' }}>
-        <Text>Pisteesi: {propsit.Pisteesi} </Text>
-        <Text>Vastustajan pisteet: {propsit.VastustajanPisteet} </Text>
-      </View>
-      { pelattavanKortinValinta == 0 ?
-        <View style={styles.carousel} >
-          <Carousel
-            layout="stack"
-            layoutCardOffset={9}
-            ref={isCarousel}
-            data={propsit.omaPakka.map((kortti, index) => ({kortti, valittu: []}))}
-            firstItem={propsit.omaPakka.length - 1}
-            renderItem={CarouselCardItem}
-            sliderWidth={350}
-            itemWidth={310}
-            sliderHeight={2000}
-            itemHeight={2000}
-            inactiveSlideShift={0}
-            useScrollView={true}
-            onSnapToItem={vaihdaIndeksia}
-          />
-        </View>
-        :
-        <Card containerStyle={styles.kortti}>
-          <Card.Title>{valitseIkoni()}{elintarvike.name}</Card.Title>
-          {ravintoarvot.map((ravintoarvo, index) => (
-            <View {...kosketus(ravintoarvo)}>
-              <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
-              <Text style={styles.nutrition}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
-              <TouchableHighlight style={styles.button} underlayColor='#808791' onPress={() => nappi(ravintoarvo)}><Text >Valitse</Text></TouchableHighlight>
-            </View>
-          ))}
-        </Card>
-      }
-      { pelattavanKortinValinta == 0 ?
-        <View style={styles.napit}>
-          <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { setGameCards(indeksi) }}><Text style={styles.teksti}>Valitse kortti</Text></TouchableHighlight>
-        </View>
-        :
-        <></>
-      }
-      {painettu == null ?
-        <></> :
-        <View style={styles.nappi}>
-          <Button title="Lukitse valinta" onPress={() => lukitse()}></Button>
-        </View>
-      }
-      {viesti == null ?
-        <></> :
-        <View style={styles.nappi}>
-          <Text>{viesti}</Text>
-        </View>
-      }
-    </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 4,
-    backgroundColor: '#fff',
+    //  backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
     width: '100%',
-    backgroundColor: "#c2efff"
+    //  backgroundColor: "#c2efff"
   },
   arvot: {
     flexDirection: 'row'

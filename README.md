@@ -6,7 +6,77 @@ Peli hyödyntää Terveyden ja hyvinvoinnin laitos [Finelin](https://fineli.fi/f
 
 Halusimme luoda pelin, joka olisi samaan aikaan opettavainen ja hauska. Käyttäjä oppii tekoälyä vastaan pelatessaan millaisia ravintosisältöjä eri tuotteilla on.
 
-## Pelin kulku
+
+## Rakenne
+
+Sovellus on [React Native](https://reactnative.dev/) pohjainen mobiilisovellus, jossa on hyödynnetty seuraavia kirjastoja:
+
+- [react-native-collapsible-view](https://www.npmjs.com/package/@eliav2/react-native-collapsible-view)
+- [react-navigation-stack](https://www.npmjs.com/package/react-navigation-stack)
+- [react-native-countdown-circle-timer](https://www.npmjs.com/package/react-native-countdown-circle-timer)
+- [react-native-dropdown-picker](https://www.npmjs.com/package/react-native-dropdown-picker)
+- [react-native-snap-carousel](https://www.npmjs.com/package/react-native-snap-carousel)
+- [react-native-vector-icons](https://www.npmjs.com/package/react-native-vector-icons)
+
+Peli toimii Androidissa ja iPhonessa. Peliä voit kokeilla.... osoite?
+
+Backend ja sen tarkempi dokumentaatio löytyvät osoitteesta https://elintarvikepeli.herokuapp.com/.
+
+## Käyttäminen paikallisesti
+
+Käyttääksesi sovellusta paikallisesti, sinulla tulee olla asennettuna seuraavat:
+- [Node.js npm](https://nodejs.org/en/)
+- [Expo CLI](https://docs.expo.io/workflow/expo-cli/)
+- [Git](https://git-scm.com/)
+- Puhelimeen asennettava Expo Go -sovellus, joka löytyy mobiililaitteiden sovelluskaupoista  ilmaiseksi, tai
+Android/iOS-emulaattori
+- Kehitysympäristö, esimerkiksi [VSCode](https://code.visualstudio.com/)
+
+Projektin voi kloonata komennolla
+
+ ```
+ $ git clone https://github.com/Super-Pahkina/korttipeli.git
+ ```
+
+  Osoitteesta https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository löytyvät tarkemmat ohjeet projektin kloonaamiseksi.
+
+Aja projektin juurihakemistossa komento
+ 
+ ```
+ $ npm install
+ ```
+riippuvuuksien lataamiseksi.
+
+Projekti käynnistyy syöttämällä komento
+
+```
+ $ expo start
+```
+ 
+projektin juurihakemistossa.
+
+Oletusselain siirtyy Expon sivulle, jonne ilmestyy QR-koodi. Lue QR-koodi mobiililaitteesi kameralla käynnistääksesi sovelluksen.
+
+### Jatkokehitysajatuksia
+- Moninpeli
+- Käyttäjätunnuksen luominen
+- Animaatiot
+- 
+
+--------------
+
+### Työryhmä
+
+- Markus Karjalainen
+- Joni Karvinen
+- Valtteri Korhonen
+- Ville Koski
+- Kristiina Kumila
+
+-------------
+
+
+# Pelin kulku
 
 ### Pelin asetukset
 Käyttäjä aloittaa pelaamisen valitsemalla pelin asetuksista vuoroajan pituuden, voittoon tarvittavat pisteet ja pelattavan kategorian. 
@@ -53,11 +123,3 @@ Lumikortin tunnistaa elintarvikkeen nimen edessä olevasta lumihiutaleikonista.
 //kuva ikonista?
 
 
-## Sovelluksen rakenne
-
-Peli on rakennettu React Nativella, ja se toimii Androidissa ja iPhonessa. Mongo Db Node.js
-
-Peliä voit kokeilla.... osoite?
-
-Backend löytyy osoitteesta: `https://elintarvikepeli.herokuapp.com/`.
-Se tarjoaa rajapinnan 

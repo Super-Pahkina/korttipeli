@@ -76,7 +76,7 @@ export default function PakanValinta(props) {
     //Ohjataan käyttäjän vuorolle ja annetaan tarvittavat tiedot
     const aloitaPeli = () => {
         console.log(pakka.length)
-        let vastuksenKortit = pakka.slice(Math.round((propsit.VoittoPisteet * 2 - 1) * 1.5))
+        let vastuksenKortit = pakka.splice(Math.round((propsit.VoittoPisteet * 2 - 1) * 1.5))
         console.log(pakka.length)
         Propsit = {
             VoittoPisteet: propsit.VoittoPisteet,
@@ -116,6 +116,25 @@ export default function PakanValinta(props) {
         setNapinTeksti(teksti);
     }
 
+    const satunnaisetKortit = () => {
+        let i = 0;
+        while (valittuPakka.length < tarvittavienKorttienMaara) {
+            if (!valittuPakka.includes(pakka[i], 0)) {
+                let valitaanko = Math.floor(Math.random() * 2)
+                if (valitaanko == 1) {
+                    valittuPakka.push(pakka[i])
+                    valitutIndeksit.push(i)
+                }
+            }
+            i = i + 1
+            if (i == kortit.length) {
+                i = 0;
+            }
+        }
+        teksti = "Valitse kortteja: " + String(valittuPakka.length) + "/" + String(tarvittavienKorttienMaara);
+        setNapinTeksti(teksti);
+    }
+
     const korostus = (i) => {
         const a = {
             activeOpacity: 1,
@@ -133,11 +152,6 @@ export default function PakanValinta(props) {
         >
             <View style={styles.container}>
 
-                {tarvittavienKorttienMaara == 1 ?
-                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Valitse {tarvittavienKorttienMaara} kortti</Text>
-                    :
-                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Valitse {tarvittavienKorttienMaara} korttia</Text>}
-                {/*Kortin tulostus*/}
                 <View style={styles.carousel}>
 
                     <TouchableWithoutFeedback style={styles.carousel} onPress={() => { kokeilu(nyt) }}>
@@ -159,13 +173,17 @@ export default function PakanValinta(props) {
                         />
                     </TouchableWithoutFeedback>
                 </View>
-
                 <View style={styles.napit}>
                     <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { kokeilu(nyt) }}>
                         {valitutIndeksit.includes(nyt) ?
                             <Text style={styles.teksti}>Poista kortti</Text>
                             :
                             <Text style={styles.teksti}>Valitse kortti</Text>}
+                    </TouchableHighlight>
+                </View>
+                <View style={styles.napit}>
+                    <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { satunnaisetKortit() }}>
+                        <Text style={styles.teksti}>Valitse satunnaiset kortit</Text>
                     </TouchableHighlight>
                 </View>
                 <View style={styles.napit}>
@@ -183,16 +201,13 @@ export default function PakanValinta(props) {
                                 paddingTop="20"
                             />
                             :
-                            <Button
-                                color="#cdd0d4"
-                                title={napinTeksti}
-                                paddingTop="20"
-                            />
-                    }
+                            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Valitse {tarvittavienKorttienMaara} korttia</Text>}
+                    {/*Kortin tulostus*/}
+
+
+
 
                 </View>
-
-
             </View>
         </ImageBackground>
     )
@@ -215,7 +230,7 @@ const styles = StyleSheet.create({
         paddingLeft: 25
     },
     napit: {
-        flex: 1,
+        flex: 0.66,
         alignItems: 'center',
         justifyContent: 'center',
     },

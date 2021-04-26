@@ -65,7 +65,6 @@ export default function Kortti(props) {
       fiber: ''
     }
   })
-
   const [elintarvike2, setElintarvike2] = useState({
     name: '',
     jokeri: '',
@@ -80,6 +79,24 @@ export default function Kortti(props) {
       fiber: ''
     }
   })
+
+  const labels = {
+    salt: "Suola (mg)",
+    energyKcal: "Energia (Kcal)",
+    fat: "Rasva (g)",
+    protein: "Proteiini (g)",
+    carbohydrate: "Hiilihydraatit (g)",
+    sugar: "Sokeri (g)",
+    fiber: "Kuitu (g)"
+  }
+
+  let ravintoarvot = Object.keys(elintarvike.nutrition);
+  ['salt', 'energyKcal', 'fat', 'protein', 'carbohydrate', 'sugar', 'fiber']
+
+  
+  
+
+  
 
   const setGameCards = (indeksi) => {
     let chosenCard = omaPakka[indeksi]
@@ -119,21 +136,8 @@ export default function Kortti(props) {
     setPelattavanKortinValinta(1);
   }
 
-  const labels = {
-    salt: "Suola (mg)",
-    energyKcal: "Energia (Kcal)",
-    fat: "Rasva (g)",
-    protein: "Proteiini (g)",
-    carbohydrate: "Hiilihydraatit (g)",
-    sugar: "Sokeri (g)",
-    fiber: "Kuitu (g)"
-  }
-
   //Annetaan uudet kortit vuoron alussa, resetoidaan valinta viimevuorolta ja käynnistetään vuoroaika
   useEffect(() => { if (isFocused) { setKaynnissa(true); setPainettu(); } }, [isFocused]);
-
-  let ravintoarvot = Object.keys(elintarvike.nutrition);
-  ['salt', 'energyKcal', 'fat', 'protein', 'carbohydrate', 'sugar', 'fiber']
 
   const nappi = (i) => {
     setPainettu(i)
@@ -154,7 +158,7 @@ export default function Kortti(props) {
   const lukitse = () => {
     setPelattavanKortinValinta(0);
     let Propsit = {
-      ValittuArvo: painettu,
+      valittuArvo: painettu,
       peliAika: propsit.peliAika,
       Pisteesi: propsit.Pisteesi,
       VastustajanPisteet: propsit.VastustajanPisteet,
@@ -171,24 +175,36 @@ export default function Kortti(props) {
     navigation.navigate('KierroksenTulos', { Propsit: Propsit })
   }
 
-  //Funktio, jota kutsutaan vuoroajan loppuessa. Vastustajalle annetaan piste ja lähetetään tarvittavat tiedot KierroksenTulos-sivulle
+  //Funktio, jota kutsutaan vuoroajan loppuessa. Pelaajalle annetaan kortti, jonka päällä pelaaja oli ajan loppuessa ja satunnainen ravintoarvo
   const havio = () => {
+    let valinta = (Math.random() * 6).toFixed(0)
+    console.log(valinta)
+    let valittuArvo = ravintoarvot[valinta]
+    let pelaajanKortti = omaPakka[indeksi]
+    omaPakka.splice(indeksi, 1);
+    let vastustajanKortti = vastustajanPakka[Number(propsit.pelatutKortit)]
+    setPelatutKortit(propsit.pelatutKortit + 1)
     setPelattavanKortinValinta(0);
+    console.log(valittuArvo)
+    console.log(pelaajanKortti)
+    console.log(vastustajanKortti)
     let Propsit = {
-      ValittuArvo: '',
+      valittuArvo: valittuArvo,
       peliAika: propsit.peliAika,
       Pisteesi: propsit.Pisteesi,
-      VastustajanPisteet: propsit.VastustajanPisteet + 1,
+      VastustajanPisteet: propsit.VastustajanPisteet,
       VoittoPisteet: propsit.VoittoPisteet,
       pelatutKortit: pelatutKortit,
-      elintarvike: elintarvike,
-      elintarvike2: elintarvike2,
+      elintarvike: pelaajanKortti,
+      elintarvike2: vastustajanKortti,
       omaPakka: propsit.omaPakka,
       vastustajanPakka: propsit.vastustajanPakka,
       kuvaUrl: propsit.kuvaUrl,
     }
+    console.log(Propsit)
     setKey(prevKey => prevKey + 1)
     setKaynnissa(false)
+    console.log(valittuArvo)
     navigation.navigate('KierroksenTulos', { Propsit: Propsit })
   }
 

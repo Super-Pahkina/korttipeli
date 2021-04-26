@@ -75,7 +75,7 @@ export default function Tulokset(props) {
       console.log("Kierros", propsit.pelatutKortit)
       let Propsit = {
         kaynnissa: true,
-        ValittuArvo: propsit.ValittuArvo,
+        valittuArvo: propsit.valittuArvo,
         peliAika: propsit.peliAika,
         Pisteesi: pisteesi,
         VastustajanPisteet: vastustajanPisteet,
@@ -85,7 +85,7 @@ export default function Tulokset(props) {
         vastustajanPakka: propsit.vastustajanPakka,
         kuvaUrl: propsit.kuvaUrl,
       }
-      console.log(Propsit.ValittuArvo)
+      console.log(Propsit.valittuArvo)
       if (vuoro == "Pelaaja") {
         setVuoro("Vastus")
         navigation.navigate('Kortti', { Propsit: Propsit })
@@ -109,30 +109,28 @@ export default function Tulokset(props) {
 
   //Pistetilanteen päivitys -funktio
   const Pisteesi = () => {
-    if (Number(elintarvike.nutrition[propsit.ValittuArvo]) >= Number(elintarvike2.nutrition[propsit.ValittuArvo])) {
+    if (Number(elintarvike.nutrition[propsit.valittuArvo]) >= Number(elintarvike2.nutrition[propsit.valittuArvo])) {
       if (elintarvike.pommi === 'true') {
-        pisteesi = pisteesi + 2
-      }
-      else if (elintarvike2.jokeri === 'true') {
-        pisteesi = pisteesi + 2
-      } else {
         pisteesi = pisteesi + 1
       }
+      if (elintarvike2.jokeri === 'true') {
+        pisteesi = pisteesi + 1
+      }
+      pisteesi = pisteesi + 1
     }
     return pisteesi
   }
 
   //Pistetilanteen päivitys -funktio
   const VastustajanPisteet = () => {
-    if (Number(elintarvike.nutrition[propsit.ValittuArvo]) <= Number(elintarvike2.nutrition[propsit.ValittuArvo])) {
+    if (Number(elintarvike.nutrition[propsit.valittuArvo]) <= Number(elintarvike2.nutrition[propsit.valittuArvo])) {
       if (elintarvike2.pommi === 'true') {
-        vastustajanPisteet = vastustajanPisteet + 2
-      }
-      else if (elintarvike.jokeri === 'true') {
-        vastustajanPisteet = vastustajanPisteet + 2
-      } else {
         vastustajanPisteet = vastustajanPisteet + 1
       }
+      if (elintarvike.jokeri === 'true') {
+        vastustajanPisteet = vastustajanPisteet + 1
+      }
+      vastustajanPisteet = vastustajanPisteet + 1
     }
     return vastustajanPisteet
   }
@@ -142,7 +140,7 @@ export default function Tulokset(props) {
     const a = {
       activeOpacity: 1,
       underlayColor: 'blue',
-      style: propsit.ValittuArvo == i ? styles.buttonPainettu : styles.rivi,
+      style: propsit.valittuArvo == i ? styles.buttonPainettu : styles.rivi,
       onPress: () => console.log('HELLO'),
     }
     return a
@@ -162,47 +160,49 @@ export default function Tulokset(props) {
       source={{ uri: taustakuva }}
       style={{ width: '100%', height: '100%' }}
     >
-      <View style={styles.container}>
-        <Text></Text>
-        <View>
-          <Text>Pisteesi: {Pisteesi()} / {propsit.VoittoPisteet} </Text>
-          <Text>Vastustajan pisteet: {VastustajanPisteet()} / {propsit.VoittoPisteet} </Text>
-        </View>
-        <Card containerStyle={styles.kortti}>
-          <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike2)}{elintarvike2.name}</Card.Title>
-          {ravintoarvot2.map((ravintoarvo, index) => (
-            <View {...kosketus(ravintoarvo)}>
-              <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
-              <Text style={styles.nutrition2}>{Number(elintarvike2.nutrition[ravintoarvo]).toFixed(3)}</Text>
-              {Vertaa(ravintoarvo) == 2 ?
-                <AntDesign name="caretup" size={24} color="green" />
-                : Vertaa(ravintoarvo) == 1 ?
-                  <AntDesign name="caretdown" size={24} color="red" />
-                  :
-                  <FontAwesome5 name="equals" size={24} color="blue" />}
-            </View>
-          ))}
-        </Card>
-        <Card containerStyle={styles.kortti}>
-          <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike)}{elintarvike.name}</Card.Title>
-          {ravintoarvot.map((ravintoarvo, index) => (
-            <View {...kosketus(ravintoarvo)}>
-              <Text {...tekstinVari(ravintoarvo)}>{labels[ravintoarvo]}: </Text>
-              <Text style={styles.nutrition2}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
-              {Vertaa(ravintoarvo) == 1 ?
-                <AntDesign name="caretup" size={24} color="green" />
-                : Vertaa(ravintoarvo) == 2 ?
-                  <AntDesign name="caretdown" size={24} color="red" />
-                  :
-                  <FontAwesome5 name="equals" size={24} color="blue" />}
-            </View>
-          ))}
-        </Card>
-        <View style={styles.nappi}>
-          <Button title="Siirry" onPress={() => siirry()}></Button>
-        </View>
+     <View style={styles.container}>
+      <Text></Text>
+      <View>
+        <Text>Pisteesi: {Pisteesi()} / {propsit.VoittoPisteet} </Text>
+        <Text>Vastustajan pisteet: {VastustajanPisteet()} / {propsit.VoittoPisteet} </Text>
       </View>
-    </ImageBackground>
+      <Card containerStyle={styles.kortti}>
+        <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike2)}{elintarvike2.name}</Card.Title>
+        {ravintoarvot2.map((ravintoarvo, index) => (
+          <View {...kosketus(ravintoarvo)}>
+            <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
+            <Text style={styles.nutrition2}>{Number(elintarvike2.nutrition[ravintoarvo]).toFixed(3)}</Text>
+            {Vertaa(ravintoarvo) == 2 ?
+              <AntDesign name="caretup" size={24} color="green" />
+              : Vertaa(ravintoarvo) == 1 ?
+                <AntDesign name="caretdown" size={24} color="red" />
+                :
+                <FontAwesome5 name="equals" size={24} color="blue" />}
+          </View>
+        ))}
+      </Card>
+      <Card containerStyle={styles.kortti}>
+        <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike)}{elintarvike.name}</Card.Title>
+        {ravintoarvot.map((ravintoarvo, index) => (
+          <View key={index} {...kosketus(ravintoarvo)}>
+            <Text {...tekstinVari(ravintoarvo)}>{labels[ravintoarvo]}: </Text>
+            <Text style={styles.nutrition2}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
+            {Vertaa(ravintoarvo) == 1 ?
+              <AntDesign name="caretup" size={24} color="green" />
+              : Vertaa(ravintoarvo) == 2 ?
+                <AntDesign name="caretdown" size={24} color="red" />
+                :
+                <FontAwesome5 name="equals" size={24} color="blue" />}
+          </View>
+        ))}
+      </Card>
+      <View style={styles.nappi}>
+        <Button title="Siirry" onPress={() => siirry()}></Button>
+      </View>
+    </View>
+      </ImageBackground>
+
+    
   )
 }
 

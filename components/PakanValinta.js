@@ -148,13 +148,13 @@ export default function PakanValinta(props) {
     return (
         <ImageBackground
             source={{ uri: taustakuva }}
-            style={{ width: '100%', height: '100%' }}
-        >
+            style={{ width: '100%', height: '100%' }}>
+
             <View style={styles.container}>
                 {tarvittavienKorttienMaara == 1 ?
-                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Valitse {tarvittavienKorttienMaara} kortti</Text>
+                    <Text style={styles.teksti}>Valitse {tarvittavienKorttienMaara} kortti</Text>
                     :
-                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Valitse {tarvittavienKorttienMaara} korttia</Text>}
+                    <Text style={styles.teksti}>Valitse {tarvittavienKorttienMaara} korttia</Text>}
                 {/*Kortin tulostus*/}
                 <View style={styles.carousel}>
                     <TouchableWithoutFeedback style={styles.carousel} onPress={() => { kokeilu(nyt) }}>
@@ -187,7 +187,7 @@ export default function PakanValinta(props) {
                 </View>
                 <View style={styles.napit}>
                     <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { satunnaisetKortit() }}>
-                        <Text style={styles.teksti}>Valitse satunnaiset kortit</Text>
+                        <Text style={styles.teksti}>Arvo loput kortit</Text>
                     </TouchableHighlight>
                 </View>
                 <View style={styles.napit}>
@@ -239,19 +239,26 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     button: {
-        borderStyle: 'solid',
-        borderColor: 'black',
-        borderWidth: 1,
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingBottom: 5,
-        paddingTop: 5,
-        backgroundColor: '#c2efff'
 
+        justifyContent: 'flex-end',
+        alignItems: "center",
+        letterSpacing: 1.1,
+        borderRadius: 10,
+        padding: 10,
+        backgroundColor: '#c2efff',
+        width: 200,
+        borderColor: 'black',
+        borderWidth: 3
     },
     teksti: {
         justifyContent: 'center',
         textAlign: 'center',
+
+        letterSpacing: 1.1,
+        fontWeight: 'bold',
+        fontSize: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     pakassa: {
         backgroundColor: 'green'

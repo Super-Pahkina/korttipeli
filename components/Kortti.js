@@ -93,10 +93,10 @@ export default function Kortti(props) {
   let ravintoarvot = Object.keys(elintarvike.nutrition);
   ['salt', 'energyKcal', 'fat', 'protein', 'carbohydrate', 'sugar', 'fiber']
 
-  
-  
 
-  
+
+
+
 
   const setGameCards = (indeksi) => {
     let chosenCard = omaPakka[indeksi]
@@ -219,7 +219,7 @@ export default function Kortti(props) {
     let vastustajanKortti = ""
     let valittuArvo = ravintoarvot[valinta]
     let pelattujenKorttienMaara = pelatutKortit
-    if (elintarvike.name === ""){
+    if (elintarvike.name === "") {
       pelaajanKortti = palautaPelaajalleKortti()
       vastustajanKortti = palautaVastustajalleKortti()
       pelattujenKorttienMaara = pelattujenKorttienMaara + 1
@@ -227,8 +227,8 @@ export default function Kortti(props) {
       pelaajanKortti = elintarvike
       vastustajanKortti = elintarvike2
     }
-  //  let pelaajanKortti = omaPakka[indeksi]
- //   let vastustajanKortti = vastustajanPakka[Number(propsit.pelatutKortit)]
+    //  let pelaajanKortti = omaPakka[indeksi]
+    //   let vastustajanKortti = vastustajanPakka[Number(propsit.pelatutKortit)]
     setPelattavanKortinValinta(0);
     console.log(valittuArvo)
     console.log(pelaajanKortti)
@@ -245,6 +245,7 @@ export default function Kortti(props) {
       omaPakka: propsit.omaPakka,
       vastustajanPakka: propsit.vastustajanPakka,
       kuvaUrl: propsit.kuvaUrl,
+
     }
     setKey(prevKey => prevKey + 1)
     setKaynnissa(false)
@@ -279,11 +280,12 @@ export default function Kortti(props) {
               </Animated.Text>
             )}
           </CountdownCircleTimer>
+
         </View>
-        <Text>Voittoon tarvittavat pisteet: {propsit.VoittoPisteet} </Text>
+        <Text style={styles.ylarivinTeksti}>Voittoon tarvittavat pisteet: {propsit.VoittoPisteet} </Text>
         <View style={{ flexDirection: 'row' }}>
-          <Text>Pisteesi: {propsit.Pisteesi} </Text>
-          <Text>Vastustajan pisteet: {propsit.VastustajanPisteet} </Text>
+          <Text style={styles.ylarivinTeksti}>Pisteesi: {propsit.Pisteesi} </Text>
+          <Text style={styles.ylarivinTeksti}>Vastustajan pisteet: {propsit.VastustajanPisteet} </Text>
         </View>
         {pelattavanKortinValinta == 0 ?
           <View style={styles.carousel} >
@@ -310,14 +312,24 @@ export default function Kortti(props) {
               <View {...kosketus(ravintoarvo)}>
                 <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
                 <Text style={styles.nutrition}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
-                <TouchableHighlight style={styles.button} underlayColor='#808791' onPress={() => nappi(ravintoarvo)}><Text >Valitse</Text></TouchableHighlight>
+                <TouchableHighlight
+                  style={styles.button}
+                  underlayColor='#808791'
+                  onPress={() => nappi(ravintoarvo)}>
+                  <Text >Valitse</Text>
+                </TouchableHighlight>
               </View>
             ))}
           </Card>
         }
         {pelattavanKortinValinta == 0 ?
           <View style={styles.napit}>
-            <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { setGameCards(indeksi) }}><Text style={styles.teksti}>Valitse kortti</Text></TouchableHighlight>
+            <TouchableHighlight
+              style={styles.valitseKortti}
+              underlayColor='#c5eba4'
+              onPress={() => { setGameCards(indeksi) }}>
+              <Text style={styles.teksti}>Valitse kortti</Text>
+            </TouchableHighlight>
           </View>
           :
           <></>
@@ -416,5 +428,35 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
+  },
+  teksti: {
+    marginBottom: 10,
+    letterSpacing: 1.1,
+    textAlign: 'center',
+    fontSize: 15,
+    fontWeight: 'bold'
+  },
+  ylarivinTeksti: {
+    marginBottom: 10,
+    letterSpacing: 1.1,
+    textAlign: 'center',
+    fontSize: 15,
+    fontWeight: 'bold',
+    textShadowColor: 'white',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 1,
+
+  },
+  valitseKortti: {
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: "center",
+    letterSpacing: 1.1,
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: '#c2efff',
+    width: 200,
+    borderColor: 'black',
+    borderWidth: 3
   }
 });

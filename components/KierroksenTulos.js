@@ -163,8 +163,8 @@ export default function Tulokset(props) {
      <View style={styles.container}>
       <Text></Text>
       <View>
-        <Text>Pisteesi: {Pisteesi()} / {propsit.VoittoPisteet} </Text>
-        <Text>Vastustajan pisteet: {VastustajanPisteet()} / {propsit.VoittoPisteet} </Text>
+        <Text style={styles.ylarivinTeksti}>Pisteesi: {Pisteesi()} / {propsit.VoittoPisteet} </Text>
+        <Text style={styles.ylarivinTeksti}>Vastustajan pisteet: {VastustajanPisteet()} / {propsit.VoittoPisteet} </Text>
       </View>
       <Card containerStyle={styles.kortti}>
         <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike2)}{elintarvike2.name}</Card.Title>
@@ -322,5 +322,16 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
+  },
+  ylarivinTeksti: {
+    marginBottom: 10,
+    letterSpacing: 1.1,
+    textAlign: 'center',
+    fontSize: 15,
+    fontWeight: 'bold',
+    textShadowColor: 'white',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 1,
+
   }
 });

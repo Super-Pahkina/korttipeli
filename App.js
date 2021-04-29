@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
     margin: 20,
     borderColor: 'black',
     borderWidth: 3
-
   },
   buttonText: {
     letterSpacing: 1.1,

@@ -189,7 +189,7 @@ export default function Vastus(props) {
       let pelattujenKorttienMaara = pelatutKortit
       let pelaajanKortti = ""
       let vastustajanKortti = ""
-      if (elintarvike.name === ""){
+      if (elintarvike.name === "") {
         pelaajanKortti = palautaPelaajalleKortti()
         vastustajanKortti = palautaVastustajalleKortti()
         pelattujenKorttienMaara = pelattujenKorttienMaara + 1
@@ -231,81 +231,86 @@ export default function Vastus(props) {
       source={{ uri: taustakuva }}
       style={{ width: '100%', height: '100%' }}
     >
-      
-    <View style={styles.container}>
-      <View style={styles.timer}>
-        <CountdownCircleTimer
-          onComplete={() => {
-            tekoalyVuoro()
-            return [true, 1000]
-          }}
-          key={key}
-          isPlaying={kaynnissa}
-          duration={aika}
-          size={100}
-          colors={[
-            ['#13ad0e', 0.4],
-            ['#F7B801', 0.4],
-            ['#A30000', 0.2],
-          ]}
-        >
-          {({ remainingTime, animatedColor }) => (
-            <Animated.Text style={{ color: animatedColor }}>
-              {remainingTime}
-            </Animated.Text>
-          )}
-        </CountdownCircleTimer>
-      </View>
-      <Text>Voittoon tarvittavat pisteet: {propsit.VoittoPisteet} </Text>
-      <View style={{ flexDirection: 'row' }}>
-        <Text>Pisteesi: {propsit.Pisteesi} </Text>
-        <Text>Vastustajan pisteet: {propsit.VastustajanPisteet} </Text>
-      </View>
-      {painettu.length > 1 ? <Text style={styles.text}>Vastustaja valitsi arvon: {labels[painettu]} </Text> : <></>}
-      { pelattavanKortinValinta == 0 ?
-        <View style={styles.carousel} >
-          <Carousel
-            layout="stack"
-            layoutCardOffset={9}
-            ref={isCarousel}
-            data={propsit.omaPakka.map((kortti, index) => ({kortti, valittu: []}))}
-            firstItem={propsit.omaPakka.length - 1}
-            renderItem={CarouselCardItem}
-            sliderWidth={350}
-            itemWidth={310}
-            sliderHeight={2000}
-            itemHeight={2000}
-            inactiveSlideShift={0}
-            useScrollView={true}
-            onSnapToItem={vaihdaIndeksia}
-          />
+
+      <View style={styles.container}>
+        <View style={styles.timer}>
+          <CountdownCircleTimer
+            onComplete={() => {
+              tekoalyVuoro()
+              return [true, 1000]
+            }}
+            key={key}
+            isPlaying={kaynnissa}
+            duration={aika}
+            size={100}
+            colors={[
+              ['#13ad0e', 0.4],
+              ['#F7B801', 0.4],
+              ['#A30000', 0.2],
+            ]}
+          >
+            {({ remainingTime, animatedColor }) => (
+              <Animated.Text style={{ color: animatedColor }}>
+                {remainingTime}
+              </Animated.Text>
+            )}
+          </CountdownCircleTimer>
         </View>
-        :
-        <Card containerStyle={styles.kortti}>
-          <Card.Title>{elintarvike.name}</Card.Title>
-          {ravintoarvot.map((ravintoarvo, index) => (
-            <View {...kosketus(ravintoarvo)}>
-              <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
-              <Text style={styles.nutrition}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
-            </View>
-          ))}
-        </Card>
-      }
-      {vastustajanValinta ? <></> : pelattavanKortinValinta == 0 ?
-        <View style={styles.napit}>
-          <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { setGameCards(indeksi) }}><Text style={styles.teksti}>Valitse kortti</Text></TouchableHighlight>
+        <Text style={styles.ylarivinTeksti}>Voittoon tarvittavat pisteet: {propsit.VoittoPisteet} </Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.ylarivinTeksti}>Pisteesi: {propsit.Pisteesi} </Text>
+          <Text style={styles.ylarivinTeksti}>Vastustajan pisteet: {propsit.VastustajanPisteet} </Text>
         </View>
-        :
-        <></>
-      }
-      {vastustajanValinta ? <></> : pelattavanKortinValinta == 1 ?
-        <View style={styles.nappi}>
-        <Button title="Lukitse valinta" onPress={() => lukitse()}></Button>
-      </View> 
-      :
-      <></>
-      }
-    </View>
+        {painettu.length > 1 ? <Text style={styles.ylarivinTeksti}>Vastustaja valitsi arvon: {labels[painettu]} </Text> : <></>}
+        {pelattavanKortinValinta == 0 ?
+          <View style={styles.carousel} >
+            <Carousel
+              layout="stack"
+              layoutCardOffset={9}
+              ref={isCarousel}
+              data={propsit.omaPakka.map((kortti, index) => ({ kortti, valittu: [] }))}
+              firstItem={propsit.omaPakka.length - 1}
+              renderItem={CarouselCardItem}
+              sliderWidth={350}
+              itemWidth={310}
+              sliderHeight={2000}
+              itemHeight={2000}
+              inactiveSlideShift={0}
+              useScrollView={true}
+              onSnapToItem={vaihdaIndeksia}
+            />
+          </View>
+          :
+          <Card containerStyle={styles.kortti}>
+            <Card.Title>{elintarvike.name}</Card.Title>
+            {ravintoarvot.map((ravintoarvo, index) => (
+              <View {...kosketus(ravintoarvo)}>
+                <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
+                <Text style={styles.nutrition}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
+              </View>
+            ))}
+          </Card>
+        }
+        {vastustajanValinta ? <></> : pelattavanKortinValinta == 0 ?
+          <View style={styles.napit}>
+            <TouchableHighlight
+              style={styles.valitseKortti}
+              underlayColor='#c5eba4'
+              onPress={() => { setGameCards(indeksi) }}>
+              <Text style={styles.teksti}>Valitse kortti</Text>
+            </TouchableHighlight>
+          </View>
+          :
+          <></>
+        }
+        {vastustajanValinta ? <></> : pelattavanKortinValinta == 1 ?
+          <View style={styles.nappi}>
+            <Button title="Lukitse valinta" onPress={() => lukitse()}></Button>
+          </View>
+          :
+          <></>
+        }
+      </View>
     </ImageBackground>
   );
 }
@@ -386,5 +391,34 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
+  },
+  ylarivinTeksti: {
+    marginBottom: 10,
+    letterSpacing: 1.1,
+    textAlign: 'center',
+    fontSize: 15,
+    fontWeight: 'bold',
+    textShadowColor: 'white',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 1,
+  },
+  valitseKortti: {
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: "center",
+    letterSpacing: 1.1,
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: '#c2efff',
+    width: 200,
+    borderColor: 'black',
+    borderWidth: 3
+  },
+  teksti: {
+    marginBottom: 10,
+    letterSpacing: 1.1,
+    textAlign: 'center',
+    fontSize: 15,
+    fontWeight: 'bold'
   }
 });

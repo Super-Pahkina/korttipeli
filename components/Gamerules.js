@@ -11,10 +11,8 @@ export default function Gamerules({ navigation }) {
     const [kuvaUrl, setKuvaUrl] = useState('');
 
     const baseUrl = 'https://elintarvikepeli.herokuapp.com/howmany';
-    // const baseUrl = 'http://192.168.1.106:3002/howmany';
     useEffect(() => {
         urlSetter();
-
     }, [valittuElintarvikeLuokka])
 
     // Tällä sivulla määritetään fetchattava url joka siirretään propseilla eteenpäin
@@ -98,100 +96,109 @@ export default function Gamerules({ navigation }) {
             kuvaUrl: kuvaUrl,
         }
         navigation.navigate('PakanValinta', { Propsit: Propsit })
-
     }
 
     return (
         <View style={styles.container}>
-            <View style={styles.gamerules}>
-                <View style={styles.text}>
-                    <Text>Valitse vuoroaika (10-60)</Text>
+            <View style={styles.pelinAsetukset}>
+
+                <View style={styles.kuvausJaNapit}>
+
+                    <Text style={styles.teksti}>Valitse vuoroaika (10-60)</Text>
+
+                    <View style={styles.valinta}>
+                        {aika < 11 ?
+                            <TouchableOpacity style={styles.plusTaiMiinusNappiEiAktiivinen}>
+                                <Text style={styles.nappiTeksti}>-</Text>
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity style={styles.plusTaiMiinusNappi} onPress={() => MinusAika()}>
+                                <Text style={styles.nappiTeksti}>-</Text>
+                            </TouchableOpacity>
+                        }
+                        <Text style={styles.nappiTeksti}>{aika}</Text>
+                        {aika > 59 ?
+                            <TouchableOpacity style={styles.plusTaiMiinusNappiEiAktiivinen}>
+                                <Text style={styles.nappiTeksti}>+</Text>
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity style={styles.plusTaiMiinusNappi} onPress={() => PlusAika()}>
+                                <Text style={styles.nappiTeksti}>+</Text>
+                            </TouchableOpacity>
+                        }
+                    </View>
                 </View>
-                <View style={styles.valinta}>
-                    {aika < 11 ?
-                        <TouchableOpacity style={styles.buttonFade}>
-                            <Text style={styles.nappiTeksti}>-</Text>
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity style={styles.button} onPress={() => MinusAika()}>
-                            <Text style={styles.nappiTeksti}>-</Text>
-                        </TouchableOpacity>
-                    }
-                    <Text style={styles.nappiTeksti}>{aika}</Text>
-                    {aika > 59 ?
-                        <TouchableOpacity style={styles.buttonFade}>
-                            <Text style={styles.nappiTeksti}>+</Text>
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity style={styles.button} onPress={() => PlusAika()}>
-                            <Text style={styles.nappiTeksti}>+</Text>
-                        </TouchableOpacity>
-                    }
+
+
+                <View style={styles.kuvausJaNapit}>
+                    <Text style={styles.teksti}>Valitse voittoon tarvittavat pisteet (1-10)</Text>
+
+                    <View style={styles.valinta}>
+                        {voittopisteet < 2 ?
+                            <TouchableOpacity style={styles.plusTaiMiinusNappiEiAktiivinen}>
+                                <Text style={styles.nappiTeksti}>-</Text>
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity style={styles.plusTaiMiinusNappi} onPress={() => MinusVoittopisteet()}>
+                                <Text style={styles.nappiTeksti}>-</Text>
+                            </TouchableOpacity>
+                        }
+                        <Text style={styles.nappiTeksti}>{voittopisteet}</Text>
+                        {voittopisteet > 9 ?
+                            <TouchableOpacity style={styles.plusTaiMiinusNappiEiAktiivinen}>
+                                <Text style={styles.nappiTeksti}>+</Text>
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity style={styles.plusTaiMiinusNappi} onPress={() => PlusVoittopisteet()}>
+                                <Text style={styles.nappiTeksti}>+</Text>
+                            </TouchableOpacity>
+                        }
+                    </View>
                 </View>
-                <View style={styles.text}>
-                    <Text>Valitse voittoon tarvittavat pisteet (1-10)</Text>
-                </View>
-                <View style={styles.valinta}>
-                    {voittopisteet < 2 ?
-                        <TouchableOpacity style={styles.buttonFade}>
-                            <Text style={styles.nappiTeksti}>-</Text>
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity style={styles.button} onPress={() => MinusVoittopisteet()}>
-                            <Text style={styles.nappiTeksti}>-</Text>
-                        </TouchableOpacity>
-                    }
-                    <Text style={styles.nappiTeksti}>{voittopisteet}</Text>
-                    {voittopisteet > 9 ?
-                        <TouchableOpacity style={styles.buttonFade}>
-                            <Text style={styles.nappiTeksti}>+</Text>
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity style={styles.button} onPress={() => PlusVoittopisteet()}>
-                            <Text style={styles.nappiTeksti}>+</Text>
-                        </TouchableOpacity>
-                    }
-                </View>
-                <View style={{ justifyContent: 'flex-start' }}>
-                    <Text style={{ paddingTop: 20 }}>Valitse pelattavien elintarvikkeiden luokka,</Text>
-                    <Text>tai pelaa kaikilla elintarvikkeilla</Text>
+
+                <View style={styles.dropdownValikko}>
+                    <Text style={styles.teksti}>Valitse pelattavien elintarvikkeiden luokka, tai pelaa kaikilla elintarvikkeilla</Text>
+
                     <DropDownPicker
                         items={[
-                            { label: 'Kaikki tuotteet', value: 'ALL', textStyle: { color: 'blue', paddingLeft: 30 } },
-                            { label: 'Raaka-aineluokat (7):', value: 'raaka', untouchable: true, textStyle: { fontWeight: 'bold' } },
-                            { label: 'Lihatuotteet', value: 'meat', parent: 'raaka', textStyle: { color: 'blue' } },
-                            { label: 'Hedelmät', value: 'fruit', parent: 'raaka', textStyle: { color: 'blue' } },
-                            { label: 'Maitotuotteet', value: 'dairy', parent: 'raaka', textStyle: { color: 'blue' } },
-                            { label: 'Vihannekset', value: 'vegetable', parent: 'raaka', textStyle: { color: 'blue' } },
-                            { label: 'Viljatuotteet', value: 'grain', parent: 'raaka', textStyle: { color: 'blue' } },
-                            { label: 'Makeat', value: 'sweet', parent: 'raaka', textStyle: { color: 'blue' } },
-                            { label: 'Juomat', value: 'drink', parent: 'raaka', textStyle: { color: 'blue' } },
-                            { label: 'Erikoisruokavaliot (7):', value: 'valio', untouchable: true, textStyle: { fontWeight: 'bold' } },
-                            { label: 'Kolesteroliton', value: 'CHOLFREE', parent: 'valio', textStyle: { color: 'blue' } },
-                            { label: 'Gluteeniton', value: 'GLUTFREE', parent: 'valio', textStyle: { color: 'blue' } },
-                            { label: 'Runsaskuituinen', value: 'HIGHFIBR', parent: 'valio', textStyle: { color: 'blue' } },
-                            { label: 'Laktoositon', value: 'LACSFREE', parent: 'valio', textStyle: { color: 'blue' } },
-                            { label: 'Lakto-ovovegetaarinen', value: 'LACOVEGE', parent: 'valio', textStyle: { color: 'blue' } },
-                            { label: 'Vähärasvainen', value: 'LOWFAT', parent: 'valio', textStyle: { color: 'blue' } },
-                            { label: 'Vegan', value: 'VEGAN', parent: 'valio', textStyle: { color: 'blue' } },
+                            { label: 'Kaikki tuotteet', value: 'ALL', textStyle: { color: 'blue', paddingLeft: 30, letterSpacing: 1.1 } },
+                            { label: 'Raaka-aineluokat (7):', value: 'raaka', untouchable: true, textStyle: { fontWeight: 'bold', letterSpacing: 1.1 } },
+                            { label: 'Lihatuotteet', value: 'meat', parent: 'raaka', textStyle: { color: 'blue', letterSpacing: 1.1 } },
+                            { label: 'Hedelmät', value: 'fruit', parent: 'raaka', textStyle: { color: 'blue', letterSpacing: 1.1 } },
+                            { label: 'Maitotuotteet', value: 'dairy', parent: 'raaka', textStyle: { color: 'blue', letterSpacing: 1.1 } },
+                            { label: 'Vihannekset', value: 'vegetable', parent: 'raaka', textStyle: { color: 'blue', letterSpacing: 1.1 } },
+                            { label: 'Viljatuotteet', value: 'grain', parent: 'raaka', textStyle: { color: 'blue', letterSpacing: 1.1 } },
+                            { label: 'Makeat', value: 'sweet', parent: 'raaka', textStyle: { color: 'blue', letterSpacing: 1.1 } },
+                            { label: 'Juomat', value: 'drink', parent: 'raaka', textStyle: { color: 'blue', letterSpacing: 1.1, } },
+                            { label: 'Erikoisruokavaliot (7):', value: 'valio', untouchable: true, textStyle: { fontWeight: 'bold', letterSpacing: 1.1 } },
+                            { label: 'Kolesteroliton', value: 'CHOLFREE', parent: 'valio', textStyle: { color: 'blue', letterSpacing: 1.1 } },
+                            { label: 'Gluteeniton', value: 'GLUTFREE', parent: 'valio', textStyle: { color: 'blue', letterSpacing: 1.1 } },
+                            { label: 'Runsaskuituinen', value: 'HIGHFIBR', parent: 'valio', textStyle: { color: 'blue', letterSpacing: 1.1 } },
+                            { label: 'Laktoositon', value: 'LACSFREE', parent: 'valio', textStyle: { color: 'blue', letterSpacing: 1.1 } },
+                            { label: 'Lakto-ovovegetaarinen', value: 'LACOVEGE', parent: 'valio', textStyle: { color: 'blue', letterSpacing: 1.1 } },
+                            { label: 'Vähärasvainen', value: 'LOWFAT', parent: 'valio', textStyle: { color: 'blue', letterSpacing: 1.1 } },
+                            { label: 'Vegan', value: 'VEGAN', parent: 'valio', textStyle: { color: 'blue', letterSpacing: 1.1 } },
                         ]}
-                        placeholder='Valitse'
+                        placeholder='Kaikki tuotteet'
                         multiple={false}
                         onChangeItem={item => setValittuElintarvikeLuokka({ ...item })}
-                        containerStyle={{ height: 40, width: 300, }}
+                        containerStyle={{ height: 40, width: 300 }}
                         style={{ backgroundColor: '#e0f7ff' }}
                         itemStyle={{
-                            justifyContent: 'flex-start',
+                            justifyContent: 'flex-start'
                         }}
                     />
                 </View>
             </View>
-            <View style={styles.nappi}>
-                <Button
-                    title="Aloita peli"
+
+            <View style={styles.aloitaPeliView}>
+                <TouchableOpacity
+                    style={styles.aloitaPeliNappi}
                     onPress={() => aloitaPeli()}
-                />
+                ><Text style={styles.teksti}>Aloita peli</Text></TouchableOpacity>
             </View>
+
+
         </View>
     );
 }
@@ -200,60 +207,84 @@ export default function Gamerules({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'flex-start',
         width: '100%',
         backgroundColor: '#c2efff',
     },
-    gamerules: {
-        flex: 3,
-        alignItems: 'center',
+
+    pelinAsetukset: {
         justifyContent: 'center',
-        width: '100%',
+        width: '100%'
     },
-    button: {
-        borderStyle: 'solid',
+
+    plusTaiMiinusNappi: {
+        alignItems: "center",
+        justifyContent: 'center',
+        letterSpacing: 1.1,
+        borderRadius: 10,
+        padding: 5,
+        width: 100,
+        margin: 20,
         borderColor: 'black',
-        borderWidth: 1,
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingBottom: 5,
-        paddingTop: 5
+        borderWidth: 3,
     },
-    buttonFade: {
-        borderStyle: 'solid',
-        borderColor: '#cdd0d4',
-        borderWidth: 1,
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingBottom: 5,
-        paddingTop: 5
+
+    plusTaiMiinusNappiEiAktiivinen: {
+        alignItems: "center",
+        justifyContent: 'center',
+        letterSpacing: 1.1,
+        borderRadius: 10,
+        padding: 5,
+        width: 100,
+        margin: 20,
+        borderColor: 'gray',
+        borderWidth: 3,
     },
-    nappi: {
-        paddingTop: 170,
-        flex: 0.5,
+    aloitaPeliNappi: {
+        justifyContent: 'flex-end',
+        alignItems: "center",
+        letterSpacing: 1.1,
+        borderRadius: 10,
+        padding: 5,
+        backgroundColor: '#c2efff',
+        width: 200,
+        borderColor: 'black',
+        borderWidth: 3,
+    },
+    aloitaPeliView: {
+        justifyContent: 'flex-start',
+        alignItems: 'center'
     },
     valinta: {
-        flex: 0.1,
-        backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
         flexDirection: 'row',
-        backgroundColor: '#c2efff',
     },
-    text: {
-        flex: 0.2,
-        paddingBottom: 5,
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end',
+    teksti: {
+        marginBottom: 10,
+        letterSpacing: 1.1,
+        textAlign: 'center',
+        fontSize: 15,
+        fontWeight: 'bold'
+    },
+    kuvausJaNapit: {
+        marginBottom: 20,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     nappiTeksti: {
+        letterSpacing: 1.1,
+        fontWeight: 'bold',
+        fontSize: 18,
         alignItems: 'center',
         justifyContent: 'center',
-        textAlign: 'center',
-        paddingLeft: 20,
-        paddingRight: 20
     },
+
+    dropdownValikko: {
+        alignItems: 'center',
+        minHeight: 250,
+        justifyContent: 'flex-start',
+    }
 })

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, Text, View, Button } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import Kortti from './components/Kortti';
 import Ohjeet from './components/Ohjeet';
 import Tulossivu from './components/Tulossivu';
@@ -18,18 +18,19 @@ function Koti({ navigation }) {
   return (
     <View style={styles.container}>
       <ImageBackground source={taustakuva} style={styles.taustakuva}>
-        <Text style={styles.text}>Tervetuloa ravintoaineiden ihmeelliseen maailmaan!</Text>
-
+        <Text style={styles.otsikko}>Elintarvikepeli</Text>
         <View style={styles.buttons}>
-          <Button
-            title="Pelaa"
+          <TouchableOpacity
+            style={styles.button}
             onPress={() => navigation.navigate('Gamerules')}
-          />
-          <Button
-            title="Ohjeet"
+          ><Text style={styles.buttonText}>Pelaa</Text></TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
             onPress={() => navigation.navigate('Ohjeet')}
-          />
+          ><Text style={styles.buttonText}>Ohjeet</Text></TouchableOpacity>
         </View>
+
         <Text style={styles.footer}>Datan tarjoaja: Terveyden ja hyvinvoinnin laitos, Fineli</Text>
       </ImageBackground>
     </View>
@@ -59,23 +60,62 @@ const styles = StyleSheet.create({
     flex: 1,
     // backgroundColor: '#c2efff',
     alignItems: 'center',
+    justifyContent: 'center'
+
   },
-  text: {
-    fontSize: 28,
+  otsikko: {
+    fontSize: 45,
     fontWeight: "bold",
+    letterSpacing: 1.1,
+    textAlign: 'center',
+    color: '#7F5CF3',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: -2, height: 2 },
+    textShadowRadius: 2,
+    marginTop: 10
+
   },
   footer: {
-    flex: 1,
     justifyContent: 'flex-end',
+    letterSpacing: 1.1,
+    fontSize: 12,
+    padding: 5,
+    color: '#7F5CF3',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: -0.5, height: 0.5 },
+    textShadowRadius: 1,
   },
   buttons: {
     flex: 4,
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
+  },
+  button: {
+    alignItems: "center",
+    padding: 10,
+    letterSpacing: 1.1,
+    borderRadius: 10,
+    padding: 20,
+    backgroundColor: '#c2efff',
+    width: 200,
+    margin: 20,
+    borderColor: 'black',
+    borderWidth: 3
+
+  },
+  buttonText: {
+    letterSpacing: 1.1,
+    fontWeight: 'bold',
+    fontSize: 18
+
   },
   taustakuva: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center"
+    justifyContent: "center",
+    width: '100%',
+    height: '100%'
   },
+
+
 });

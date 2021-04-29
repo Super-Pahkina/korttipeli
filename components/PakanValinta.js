@@ -151,9 +151,12 @@ export default function PakanValinta(props) {
             style={{ width: '100%', height: '100%' }}
         >
             <View style={styles.container}>
-
+                {tarvittavienKorttienMaara == 1 ?
+                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Valitse {tarvittavienKorttienMaara} kortti</Text>
+                    :
+                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Valitse {tarvittavienKorttienMaara} korttia</Text>}
+                {/*Kortin tulostus*/}
                 <View style={styles.carousel}>
-
                     <TouchableWithoutFeedback style={styles.carousel} onPress={() => { kokeilu(nyt) }}>
                         <Carousel
                             {...korostus()}
@@ -173,6 +176,7 @@ export default function PakanValinta(props) {
                         />
                     </TouchableWithoutFeedback>
                 </View>
+
                 <View style={styles.napit}>
                     <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { kokeilu(nyt) }}>
                         {valitutIndeksit.includes(nyt) ?
@@ -201,12 +205,12 @@ export default function PakanValinta(props) {
                                 paddingTop="20"
                             />
                             :
-                            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Valitse {tarvittavienKorttienMaara} korttia</Text>}
-                    {/*Kortin tulostus*/}
-
-
-
-
+                            <Button
+                                color="#cdd0d4"
+                                title={napinTeksti}
+                                paddingTop="20"
+                            />
+                    }
                 </View>
             </View>
         </ImageBackground>

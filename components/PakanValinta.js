@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { View, StyleSheet, Text, Button } from 'react-native';
+import { ImageBackground, View, StyleSheet, Text, Button } from 'react-native';
 import { SafeAreaView } from 'react-native'
 import Carousel from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarouselCardItem'
-import {CarouselTest} from './CarouselCardItem'
+import { CarouselTest } from './CarouselCardItem'
 
 export default function PakanValinta(props) {
     const [pakka, setPakka] = useState([]);
+
     //const [kortit, setKortit] = useState([]);
     const navigation = useNavigation();
     const isCarousel = React.useRef((c) => { this._carousel = c; })
@@ -16,20 +17,24 @@ export default function PakanValinta(props) {
     let { Propsit } = route.params
     let propsit = Propsit
     let url = propsit.url
+
     //const [state, setState] = useState({currentIndex:0});
-    const [nyt, setNyt] =  useState(0);
+    const [nyt, setNyt] = useState(0);
     let kortit = pakka.slice(0, Math.round((propsit.VoittoPisteet * 2 - 1) * 1.5))
     const [valittuPakka, setValittuPakka] = useState([]);
     const [valitutIndeksit, setValitutIndeksit] = useState([])
     let tarvittavienKorttienMaara = propsit.VoittoPisteet * 2 - 1;
     let teksti = "Valitse kortteja: " + String(valittuPakka.length) + "/" + String(tarvittavienKorttienMaara);
     const [napinTeksti, setNapinTeksti] = useState(teksti);
+    const taustakuva = propsit.kuvaUrl
     //this.changeIndex = this.changeIndex.bind(this);
 
     const changeIndex = (currentIndex) => {
         setNyt(currentIndex);
+        console.log(taustakuva);
         console.log(nyt, "ny");
         console.log(currentIndex, "Indeks");
+        console.log("testi", propsit.ValittuElintarvikeLuokka.value);
     }
 
     useEffect(() => {
@@ -81,7 +86,8 @@ export default function PakanValinta(props) {
             VastustajanPisteet: 0,
             omaPakka: valittuPakka,
             vastustajanPakka: vastuksenKortit,
-            pelatutKortit: 0
+            pelatutKortit: 0,
+            kuvaUrl: propsit.kuvaUrl,
         }
         navigation.navigate('Kortti', { Propsit: Propsit })
     }
@@ -93,7 +99,7 @@ export default function PakanValinta(props) {
     const kokeilu = (i) => {
         console.log("NO NYTTE", i)
         if (valittuPakka.includes(pakka[i], 0)) {
-            
+
             var x = 0;
             while (x <= valittuPakka.length) {
                 if (valittuPakka[x] === pakka[i]) {
@@ -112,16 +118,16 @@ export default function PakanValinta(props) {
 
     const satunnaisetKortit = () => {
         let i = 0;
-        while (valittuPakka.length < tarvittavienKorttienMaara){
-            if (!valittuPakka.includes(pakka[i], 0)){
+        while (valittuPakka.length < tarvittavienKorttienMaara) {
+            if (!valittuPakka.includes(pakka[i], 0)) {
                 let valitaanko = Math.floor(Math.random() * 2)
-                if (valitaanko == 1){
+                if (valitaanko == 1) {
                     valittuPakka.push(pakka[i])
                     valitutIndeksit.push(i)
                 }
             }
             i = i + 1
-            if (i == kortit.length){
+            if (i == kortit.length) {
                 i = 0;
             }
         }
@@ -140,88 +146,87 @@ export default function PakanValinta(props) {
     };
 
     return (
-        <View style={styles.container}>
-            {tarvittavienKorttienMaara == 1 ?
-            <Text style={{ fontWeight: 'bold' , fontSize: 20}}>Valitse {tarvittavienKorttienMaara} kortti</Text> 
-            : 
-            <Text style={{ fontWeight: 'bold' , fontSize: 20}}>Valitse {tarvittavienKorttienMaara} korttia</Text>}   
-            {/*Kortin tulostus*/}
-            <View style={styles.carousel}>
-            <TouchableWithoutFeedback style={styles.carousel} onPress={() => { kokeilu(nyt) }}>
-                <Carousel
-                    {...korostus()}
-                    layout="stack"
-                    layoutCardOffset={9}
-                    ref={isCarousel}
-                    //ref={(c) => { this._carousel = c; }}
-                    data={kortit.map((kortti, index) => ({kortti, valittu: valittuPakka}))}
-                    renderItem={CarouselCardItem}
-                    sliderWidth={SLIDER_WIDTH}
-                    itemWidth={ITEM_WIDTH}
-                    sliderHeight={2000}
-                    itemHeight={2000}
-                    inactiveSlideShift={0}
-                    useScrollView={true}
-                    onSnapToItem={changeIndex}
-                />
-            </TouchableWithoutFeedback>
-            </View>
+        <ImageBackground
+            source={{ uri: taustakuva }}
+            style={{ width: '100%', height: '100%' }}
+        >
+            <View style={styles.container}>
 
-            <View style={styles.napit}>
-                <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { kokeilu(nyt) }}>
-                    {valitutIndeksit.includes(nyt) ? 
-                    <Text style={styles.teksti}>Poista kortti</Text>
-                    : 
-                    <Text style={styles.teksti}>Valitse kortti</Text>}
-                </TouchableHighlight>
-            </View>
-            <View style={styles.napit}>
-                <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { satunnaisetKortit() }}>
-                    <Text style={styles.teksti}>Valitse satunnaiset kortit</Text>
-                </TouchableHighlight>
-            </View>
-            <View style={styles.napit}>
-                {valittuPakka.length == tarvittavienKorttienMaara ?
-                    <Button
-                        title="Aloita peli"
-                        onPress={() => aloitaPeli()}
-                        paddingTop= "20"
-                    />
-                    :
-                    valittuPakka.length > tarvittavienKorttienMaara ?
-                    <Button
-                        color="#f22727"
-                        title={napinTeksti}
-                        paddingTop= "20"
-                    />
-                    :
-                    <Button
-                        color="#cdd0d4"
-                        title={napinTeksti}
-                        paddingTop= "20"
-                    />
-                }
-            </View>
-            
+                <View style={styles.carousel}>
 
-        </View>
+                    <TouchableWithoutFeedback style={styles.carousel} onPress={() => { kokeilu(nyt) }}>
+                        <Carousel
+                            {...korostus()}
+                            layout="stack"
+                            layoutCardOffset={9}
+                            ref={isCarousel}
+                            //ref={(c) => { this._carousel = c; }}
+                            data={kortit.map((kortti, index) => ({ kortti, valittu: valittuPakka }))}
+                            renderItem={CarouselCardItem}
+                            sliderWidth={SLIDER_WIDTH}
+                            itemWidth={ITEM_WIDTH}
+                            sliderHeight={2000}
+                            itemHeight={2000}
+                            inactiveSlideShift={0}
+                            useScrollView={true}
+                            onSnapToItem={changeIndex}
+                        />
+                    </TouchableWithoutFeedback>
+                </View>
+                <View style={styles.napit}>
+                    <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { kokeilu(nyt) }}>
+                        {valitutIndeksit.includes(nyt) ?
+                            <Text style={styles.teksti}>Poista kortti</Text>
+                            :
+                            <Text style={styles.teksti}>Valitse kortti</Text>}
+                    </TouchableHighlight>
+                </View>
+                <View style={styles.napit}>
+                    <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { satunnaisetKortit() }}>
+                        <Text style={styles.teksti}>Valitse satunnaiset kortit</Text>
+                    </TouchableHighlight>
+                </View>
+                <View style={styles.napit}>
+                    {valittuPakka.length == tarvittavienKorttienMaara ?
+                        <Button
+                            title="Aloita peli"
+                            onPress={() => aloitaPeli()}
+                            paddingTop="20"
+                        />
+                        :
+                        valittuPakka.length > tarvittavienKorttienMaara ?
+                            <Button
+                                color="#f22727"
+                                title={napinTeksti}
+                                paddingTop="20"
+                            />
+                            :
+                            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Valitse {tarvittavienKorttienMaara} korttia</Text>}
+                    {/*Kortin tulostus*/}
+
+
+
+
+                </View>
+            </View>
+        </ImageBackground>
     )
 
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        //  backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'flex-start',
         width: '100%',
-        backgroundColor: '#c2efff',
+        // backgroundColor: '#c2efff',
         padding: 30
         // 
     },
     carousel: {
         flex: 3,
-        backgroundColor: '#c2efff',
+        //  backgroundColor: '#c2efff',
         paddingLeft: 25
     },
     napit: {
@@ -237,6 +242,7 @@ const styles = StyleSheet.create({
         paddingRight: 20,
         paddingBottom: 5,
         paddingTop: 5,
+        backgroundColor: '#c2efff'
 
     },
     teksti: {
@@ -248,5 +254,6 @@ const styles = StyleSheet.create({
     },
     eiPakassa: {
         backgroundColor: 'red'
-    }
+    },
+
 });

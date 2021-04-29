@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Animated, TouchableHighlight, Button } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, Animated, TouchableHighlight, Button } from 'react-native';
 import { Card } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import { useIsFocused } from "@react-navigation/native";
@@ -23,6 +23,7 @@ export default function Vastus(props) {
   const [pelattavanKortinValinta, setPelattavanKortinValinta] = useState(0);
   const [vastustajanPakka, setVastustajanPakka] = useState(propsit.vastustajanPakka);
   const [vastustajanValinta, setVastustajanValinta] = useState(true);
+  const taustakuva = propsit.kuvaUrl
   const [aika, setAika] = useState(3);
 
   //Annetaan uudet kortit vuoron alussa.
@@ -131,6 +132,7 @@ export default function Vastus(props) {
       elintarvike2: elintarvike2,
       omaPakka: omaPakka,
       vastustajanPakka: propsit.vastustajanPakka,
+      kuvaUrl: propsit.kuvaUrl,
     }
     setKey(prevKey => prevKey + 1)
     kaynnissa = false
@@ -225,6 +227,11 @@ export default function Vastus(props) {
   };
 
   return (
+    <ImageBackground
+      source={{ uri: taustakuva }}
+      style={{ width: '100%', height: '100%' }}
+    >
+      
     <View style={styles.container}>
       <View style={styles.timer}>
         <CountdownCircleTimer
@@ -299,17 +306,18 @@ export default function Vastus(props) {
       <></>
       }
     </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 4,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
     width: '100%',
-    backgroundColor: "#c2efff"
+    //  backgroundColor: "#c2efff"
   },
   text: {
     fontWeight: "bold",

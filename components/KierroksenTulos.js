@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, Button } from 'react-native';
 import { Card, Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
@@ -15,6 +15,7 @@ export default function Tulokset(props) {
   let vastustajanPisteet = propsit.VastustajanPisteet
   let elintarvike = propsit.elintarvike
   let elintarvike2 = propsit.elintarvike2
+  const taustakuva = propsit.kuvaUrl
 
   const labels = {
     salt: "Suola (mg)",
@@ -82,6 +83,7 @@ export default function Tulokset(props) {
         pelatutKortit: propsit.pelatutKortit,
         omaPakka: propsit.omaPakka,
         vastustajanPakka: propsit.vastustajanPakka,
+        kuvaUrl: propsit.kuvaUrl,
       }
       console.log(Propsit.valittuArvo)
       if (vuoro == "Pelaaja") {
@@ -154,7 +156,11 @@ export default function Tulokset(props) {
   };
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={{ uri: taustakuva }}
+      style={{ width: '100%', height: '100%' }}
+    >
+     <View style={styles.container}>
       <Text></Text>
       <View>
         <Text>Pisteesi: {Pisteesi()} / {propsit.VoittoPisteet} </Text>
@@ -194,6 +200,9 @@ export default function Tulokset(props) {
         <Button title="Siirry" onPress={() => siirry()}></Button>
       </View>
     </View>
+      </ImageBackground>
+
+    
   )
 }
 
@@ -202,11 +211,11 @@ export default function Tulokset(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 4,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
     width: '100%',
-    backgroundColor: "#c2efff"
+    //  backgroundColor: "#c2efff"
   },
   kuvake: {
     alignContent: 'flex-end',

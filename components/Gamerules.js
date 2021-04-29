@@ -8,25 +8,64 @@ export default function Gamerules({ navigation }) {
     const [aika, setAika] = useState(30);
     const [valittuElintarvikeLuokka, setValittuElintarvikeLuokka] = useState({});
     const [url, setUrl] = useState('');
+    const [kuvaUrl, setKuvaUrl] = useState('');
 
     const baseUrl = 'https://elintarvikepeli.herokuapp.com/howmany';
     // const baseUrl = 'http://192.168.1.106:3002/howmany';
     useEffect(() => {
-        urlSetter()
+        urlSetter();
+
     }, [valittuElintarvikeLuokka])
 
     // Tällä sivulla määritetään fetchattava url joka siirretään propseilla eteenpäin
     const urlSetter = () => {
         if (valittuElintarvikeLuokka.parent === 'raaka') {
             setUrl(`${baseUrl}/ingredient/${voittopisteet * 5}/${valittuElintarvikeLuokka.value}`);
+            setKuvaUrl("https://source.unsplash.com/1600x900/?" + valittuElintarvikeLuokka.value + "/" + (Math.random() * 100).toFixed(0))
         }
         else if (valittuElintarvikeLuokka.parent === 'valio') {
             setUrl(`${baseUrl}/diet/${voittopisteet * 5}/${valittuElintarvikeLuokka.value}`);
+            if (valittuElintarvikeLuokka.value === 'CHOLFREE') {
+                setKuvaUrl("https://source.unsplash.com/1600x900/?oatmeal")
+            } else if (valittuElintarvikeLuokka.value === 'GLUTFREE') {
+                setKuvaUrl();
+            }
+            else if (valittuElintarvikeLuokka.value === 'HIGHFIBR') {
+                setKuvaUrl("https://bit.ly/3dRscCv");
+            }
+            else if (valittuElintarvikeLuokka.value === 'LACSFREE') {
+                setKuvaUrl("https://bit.ly/2PmC51p");
+            }
+            else if (valittuElintarvikeLuokka.value === 'LACOVEGE') {
+                setKuvaUrl("https://bit.ly/3xrK7HJ");
+            }
+            else if (valittuElintarvikeLuokka.value === 'LOWFAT') {
+                setKuvaUrl("https://bit.ly/3sNlFwF");
+            }
+            else if (valittuElintarvikeLuokka.value === 'VEGAN') {
+                setKuvaUrl("https://bit.ly/3aFhblP");
+            }
         } else {
             setUrl(`${baseUrl}/${voittopisteet * 5}`);
+            setKuvaUrl("https://source.unsplash.com/1600x900/?food/" + (Math.random() * 20).toFixed(0))
+            console.log("else", kuvaUrl)
         }
         console.log("urli", url)
+        console.log("etluokka", valittuElintarvikeLuokka.value)
+        console.log("valittuetluokka", valittuElintarvikeLuokka)
+        console.log("kuvaurli", kuvaUrl)
     }
+    /*const kuvaUrlSetter = () => {
+        console.log("setteri", kuvaurl)
+        if (valittuElintarvikeLuokka.value === 'CHOLFREE') {
+            setKuvaUrl("https://source.unsplash.com/1600x900/?car")
+            console.log("setteri", kuvaurl)
+        }
+        else {
+            setKuvaUrl("https://source.unsplash.com/1600x900/?" + valittuElintarvikeLuokka.value + "/" + (Math.random() * 100).toFixed(0))
+            console.log("setteri2", kuvaurl)
+        }
+    }*/
 
     // Funktiot voittoon tarvittavien pisteiden ja käytössä olevan vuoroajan määrittelemiseen
     const PlusVoittopisteet = () => {
@@ -54,9 +93,12 @@ export default function Gamerules({ navigation }) {
             kaynnissa: true,
             Pisteesi: 0,
             VastustajanPisteet: 0,
-            pelatutKortit: 0
+            pelatutKortit: 0,
+            ValittuElintarvikeLuokka: valittuElintarvikeLuokka,
+            kuvaUrl: kuvaUrl,
         }
         navigation.navigate('PakanValinta', { Propsit: Propsit })
+
     }
 
     return (

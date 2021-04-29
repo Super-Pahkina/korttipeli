@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, Button } from 'react-native';
 import Kortti from './components/Kortti';
 import Ohjeet from './components/Ohjeet';
 import Tulossivu from './components/Tulossivu';
@@ -12,22 +12,26 @@ import { createStackNavigator } from '@react-navigation/stack'
 //import { Button } from '@material-ui/core';
 
 const Stack = createStackNavigator();
+const taustakuva = { uri: "https://bit.ly/3dPouZR" };
 console.disableYellowBox = true;
 function Koti({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Tervetuloa ravintoaineiden ihmeelliseen maailmaan!</Text>
-      <View style={styles.buttons}>
-        <Button
-          title="Pelaa"
-          onPress={() => navigation.navigate('Gamerules')}
-        />
-        <Button
-          title="Ohjeet"
-          onPress={() => navigation.navigate('Ohjeet')}
-        />
-      </View>
-      <Text style={styles.footer}>Datan tarjoaja: Terveyden ja hyvinvoinnin laitos, Fineli</Text>
+      <ImageBackground source={taustakuva} style={styles.taustakuva}>
+        <Text style={styles.text}>Tervetuloa ravintoaineiden ihmeelliseen maailmaan!</Text>
+
+        <View style={styles.buttons}>
+          <Button
+            title="Pelaa"
+            onPress={() => navigation.navigate('Gamerules')}
+          />
+          <Button
+            title="Ohjeet"
+            onPress={() => navigation.navigate('Ohjeet')}
+          />
+        </View>
+        <Text style={styles.footer}>Datan tarjoaja: Terveyden ja hyvinvoinnin laitos, Fineli</Text>
+      </ImageBackground>
     </View>
   )
 }
@@ -53,7 +57,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#c2efff',
+    // backgroundColor: '#c2efff',
     alignItems: 'center',
   },
   text: {
@@ -68,5 +72,10 @@ const styles = StyleSheet.create({
     flex: 4,
     alignItems: 'center',
     justifyContent: 'space-around',
+  },
+  taustakuva: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center"
   },
 });

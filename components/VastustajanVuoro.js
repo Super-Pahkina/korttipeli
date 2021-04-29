@@ -137,6 +137,43 @@ export default function Vastus(props) {
     navigation.navigate('KierroksenTulos', { Propsit: Propsit })
   }
 
+  const palautaPelaajalleKortti = () => {
+    let pelaajanKortti = {
+      name: `${omaPakka[indeksi].name_fi}`,
+      jokeri: `${omaPakka[indeksi].jokeri}`,
+      pommi: `${omaPakka[indeksi].pommi}`,
+      nutrition: {
+        salt: `${omaPakka[indeksi].salt}`,
+        energyKcal: `${omaPakka[indeksi].energyKcal}`,
+        fat: `${omaPakka[indeksi].fat}`,
+        protein: `${omaPakka[indeksi].protein}`,
+        carbohydrate: `${omaPakka[indeksi].carbohydrate}`,
+        sugar: `${omaPakka[indeksi].sugar}`,
+        fiber: `${omaPakka[indeksi].fiber}`,
+      }
+    }
+    omaPakka.splice(indeksi, 1);
+    return pelaajanKortti
+  }
+
+  const palautaVastustajalleKortti = () => {
+    let vastustajanKortti = {
+      name: `${vastustajanPakka[Number(propsit.pelatutKortit)].name_fi}`,
+      jokeri: `${vastustajanPakka[Number(propsit.pelatutKortit)].jokeri}`,
+      pommi: `${vastustajanPakka[Number(propsit.pelatutKortit)].pommi}`,
+      nutrition: {
+        salt: `${vastustajanPakka[Number(propsit.pelatutKortit)].salt}`,
+        energyKcal: `${vastustajanPakka[Number(propsit.pelatutKortit)].energyKcal}`,
+        fat: `${vastustajanPakka[Number(propsit.pelatutKortit)].fat}`,
+        protein: `${vastustajanPakka[Number(propsit.pelatutKortit)].protein}`,
+        carbohydrate: `${vastustajanPakka[Number(propsit.pelatutKortit)].carbohydrate}`,
+        sugar: `${vastustajanPakka[Number(propsit.pelatutKortit)].sugar}`,
+        fiber: `${vastustajanPakka[Number(propsit.pelatutKortit)].fiber}`,
+      }
+    }
+    return vastustajanKortti
+  }
+
   //Tekoälynä toimiva Math.random() funktio tekee tekoälyn
   const tekoalyVuoro = () => {
     if (vastustajanValinta) {
@@ -147,6 +184,17 @@ export default function Vastus(props) {
       setPainettu(ravintoarvot[valinta])
       setKey(prevKey => prevKey + 1)
     } else {
+      let pelattujenKorttienMaara = pelatutKortit
+      let pelaajanKortti = ""
+      let vastustajanKortti = ""
+      if (elintarvike.name === ""){
+        pelaajanKortti = palautaPelaajalleKortti()
+        vastustajanKortti = palautaVastustajalleKortti()
+        pelattujenKorttienMaara = pelattujenKorttienMaara + 1
+      } else {
+        pelaajanKortti = elintarvike
+        vastustajanKortti = elintarvike2
+      }
       setPelattavanKortinValinta(0);
       let Propsit = {
         valittuArvo: painettu,
@@ -154,9 +202,9 @@ export default function Vastus(props) {
         Pisteesi: propsit.Pisteesi,
         VastustajanPisteet: propsit.VastustajanPisteet + 1,
         VoittoPisteet: propsit.VoittoPisteet,
-        pelatutKortit: pelatutKortit,
-        elintarvike: elintarvike,
-        elintarvike2: elintarvike2,
+        pelatutKortit: pelattujenKorttienMaara,
+        elintarvike: pelaajanKortti,
+        elintarvike2: vastustajanKortti,
         omaPakka: propsit.omaPakka,
         vastustajanPakka: propsit.vastustajanPakka,
       }
@@ -243,11 +291,12 @@ export default function Vastus(props) {
         :
         <></>
       }
-      {vastustajanValinta ? <></> : painettu == null ?
-        <></> :
+      {vastustajanValinta ? <></> : pelattavanKortinValinta == 1 ?
         <View style={styles.nappi}>
-          <Button title="Lukitse valinta" onPress={() => lukitse()}></Button>
-        </View>
+        <Button title="Lukitse valinta" onPress={() => lukitse()}></Button>
+      </View> 
+      :
+      <></>
       }
     </View>
   );

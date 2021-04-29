@@ -165,15 +165,60 @@ export default function Kortti(props) {
     navigation.navigate('KierroksenTulos', { Propsit: Propsit })
   }
 
+  const palautaPelaajalleKortti = () => {
+    let pelaajanKortti = {
+      name: `${omaPakka[indeksi].name_fi}`,
+      jokeri: `${omaPakka[indeksi].jokeri}`,
+      pommi: `${omaPakka[indeksi].pommi}`,
+      nutrition: {
+        salt: `${omaPakka[indeksi].salt}`,
+        energyKcal: `${omaPakka[indeksi].energyKcal}`,
+        fat: `${omaPakka[indeksi].fat}`,
+        protein: `${omaPakka[indeksi].protein}`,
+        carbohydrate: `${omaPakka[indeksi].carbohydrate}`,
+        sugar: `${omaPakka[indeksi].sugar}`,
+        fiber: `${omaPakka[indeksi].fiber}`,
+      }
+    }
+    omaPakka.splice(indeksi, 1);
+    return pelaajanKortti
+  }
+
+  const palautaVastustajalleKortti = () => {
+    let vastustajanKortti = {
+      name: `${vastustajanPakka[Number(propsit.pelatutKortit)].name_fi}`,
+      jokeri: `${vastustajanPakka[Number(propsit.pelatutKortit)].jokeri}`,
+      pommi: `${vastustajanPakka[Number(propsit.pelatutKortit)].pommi}`,
+      nutrition: {
+        salt: `${vastustajanPakka[Number(propsit.pelatutKortit)].salt}`,
+        energyKcal: `${vastustajanPakka[Number(propsit.pelatutKortit)].energyKcal}`,
+        fat: `${vastustajanPakka[Number(propsit.pelatutKortit)].fat}`,
+        protein: `${vastustajanPakka[Number(propsit.pelatutKortit)].protein}`,
+        carbohydrate: `${vastustajanPakka[Number(propsit.pelatutKortit)].carbohydrate}`,
+        sugar: `${vastustajanPakka[Number(propsit.pelatutKortit)].sugar}`,
+        fiber: `${vastustajanPakka[Number(propsit.pelatutKortit)].fiber}`,
+      }
+    }
+    return vastustajanKortti
+  }
+
   //Funktio, jota kutsutaan vuoroajan loppuessa. Pelaajalle annetaan kortti, jonka päällä pelaaja oli ajan loppuessa ja satunnainen ravintoarvo
   const havio = () => {
     let valinta = (Math.random() * 6).toFixed(0)
-    console.log(valinta)
+    let pelaajanKortti = ""
+    let vastustajanKortti = ""
     let valittuArvo = ravintoarvot[valinta]
-    let pelaajanKortti = omaPakka[indeksi]
-    omaPakka.splice(indeksi, 1);
-    let vastustajanKortti = vastustajanPakka[Number(propsit.pelatutKortit)]
-    setPelatutKortit(propsit.pelatutKortit + 1)
+    let pelattujenKorttienMaara = pelatutKortit
+    if (elintarvike.name === ""){
+      pelaajanKortti = palautaPelaajalleKortti()
+      vastustajanKortti = palautaVastustajalleKortti()
+      pelattujenKorttienMaara = pelattujenKorttienMaara + 1
+    } else {
+      pelaajanKortti = elintarvike
+      vastustajanKortti = elintarvike2
+    }
+  //  let pelaajanKortti = omaPakka[indeksi]
+ //   let vastustajanKortti = vastustajanPakka[Number(propsit.pelatutKortit)]
     setPelattavanKortinValinta(0);
     console.log(valittuArvo)
     console.log(pelaajanKortti)
@@ -184,16 +229,14 @@ export default function Kortti(props) {
       Pisteesi: propsit.Pisteesi,
       VastustajanPisteet: propsit.VastustajanPisteet,
       VoittoPisteet: propsit.VoittoPisteet,
-      pelatutKortit: pelatutKortit,
+      pelatutKortit: pelattujenKorttienMaara,
       elintarvike: pelaajanKortti,
       elintarvike2: vastustajanKortti,
       omaPakka: propsit.omaPakka,
       vastustajanPakka: propsit.vastustajanPakka,
     }
-    console.log(Propsit)
     setKey(prevKey => prevKey + 1)
     setKaynnissa(false)
-    console.log(valittuArvo)
     navigation.navigate('KierroksenTulos', { Propsit: Propsit })
   }
 

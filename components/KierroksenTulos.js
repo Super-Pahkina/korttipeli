@@ -140,7 +140,7 @@ export default function Tulokset(props) {
     const a = {
       activeOpacity: 1,
       underlayColor: 'blue',
-      style: propsit.valittuArvo == i ? styles.buttonPainettu : styles.rivi,
+      style: propsit.valittuArvo == i ? styles.painikePainettu : styles.rivi,
       onPress: () => console.log('HELLO'),
     }
     return a
@@ -149,7 +149,7 @@ export default function Tulokset(props) {
   //Tekstin värin muokkaaminen vertailun perusteella
   const tekstinVari = (ravintoarvo) => {
     const a = {
-      style: Vertaa(ravintoarvo) == 2 ? styles.nameRed : Vertaa(ravintoarvo) == 1 ? styles.nameGreen : styles.nameBlue,
+      style: Vertaa(ravintoarvo) == 2 ? styles.ravintoarvonNimiPunainen : Vertaa(ravintoarvo) == 1 ? styles.ravintoarvonNimiVihrea : styles.ravintoarvonNimiSininen,
       onPress: () => console.log('HELLO'),
     }
     return a
@@ -180,8 +180,8 @@ export default function Tulokset(props) {
           <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike2)}{elintarvike2.name}</Card.Title>
           {ravintoarvot2.map((ravintoarvo, index) => (
             <View {...kosketus(ravintoarvo)}>
-              <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
-              <Text style={styles.nutrition2}>{Number(elintarvike2.nutrition[ravintoarvo]).toFixed(3)}</Text>
+              <Text style={styles.ravintoarvonNimi}>{labels[ravintoarvo]}:  </Text>
+              <Text style={styles.ravintoarvolukema}>{Number(elintarvike2.nutrition[ravintoarvo]).toFixed(3)}</Text>
               {Vertaa(ravintoarvo) == 2 ?
                 <AntDesign name="caretup" size={24} color="green" />
                 : Vertaa(ravintoarvo) == 1 ?
@@ -196,7 +196,7 @@ export default function Tulokset(props) {
           {ravintoarvot.map((ravintoarvo, index) => (
             <View key={index} {...kosketus(ravintoarvo)}>
               <Text {...tekstinVari(ravintoarvo)}>{labels[ravintoarvo]}: </Text>
-              <Text style={styles.nutrition2}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
+              <Text style={styles.ravintoarvolukema}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
               {Vertaa(ravintoarvo) == 1 ?
                 <AntDesign name="caretup" size={24} color="green" />
                 : Vertaa(ravintoarvo) == 2 ?
@@ -206,9 +206,9 @@ export default function Tulokset(props) {
             </View>
           ))}
         </Card>
-        <View style={styles.nappi}>
+        <View style={styles.painike}>
           <TouchableHighlight
-            style={styles.siirryNappi}
+            style={styles.siirryPainike}
             underlayColor='#c5eba4'
             onPress={() => siirry()}>
             <Text style={styles.teksti}>Jatka</Text>
@@ -216,29 +216,15 @@ export default function Tulokset(props) {
         </View>
       </View>
     </ImageBackground >
-
-
   )
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 4,
-    // backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
     width: '100%',
-    //  backgroundColor: "#c2efff"
-  },
-  kuvake: {
-    alignContent: 'flex-end',
-    justifyContent: 'space-around',
-  },
-  divider: {
-    backgroundColor: '#808791',
-    height: 1.5,
   },
   otsikko: {
     height: "10%",
@@ -246,21 +232,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     color: "black"
   },
-  nutrition: {
-    alignContent: 'flex-end',
-    justifyContent: 'flex-end',
-    color: 'brown',
-    textAlign: "right",
-
-  },
-  nutrition2: {
+  ravintoarvolukema: {
     alignContent: 'flex-end',
     justifyContent: 'flex-end',
     color: 'black',
     fontWeight: "bold",
     textAlign: "right",
   },
-  name: {
+  ravintoarvonNimi: {
     fontSize: 15,
     width: 160,
     color: 'brown',
@@ -269,7 +248,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
   },
-  nameRed: {
+  ravintoarvonNimiPunainen: {
     fontSize: 15,
     width: 160,
     color: 'red',
@@ -278,7 +257,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
   },
-  nameGreen: {
+  ravintoarvonNimiVihrea: {
     fontSize: 15,
     width: 160,
     color: 'darkgreen',
@@ -287,7 +266,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
   },
-  nameBlue: {
+  ravintoarvonNimiSininen: {
     fontSize: 15,
     width: 160,
     color: 'blue',
@@ -296,26 +275,9 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
   },
-  button: {
-    alignContent: 'flex-end',
-    justifyContent: 'space-around',
-    borderStyle: 'solid',
-    borderColor: '#808791',
-    borderWidth: 1,
-  },
-  timer: {
-    flex: 0.2,
-    alignItems: 'flex-start',
-    justifyContent: 'space-around',
-    borderColor: '#fff',
-    borderWidth: 1,
-    paddingTop: 2
-
-  },
   rivi: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-
   },
   kortti: {
     flex: 1.5,
@@ -327,12 +289,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0f7ff',
     width: 300
   },
-  buttonPainettu: {
+  painikePainettu: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#cdd0d4'
   },
-  nappi: {
+  painike: {
     flex: 0.5,
     paddingTop: 10,
     alignItems: 'flex-start',
@@ -351,7 +313,7 @@ const styles = StyleSheet.create({
   ylarivinTyyli: {
     flexDirection: 'row',
   },
-  siirryNappi: {
+  siirryPainike: {
     marginTop: 10,
     justifyContent: 'center',
     alignItems: "center",
@@ -369,7 +331,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 15,
     fontWeight: 'bold'
-
   },
   taustakuva: {
     flex: 1,

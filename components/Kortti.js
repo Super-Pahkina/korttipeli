@@ -12,7 +12,6 @@ export default function Kortti(props) {
   const isFocused = useIsFocused();
   const [key, setKey] = useState(0);
   const [painettu, setPainettu] = useState();
-  const [viesti, setViesti] = useState();
   let { route } = props
   let { Propsit } = route.params
   let propsit = Propsit
@@ -93,11 +92,6 @@ export default function Kortti(props) {
   let ravintoarvot = Object.keys(elintarvike.nutrition);
   ['salt', 'energyKcal', 'fat', 'protein', 'carbohydrate', 'sugar', 'fiber']
 
-
-
-
-
-
   const setGameCards = (indeksi) => {
     let chosenCard = omaPakka[indeksi]
     omaPakka.splice(indeksi, 1);
@@ -137,7 +131,12 @@ export default function Kortti(props) {
   }
 
   //Annetaan uudet kortit vuoron alussa, resetoidaan valinta viimevuorolta ja käynnistetään vuoroaika
-  useEffect(() => { if (isFocused) { setKaynnissa(true); setPainettu(); } }, [isFocused]);
+  useEffect(() => {
+    if (isFocused) {
+      setKaynnissa(true)
+      setPainettu()
+    }
+  }, [isFocused])
 
   const nappi = (i) => {
     setPainettu(i)
@@ -148,7 +147,7 @@ export default function Kortti(props) {
     const a = {
       activeOpacity: 1,
       underlayColor: 'blue',
-      style: painettu == i ? styles.buttonPainettu : styles.rivi,
+      style: painettu == i ? styles.painikePainettu : styles.rivi,
       onPress: () => console.log('HELLO'),
     }
     return a
@@ -258,7 +257,7 @@ export default function Kortti(props) {
       style={styles.taustakuva}
     >
       <View style={styles.container}>
-        <View style={styles.timer}>
+        <View style={styles.ajastin}>
           <CountdownCircleTimer
             onComplete={() => {
               havio()
@@ -310,10 +309,10 @@ export default function Kortti(props) {
             <Card.Title>{valitseIkoni()}{elintarvike.name}</Card.Title>
             {ravintoarvot.map((ravintoarvo, index) => (
               <View {...kosketus(ravintoarvo)}>
-                <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
-                <Text style={styles.nutrition}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
+                <Text style={styles.ravintoarvonNimi}>{labels[ravintoarvo]}:  </Text>
+                <Text style={styles.ravintoarvolukema}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
                 <TouchableHighlight
-                  style={styles.button}
+                  style={styles.valintapainike}
                   underlayColor='#808791'
                   onPress={() => nappi(ravintoarvo)}>
                   <Text >Valitse</Text>
@@ -325,7 +324,7 @@ export default function Kortti(props) {
         {pelattavanKortinValinta == 0 ?
           <View style={styles.napit}>
             <TouchableHighlight
-              style={styles.valitseKortti}
+              style={styles.valitseKorttiPainike}
               underlayColor='#c5eba4'
               onPress={() => { setGameCards(indeksi) }}>
               <Text style={styles.teksti}>Valitse kortti</Text>
@@ -338,17 +337,11 @@ export default function Kortti(props) {
           <></> :
           <View style={styles.napit}>
             <TouchableHighlight
-              style={styles.valitseKortti}
+              style={styles.valitseKorttiPainike}
               underlayColor='#c5eba4'
               onPress={() => lukitse()}>
               <Text syle={styles.teksti}>Lukitse valinta</Text>
             </TouchableHighlight>
-          </View>
-        }
-        {viesti == null ?
-          <></> :
-          <View style={styles.nappi}>
-            <Text>{viesti}</Text>
           </View>
         }
       </View>
@@ -359,20 +352,11 @@ export default function Kortti(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 4,
-    //  backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
     width: '100%',
-    //  backgroundColor: "#c2efff"
   },
-  arvot: {
-    flexDirection: 'row'
-  },
-  divider: {
-    backgroundColor: '#808791',
-    height: 1.5,
-  },
-  nutrition: {
+  ravintoarvolukema: {
     alignContent: 'flex-end',
     justifyContent: 'flex-end',
     color: 'brown',
@@ -380,7 +364,7 @@ const styles = StyleSheet.create({
   carousel: {
     flex: 0.55,
   },
-  name: {
+  ravintoarvonNimi: {
     fontSize: 15,
     width: 160,
     color: 'brown',
@@ -389,21 +373,22 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
   },
-  button: {
+  valintapainike: {
     alignContent: 'flex-end',
     justifyContent: 'space-around',
     borderStyle: 'solid',
     borderColor: '#808791',
+    backgroundColor: '#c2efff',
+    borderRadius: 6,
     borderWidth: 1,
   },
-  timer: {
+  ajastin: {
     flex: 0.2,
     alignItems: 'flex-start',
     justifyContent: 'space-around',
     borderColor: '#c2efff',
     borderWidth: 1,
     paddingTop: 2
-
   },
   rivi: {
     flexDirection: 'row',
@@ -421,18 +406,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0f7ff',
     width: 300
   },
-  buttonPainettu: {
+  painikePainettu: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: 8,
     paddingBottom: 8,
     backgroundColor: '#cdd0d4'
-  },
-  nappi: {
-    flex: 0.1,
-    paddingTop: 10,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
   },
   teksti: {
     marginBottom: 10,
@@ -450,9 +429,8 @@ const styles = StyleSheet.create({
     textShadowColor: 'white',
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 1,
-
   },
-  valitseKortti: {
+  valitseKorttiPainike: {
     marginTop: 10,
     justifyContent: 'center',
     alignItems: "center",

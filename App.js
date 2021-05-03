@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Kortti from './components/Kortti';
 import Ohjeet from './components/Ohjeet';
 import Tulossivu from './components/Tulossivu';
@@ -19,19 +19,19 @@ function Koti({ navigation }) {
     <View style={styles.container}>
       <ImageBackground source={taustakuva} style={styles.taustakuva}>
         <Text style={styles.otsikko}>Elintarvikepeli</Text>
-        <View style={styles.buttons}>
+        <View style={styles.navigointipainikkeet}>
           <TouchableOpacity
-            style={styles.button}
+            style={styles.painike}
             onPress={() => navigation.navigate('Gamerules')}
-          ><Text style={styles.buttonText}>Pelaa</Text></TouchableOpacity>
+          ><Text style={styles.painikkeenTeksti}>Pelaa</Text></TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.button}
+            style={styles.painike}
             onPress={() => navigation.navigate('Ohjeet')}
-          ><Text style={styles.buttonText}>Ohjeet</Text></TouchableOpacity>
+          ><Text style={styles.painikkeenTeksti}>Ohjeet</Text></TouchableOpacity>
         </View>
 
-        <Text style={styles.footer}>Datan tarjoaja: Terveyden ja hyvinvoinnin laitos, Fineli</Text>
+        <Text style={styles.alateksti}>Datan tarjoaja: Terveyden ja hyvinvoinnin laitos, Fineli</Text>
       </ImageBackground>
     </View>
   )
@@ -58,10 +58,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#c2efff',
     alignItems: 'center',
     justifyContent: 'center'
-
   },
   otsikko: {
     fontSize: 45,
@@ -73,9 +71,8 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: -2, height: 2 },
     textShadowRadius: 2,
     marginTop: 10
-
   },
-  footer: {
+  alateksti: {
     justifyContent: 'flex-end',
     letterSpacing: 1.1,
     fontSize: 12,
@@ -85,12 +82,12 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: -0.5, height: 0.5 },
     textShadowRadius: 1,
   },
-  buttons: {
+  navigointipainikkeet: {
     flex: 4,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  button: {
+  painike: {
     alignItems: "center",
     padding: 10,
     letterSpacing: 1.1,
@@ -102,11 +99,10 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 3
   },
-  buttonText: {
+  painikkeenTeksti: {
     letterSpacing: 1.1,
     fontWeight: 'bold',
     fontSize: 18
-
   },
   taustakuva: {
     flex: 1,
@@ -115,6 +111,4 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%'
   },
-
-
 });

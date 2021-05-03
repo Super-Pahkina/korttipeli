@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ImageBackground, StyleSheet, Text, View, Animated, TouchableHighlight, Button } from 'react-native';
 import { Card } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
@@ -220,7 +220,7 @@ export default function Vastus(props) {
     const a = {
       activeOpacity: 1,
       underlayColor: 'blue',
-      style: painettu == i ? styles.buttonPainettu : styles.rivi,
+      style: painettu == i ? styles.painikePainettu : styles.rivi,
       onPress: () => console.log('HELLO'),
     }
     return a
@@ -233,7 +233,7 @@ export default function Vastus(props) {
     >
 
       <View style={styles.container}>
-        <View style={styles.timer}>
+        <View style={styles.ajastin}>
           <CountdownCircleTimer
             onComplete={() => {
               tekoalyVuoro()
@@ -285,8 +285,8 @@ export default function Vastus(props) {
             <Card.Title>{elintarvike.name}</Card.Title>
             {ravintoarvot.map((ravintoarvo, index) => (
               <View {...kosketus(ravintoarvo)}>
-                <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
-                <Text style={styles.nutrition}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
+                <Text style={styles.ravintoarvonNimi}>{labels[ravintoarvo]}:  </Text>
+                <Text style={styles.ravintoarvolukema}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
               </View>
             ))}
           </Card>
@@ -304,7 +304,7 @@ export default function Vastus(props) {
           <></>
         }
         {vastustajanValinta ? <></> : pelattavanKortinValinta == 1 ?
-          <View style={styles.nappi}>
+          <View style={styles.painike}>
             <TouchableHighlight
               style={styles.valitseKortti}
               underlayColor='#c5eba4'
@@ -323,25 +323,16 @@ export default function Vastus(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 4,
-    // backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
     width: '100%',
-    //  backgroundColor: "#c2efff"
   },
-  text: {
-    fontWeight: "bold",
-  },
-  divider: {
-    backgroundColor: '#808791',
-    height: 1.5,
-  },
-  nutrition: {
+  ravintoarvolukema: {
     alignContent: 'flex-end',
     justifyContent: 'flex-end',
     color: 'brown',
   },
-  name: {
+  ravintoarvonNimi: {
     fontSize: 15,
     color: 'brown',
     alignItems: 'flex-start',
@@ -352,21 +343,13 @@ const styles = StyleSheet.create({
   carousel: {
     flex: 0.6,
   },
-  button: {
-    alignContent: 'flex-end',
-    justifyContent: 'space-around',
-    borderStyle: 'solid',
-    borderColor: '#808791',
-    borderWidth: 1,
-  },
-  timer: {
+  ajastin: {
     flex: 0.2,
     alignItems: 'flex-start',
     justifyContent: 'space-around',
     borderColor: '#c2efff',
     borderWidth: 1,
     paddingTop: 2
-
   },
   rivi: {
     flexDirection: 'row',
@@ -384,14 +367,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0f7ff',
     width: 300
   },
-  buttonPainettu: {
+  painikePainettu: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: 8,
     paddingBottom: 8,
     backgroundColor: '#cdd0d4'
   },
-  nappi: {
+  painike: {
     flex: 0.1,
     paddingTop: 10,
     alignItems: 'flex-start',

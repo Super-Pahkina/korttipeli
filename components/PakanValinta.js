@@ -186,23 +186,23 @@ export default function PakanValinta(props) {
                     </TouchableWithoutFeedback>
                 </View>
 
-                <View style={styles.napit}>
-                    <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { kokeilu(nyt) }}>
+                <View style={styles.painikkeet}>
+                    <TouchableHighlight style={styles.painike} underlayColor='#c5eba4' onPress={() => { kokeilu(nyt) }}>
                         {valitutIndeksit.includes(nyt) ?
                             <Text style={styles.ylaTeksti}>Poista kortti</Text>
                             :
                             <Text style={styles.ylaTeksti}>Valitse kortti</Text>}
                     </TouchableHighlight>
                 </View>
-                <View style={styles.napit}>
-                    <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { satunnaisetKortit() }}>
+                <View style={styles.painikkeet}>
+                    <TouchableHighlight style={styles.painike} underlayColor='#c5eba4' onPress={() => { satunnaisetKortit() }}>
                         <Text style={styles.ylaTeksti}>Arvo loput kortit</Text>
                     </TouchableHighlight>
                 </View>
-                <View style={styles.napit}>
+                <View>
                     {valittuPakka.length == tarvittavienKorttienMaara ?
                         <TouchableHighlight
-                            style={styles.button}
+                            style={styles.painike}
                             onPress={() => aloitaPeli()}>
                             <Text style={styles.ylaTeksti}>Aloita peli</Text>
                         </TouchableHighlight>
@@ -230,26 +230,21 @@ export default function PakanValinta(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        //  backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'flex-start',
         width: '100%',
-        // backgroundColor: '#c2efff',
         padding: 30
-        // 
     },
     carousel: {
         flex: 3,
-        //  backgroundColor: '#c2efff',
         paddingLeft: 25
     },
-    napit: {
+    painikkeet: {
         flex: 0.66,
         alignItems: 'center',
         justifyContent: 'center',
     },
-    button: {
-
+    painike: {
         justifyContent: 'flex-end',
         alignItems: "center",
         letterSpacing: 1.1,
@@ -285,5 +280,4 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%'
     },
-
 });

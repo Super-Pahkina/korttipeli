@@ -228,12 +228,10 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#c2efff',
     },
-
     pelinAsetukset: {
         justifyContent: 'center',
         width: '100%'
     },
-
     plusTaiMiinusNappi: {
         alignItems: "center",
         justifyContent: 'center',
@@ -246,7 +244,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#c2efff',
         borderWidth: 3,
     },
-
     plusTaiMiinusNappiEiAktiivinen: {
         alignItems: "center",
         justifyContent: 'center',
@@ -302,7 +299,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-
     dropdownValikko: {
         alignItems: 'center',
         minHeight: 250,

@@ -15,7 +15,7 @@ export default function Tulokset(props) {
   let vastustajanPisteet = propsit.VastustajanPisteet
   let elintarvike = propsit.elintarvike
   let elintarvike2 = propsit.elintarvike2
-  const taustakuva = propsit.kuvaUrl
+  const taustakuva = { uri: propsit.kuvaUrl}
 
   const labels = {
     salt: "Suola (mg)",
@@ -157,8 +157,8 @@ export default function Tulokset(props) {
 
   return (
     <ImageBackground
-      source={{ uri: taustakuva }}
-      style={{ width: '100%', height: '100%' }}
+      source={taustakuva}
+      style={styles.taustakuva}
     >
      <View style={styles.container}>
       <Text></Text>
@@ -333,5 +333,12 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 1,
 
-  }
+  },
+  taustakuva: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    width: '100%',
+    height: '100%'
+},
 });

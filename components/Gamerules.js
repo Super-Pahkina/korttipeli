@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { StyleSheet, Text, Button, View } from 'react-native';
+import { ImageBackground, StyleSheet, Text, Button, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function Gamerules({ navigation }) {
@@ -9,7 +9,7 @@ export default function Gamerules({ navigation }) {
     const [valittuElintarvikeLuokka, setValittuElintarvikeLuokka] = useState({});
     const [url, setUrl] = useState('');
     const [kuvaUrl, setKuvaUrl] = useState('');
-
+    const taustakuva = {uri: 'https://images.unsplash.com/photo-1551431009-a802eeec77b1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1934&q=80'}
     const baseUrl = 'https://elintarvikepeli.herokuapp.com/howmany';
     useEffect(() => {
         urlSetter();
@@ -19,7 +19,8 @@ export default function Gamerules({ navigation }) {
     const urlSetter = () => {
         if (valittuElintarvikeLuokka.parent === 'raaka') {
             setUrl(`${baseUrl}/ingredient/${voittopisteet * 5}/${valittuElintarvikeLuokka.value}`);
-            setKuvaUrl("https://source.unsplash.com/1600x900/?" + valittuElintarvikeLuokka.value + "/" + (Math.random() * 100).toFixed(0))
+            setKuvaUrl("https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=653&q=80")
+           // setKuvaUrl("https://source.unsplash.com/1600x900/?" + valittuElintarvikeLuokka.value) + "/" + (Math.random() * 10).toFixed(0))
         }
         else if (valittuElintarvikeLuokka.parent === 'valio') {
             setUrl(`${baseUrl}/diet/${voittopisteet * 5}/${valittuElintarvikeLuokka.value}`);
@@ -45,7 +46,8 @@ export default function Gamerules({ navigation }) {
             }
         } else {
             setUrl(`${baseUrl}/${voittopisteet * 5}`);
-            setKuvaUrl("https://source.unsplash.com/1600x900/?food/" + (Math.random() * 20).toFixed(0))
+            setKuvaUrl("https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=637&q=80")
+           // setKuvaUrl("https://source.unsplash.com/1600x900/?food/") + (Math.random() * 20).toFixed(0))
             console.log("else", kuvaUrl)
         }
         console.log("urli", url)
@@ -100,6 +102,10 @@ export default function Gamerules({ navigation }) {
 
     return (
         <View style={styles.container}>
+  <ImageBackground
+      source={taustakuva}
+      style={ styles.taustakuva}
+    >
             <View style={styles.pelinAsetukset}>
 
                 <View style={styles.kuvausJaNapit}>
@@ -198,8 +204,9 @@ export default function Gamerules({ navigation }) {
                 ><Text style={styles.teksti}>Aloita peli</Text></TouchableOpacity>
             </View>
 
-
+            </ImageBackground>
         </View>
+        
     );
 }
 
@@ -286,5 +293,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         minHeight: 250,
         justifyContent: 'flex-start',
-    }
+    },
+    taustakuva: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center",
+        width: '100%',
+        height: '100%'
+    },
 })

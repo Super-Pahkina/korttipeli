@@ -2,29 +2,30 @@ import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ImageBackground, StyleSheet, Text, Button, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { useNavigation } from '@react-navigation/native';
 import { Icon } from 'react-native-elements'
 
-export default function Gamerules({ navigation }) {
+export default function PelinAsetukset() {
     const [voittopisteet, setVoittopisteet] = useState(5);
     const [aika, setAika] = useState(30);
     const [valittuElintarvikeLuokka, setValittuElintarvikeLuokka] = useState({});
     const [url, setUrl] = useState('');
+    const navigaatio = useNavigation();
     const [kuvaUrl, setKuvaUrl] = useState('');
+    const alkuUrl = 'https://elintarvikepeli.herokuapp.com/howmany';
     const taustakuva = { uri: 'https://images.unsplash.com/photo-1551431009-a802eeec77b1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1934&q=80' }
-    const baseUrl = 'https://elintarvikepeli.herokuapp.com/howmany';
     useEffect(() => {
-        urlSetter();
+        UrlAsettaja();
     }, [valittuElintarvikeLuokka])
 
     // Tällä sivulla määritetään fetchattava url joka siirretään propseilla eteenpäin
-    const urlSetter = () => {
+    const UrlAsettaja = () => {
         if (valittuElintarvikeLuokka.parent === 'raaka') {
-            setUrl(`${baseUrl}/ingredient/${voittopisteet * 5}/${valittuElintarvikeLuokka.value}`);
+            setUrl(`${alkuUrl}/ingredient/${voittopisteet * 5}/${valittuElintarvikeLuokka.value}`);
             setKuvaUrl("https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=653&q=80")
-            // setKuvaUrl("https://source.unsplash.com/1600x900/?" + valittuElintarvikeLuokka.value) + "/" + (Math.random() * 10).toFixed(0))
         }
         else if (valittuElintarvikeLuokka.parent === 'valio') {
-            setUrl(`${baseUrl}/diet/${voittopisteet * 5}/${valittuElintarvikeLuokka.value}`);
+            setUrl(`${alkuUrl}/diet/${voittopisteet * 5}/${valittuElintarvikeLuokka.value}`);
             if (valittuElintarvikeLuokka.value === 'CHOLFREE') {
                 setKuvaUrl("https://source.unsplash.com/1600x900/?oatmeal")
             } else if (valittuElintarvikeLuokka.value === 'GLUTFREE') {
@@ -46,27 +47,10 @@ export default function Gamerules({ navigation }) {
                 setKuvaUrl("https://bit.ly/3aFhblP");
             }
         } else {
-            setUrl(`${baseUrl}/${voittopisteet * 5}`);
+            setUrl(`${alkuUrl}/${voittopisteet * 5}`);
             setKuvaUrl("https://images.unsplash.com/photo-1481931098730-318b6f776db0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=637&q=80")
-            // setKuvaUrl("https://source.unsplash.com/1600x900/?food/") + (Math.random() * 20).toFixed(0))
-            console.log("else", kuvaUrl)
         }
-        console.log("urli", url)
-        console.log("etluokka", valittuElintarvikeLuokka.value)
-        console.log("valittuetluokka", valittuElintarvikeLuokka)
-        console.log("kuvaurli", kuvaUrl)
     }
-    /*const kuvaUrlSetter = () => {
-        console.log("setteri", kuvaurl)
-        if (valittuElintarvikeLuokka.value === 'CHOLFREE') {
-            setKuvaUrl("https://source.unsplash.com/1600x900/?car")
-            console.log("setteri", kuvaurl)
-        }
-        else {
-            setKuvaUrl("https://source.unsplash.com/1600x900/?" + valittuElintarvikeLuokka.value + "/" + (Math.random() * 100).toFixed(0))
-            console.log("setteri2", kuvaurl)
-        }
-    }*/
 
     // Funktiot voittoon tarvittavien pisteiden ja käytössä olevan vuoroajan määrittelemiseen
     const PlusVoittopisteet = () => {
@@ -86,19 +70,19 @@ export default function Gamerules({ navigation }) {
     }
 
     // Ohjaa käyttäjän pakanvalintasivulle ja välittää tarvittavat propsit
-    const aloitaPeli = () => {
-        Propsit = {
+    const AloitaPeli = () => {
+        let Propsit = {
             url: url,
-            VoittoPisteet: voittopisteet,
+            voittoPisteet: voittopisteet,
             peliAika: aika,
             kaynnissa: true,
-            Pisteesi: 0,
-            VastustajanPisteet: 0,
+            pisteesi: 0,
+            vastustajanPisteet: 0,
             pelatutKortit: 0,
-            ValittuElintarvikeLuokka: valittuElintarvikeLuokka,
+            valittuElintarvikeLuokka: valittuElintarvikeLuokka,
             kuvaUrl: kuvaUrl,
         }
-        navigation.navigate('PakanValinta', { Propsit: Propsit })
+        navigaatio.navigate('PakanValinta', { Propsit: Propsit })
     }
 
     return (
@@ -117,7 +101,7 @@ export default function Gamerules({ navigation }) {
                             size={22}
                             reverse
                             raised
-                            onPress={() => navigation.navigate('Koti')}
+                            onPress={() => navigaatio.navigate('Koti')}
                         />
                         <Text style={styles.teksti}>Valitse vuoroaika (10-60)</Text>
 
@@ -205,15 +189,15 @@ export default function Gamerules({ navigation }) {
                         />
                     </View>
                 </View>
+            
 
-                <View style={styles.aloitaPeliView}>
-                    <TouchableOpacity
-                        style={styles.aloitaPeliNappi}
-                        onPress={() => aloitaPeli()}
-                    ><Text style={styles.teksti}>Aloita peli</Text></TouchableOpacity>
-                </View>
-
-            </ImageBackground>
+            <View style={styles.aloitaPeliView}>
+                <TouchableOpacity
+                    style={styles.aloitaPeliNappi}
+                    onPress={() => AloitaPeli()}
+                ><Text style={styles.teksti}>Aloita peli</Text></TouchableOpacity>
+            </View>
+        </ImageBackground>
         </View>
 
     );

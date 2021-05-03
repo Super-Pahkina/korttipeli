@@ -5,16 +5,16 @@ import { ImageBackground } from 'react-native';
 
 export default function Tulossivu(props) {
     const { route } = props
-    const { Tulokset } = route.params
-    const [tulos, setTulos] = useState(Tulokset);
-    const navigation = useNavigation();
+    const { tulokset } = route.params
+    const [tulos, setTulos] = useState(tulokset);
+    const navigaatio = useNavigation();
     const [taustakuva, setTaustakuva] = useState('');
 
     useEffect(() => {
-        taustakuvaSetter();
-    })
+        TaustakuvaAsettaja();
+    },)
 
-    const taustakuvaSetter = () => {
+    const TaustakuvaAsettaja = () => {
         if (tulos.tulos === 'Voitit pelin') {
             setTaustakuva("https://bit.ly/3nkPrYJ");
         } else {
@@ -29,15 +29,15 @@ export default function Tulossivu(props) {
             <View style={styles.container}>
                 <View>
                     <Text style={styles.tekstiRivi}>{tulos.tulos}</Text>
-                    <Text style={styles.tekstiRivi}>Pisteesi: {tulos.Pisteesi}</Text>
-                    <Text style={styles.tekstiRivi}>Vastustajan pisteet: {tulos.VastustajanPisteet}</Text>
-                    <Text style={styles.tekstiRivi}>Voittoon tarvittavat pisteet: {tulos.VoittoPisteet}</Text>
+                    <Text style={styles.tekstiRivi}>Pisteesi: {tulos.pisteesi}</Text>
+                    <Text style={styles.tekstiRivi}>Vastustajan pisteet: {tulos.vastustajanPisteet}</Text>
+                    <Text style={styles.tekstiRivi}>Voittoon tarvittavat pisteet: {tulos.voittoPisteet}</Text>
                 </View>
                 <View>
                     <TouchableHighlight
                         style={styles.siirryNappi}
                         underlayColor='#c5eba4'
-                        onPress={() => navigation.navigate('Koti')}>
+                        onPress={() => navigaatio.navigate('Koti')}>
                         <Text style={styles.teksti}>Palaa etusivulle</Text>
                     </TouchableHighlight>
                 </View>

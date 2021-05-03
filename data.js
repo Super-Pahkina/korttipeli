@@ -1,3 +1,7 @@
+import React, { useEffect, useState } from 'react'; 
+
+/*var data = [''];
+
 export default data = [
     {
       title: "Aenean leo",
@@ -14,4 +18,27 @@ export default data = [
       body: "Phasellus ullamcorper ipsum rutrum nunc. Nullam quis ante. Etiam ultricies nisi vel augue. Aenean tellus metus, bibendum sed, posuere ac, mattis non, nunc.",
       imgUrl: "https://picsum.photos/id/12/200/300"
     }
-  ]
+  ]*/
+
+  export default function Funktio() {
+
+  const [pakka, setPakka] = useState([]);
+  
+  
+  
+  useEffect(() => {
+      fetchCards()
+  }, [])
+  
+  const fetchCards = async () => {
+      try {
+          let response = await fetch(`http://192.168.56.1:3001/howmany/5`) // oman koneen IP
+          setPakka(await response.json())
+      } catch (error) {
+          console.log("ERROR", error)
+      }
+  }
+
+    return pakka;
+  }
+  

@@ -1,11 +1,11 @@
 import React from 'react';
 import { ImageBackground, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import Kortti from './components/Kortti';
+import PelaajanVuoro from './components/PelaajanVuoro';
 import Ohjeet from './components/Ohjeet';
 import Tulossivu from './components/Tulossivu';
 import Tulokset from './components/KierroksenTulos';
 import Vastus from './components/VastustajanVuoro';
-import Gamerules from './components/Gamerules';
+import PelinAsetukset from './components/PelinAsetukset';
 import PakanValinta from './components/PakanValinta';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
@@ -22,7 +22,7 @@ function Koti({ navigation }) {
         <View style={styles.navigointipainikkeet}>
           <TouchableOpacity
             style={styles.painike}
-            onPress={() => navigation.navigate('Gamerules')}
+            onPress={() => navigation.navigate('PelinAsetukset')}
           ><Text style={styles.painikkeenTeksti}>Pelaa</Text></TouchableOpacity>
 
           <TouchableOpacity
@@ -43,8 +43,8 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Koti" component={Koti} />
-        <Stack.Screen name="Gamerules" component={Gamerules} />
-        <Stack.Screen name="Kortti" component={Kortti} />
+        <Stack.Screen name="PelinAsetukset" component={PelinAsetukset} />
+        <Stack.Screen name="PelaajanVuoro" component={PelaajanVuoro} />
         <Stack.Screen name="Tulossivu" component={Tulossivu} />
         <Stack.Screen name="KierroksenTulos" component={Tulokset} />
         <Stack.Screen name="VastustajanVuoro" component={Vastus} />

@@ -7,17 +7,17 @@ import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 export default function Tulokset(props) {
 
   const [vuoro, setVuoro] = useState("Vastus")
-  const navigation = useNavigation();
+  const navigaatio = useNavigation();
   let { route } = props
   let { Propsit } = route.params
   let propsit = Propsit
-  let pisteesi = propsit.Pisteesi
-  let vastustajanPisteet = propsit.VastustajanPisteet
+  let pisteesi = propsit.pisteesi
+  let vastustajanPisteet = propsit.vastustajanPisteet
   let elintarvike = propsit.elintarvike
   let elintarvike2 = propsit.elintarvike2
   const taustakuva = { uri: propsit.kuvaUrl }
 
-  const labels = {
+  const leimat = {
     salt: "Suola (mg)",
     energyKcal: "Energia (Kcal)",
     fat: "Rasva (g)",
@@ -33,7 +33,7 @@ export default function Tulokset(props) {
   let ravintoarvot2 = Object.keys(elintarvike2.nutrition);
   ['salt', 'energyKcal', 'fat', 'protein', 'carbohydrate', 'sugar', 'fiber']
 
-  const valitseIkoni = (elintarvike) => {
+  const ValitseIkoni = (elintarvike) => {
     if (elintarvike.jokeri === 'true') {
       return <Icon
         name='diamond'
@@ -54,44 +54,43 @@ export default function Tulokset(props) {
 
   //Funktio, joka määrittää mihin sivuun siirrytään ja annetaan tarvittavat propsit. Jos pisteet ovat sama kuin voittoon tarvittavat pisteet, 
   //siirrytään voittoruutuun. Muussa tapauksessa annetaan vuoro edellisen vuoron perusteella.
-  const siirry = () => {
-    if (pisteesi >= propsit.VoittoPisteet) {
-      let Tulos = {
+  const Siirry = () => {
+    if (pisteesi >= propsit.voittoPisteet) {
+      let tulos = {
         tulos: 'Voitit pelin',
-        Pisteesi: pisteesi,
-        VastustajanPisteet: vastustajanPisteet,
-        VoittoPisteet: propsit.VoittoPisteet
+        pisteesi: pisteesi,
+        vastustajanPisteet: vastustajanPisteet,
+        voittoPisteet: propsit.voittoPisteet
       }
-      navigation.navigate('Tulossivu', { Tulokset: Tulos })
-    } else if (vastustajanPisteet >= propsit.VoittoPisteet) {
-      let Tulos = {
+      navigaatio.navigate('Tulossivu', { tulokset: tulos })
+    } else if (vastustajanPisteet >= propsit.voittoPisteet) {
+      let tulos = {
         tulos: 'Hävisit pelin',
-        Pisteesi: pisteesi,
-        VastustajanPisteet: vastustajanPisteet,
-        VoittoPisteet: propsit.VoittoPisteet
+        pisteesi: pisteesi,
+        vastustajanPisteet: vastustajanPisteet,
+        voittoPisteet: propsit.voittoPisteet
       }
-      navigation.navigate('Tulossivu', { Tulokset: Tulos })
+      navigaatio.navigate('Tulossivu', { tulokset: tulos })
     } else {
       console.log("Kierros", propsit.pelatutKortit)
       let Propsit = {
         kaynnissa: true,
         valittuArvo: propsit.valittuArvo,
         peliAika: propsit.peliAika,
-        Pisteesi: pisteesi,
-        VastustajanPisteet: vastustajanPisteet,
-        VoittoPisteet: propsit.VoittoPisteet,
+        pisteesi: pisteesi,
+        vastustajanPisteet: vastustajanPisteet,
+        voittoPisteet: propsit.voittoPisteet,
         pelatutKortit: propsit.pelatutKortit,
         omaPakka: propsit.omaPakka,
         vastustajanPakka: propsit.vastustajanPakka,
         kuvaUrl: propsit.kuvaUrl,
       }
-      console.log(Propsit.valittuArvo)
       if (vuoro == "Pelaaja") {
         setVuoro("Vastus")
-        navigation.navigate('Kortti', { Propsit: Propsit })
+        navigaatio.navigate('PelaajanVuoro', { Propsit: Propsit })
       } else if (vuoro == "Vastus") {
         setVuoro("Pelaaja")
-        navigation.navigate('VastustajanVuoro', { Propsit: Propsit })
+        navigaatio.navigate('VastustajanVuoro', { Propsit: Propsit })
       }
     }
   }
@@ -108,7 +107,7 @@ export default function Tulokset(props) {
   }
 
   //Pistetilanteen päivitys -funktio
-  const Pisteesi = () => {
+  const PelaajanPisteidenPaivitys = () => {
     if (Number(elintarvike.nutrition[propsit.valittuArvo]) >= Number(elintarvike2.nutrition[propsit.valittuArvo])) {
       if (elintarvike.pommi === 'true') {
         pisteesi = pisteesi + 1
@@ -122,7 +121,7 @@ export default function Tulokset(props) {
   }
 
   //Pistetilanteen päivitys -funktio
-  const VastustajanPisteet = () => {
+  const VastustajanPisteidenPaivitys = () => {
     if (Number(elintarvike.nutrition[propsit.valittuArvo]) <= Number(elintarvike2.nutrition[propsit.valittuArvo])) {
       if (elintarvike2.pommi === 'true') {
         vastustajanPisteet = vastustajanPisteet + 1
@@ -136,21 +135,21 @@ export default function Tulokset(props) {
   }
 
   //Valitun arvon korostaminen
-  const kosketus = (i) => {
+  const Korostus = (i) => {
     const a = {
       activeOpacity: 1,
       underlayColor: 'blue',
-      style: propsit.valittuArvo == i ? styles.painikePainettu : styles.rivi,
-      onPress: () => console.log('HELLO'),
+      style: propsit.valittuArvo == i ? styles.korostus : styles.rivi,
+      onPress: () => console.log(''),
     }
     return a
   };
 
   //Tekstin värin muokkaaminen vertailun perusteella
-  const tekstinVari = (ravintoarvo) => {
+  const TekstinVari = (ravintoarvo) => {
     const a = {
-      style: Vertaa(ravintoarvo) == 2 ? styles.ravintoarvonNimiPunainen : Vertaa(ravintoarvo) == 1 ? styles.ravintoarvonNimiVihrea : styles.ravintoarvonNimiSininen,
-      onPress: () => console.log('HELLO'),
+      style: Vertaa(ravintoarvo) == 2 ? styles.nimiPunainen : Vertaa(ravintoarvo) == 1 ? styles.nimiVihrea : styles.nimiSininen,
+      onPress: () => console.log(''),
     }
     return a
   };
@@ -160,7 +159,7 @@ export default function Tulokset(props) {
       source={taustakuva}
       style={styles.taustakuva}
     >
-      <View style={styles.container}>
+      <View style={styles.kontti}>
         <Text></Text>
         <View style={styles.ylarivinTyyli}>
           <Icon
@@ -169,19 +168,19 @@ export default function Tulokset(props) {
             size={22}
             reverse
             raised
-            onPress={() => navigation.navigate('Koti')}
+            onPress={() => navigaatio.navigate('Koti')}
           />
           <View>
-            <Text style={styles.ylarivinTeksti}>Pisteesi: {Pisteesi()} / {propsit.VoittoPisteet} </Text>
-            <Text style={styles.ylarivinTeksti}>Vastustajan pisteet: {VastustajanPisteet()} / {propsit.VoittoPisteet} </Text>
+            <Text style={styles.ylarivinTeksti}>Pisteesi: {PelaajanPisteidenPaivitys()} / {propsit.voittoPisteet} </Text>
+            <Text style={styles.ylarivinTeksti}>Vastustajan pisteet: {VastustajanPisteidenPaivitys()} / {propsit.voittoPisteet} </Text>
           </View>
         </View>
         <Card containerStyle={styles.kortti}>
-          <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike2)}{elintarvike2.name}</Card.Title>
+          <Card.Title style={styles.otsikko}>{ValitseIkoni(elintarvike2)}{elintarvike2.name}</Card.Title>
           {ravintoarvot2.map((ravintoarvo, index) => (
-            <View {...kosketus(ravintoarvo)}>
-              <Text style={styles.ravintoarvonNimi}>{labels[ravintoarvo]}:  </Text>
-              <Text style={styles.ravintoarvolukema}>{Number(elintarvike2.nutrition[ravintoarvo]).toFixed(3)}</Text>
+            <View {...Korostus(ravintoarvo)}>
+              <Text style={styles.nimi}>{leimat[ravintoarvo]}:  </Text>
+              <Text style={styles.ravinto}>{Number(elintarvike2.nutrition[ravintoarvo]).toFixed(3)}</Text>
               {Vertaa(ravintoarvo) == 2 ?
                 <AntDesign name="caretup" size={24} color="green" />
                 : Vertaa(ravintoarvo) == 1 ?
@@ -192,11 +191,11 @@ export default function Tulokset(props) {
           ))}
         </Card>
         <Card containerStyle={styles.kortti}>
-          <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike)}{elintarvike.name}</Card.Title>
+          <Card.Title style={styles.otsikko}>{ValitseIkoni(elintarvike)}{elintarvike.name}</Card.Title>
           {ravintoarvot.map((ravintoarvo, index) => (
-            <View key={index} {...kosketus(ravintoarvo)}>
-              <Text {...tekstinVari(ravintoarvo)}>{labels[ravintoarvo]}: </Text>
-              <Text style={styles.ravintoarvolukema}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
+            <View key={index} {...Korostus(ravintoarvo)}>
+              <Text {...TekstinVari(ravintoarvo)}>{leimat[ravintoarvo]}: </Text>
+              <Text style={styles.ravinto}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
               {Vertaa(ravintoarvo) == 1 ?
                 <AntDesign name="caretup" size={24} color="green" />
                 : Vertaa(ravintoarvo) == 2 ?
@@ -210,7 +209,7 @@ export default function Tulokset(props) {
           <TouchableHighlight
             style={styles.siirryPainike}
             underlayColor='#c5eba4'
-            onPress={() => siirry()}>
+            onPress={() => Siirry()}>
             <Text style={styles.teksti}>Jatka</Text>
           </TouchableHighlight>
         </View>
@@ -220,11 +219,15 @@ export default function Tulokset(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  kontti: {
     flex: 4,
     alignItems: 'center',
     justifyContent: 'flex-start',
     width: '100%',
+  },
+  kuvake: {
+    alignContent: 'flex-end',
+    justifyContent: 'space-around',
   },
   otsikko: {
     height: "10%",
@@ -232,14 +235,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     color: "black"
   },
-  ravintoarvolukema: {
+  ravinto: {
     alignContent: 'flex-end',
     justifyContent: 'flex-end',
     color: 'black',
     fontWeight: "bold",
     textAlign: "right",
   },
-  ravintoarvonNimi: {
+  nimi: {
     fontSize: 15,
     width: 160,
     color: 'brown',
@@ -248,7 +251,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
   },
-  ravintoarvonNimiPunainen: {
+  nimiPunainen: {
     fontSize: 15,
     width: 160,
     color: 'red',
@@ -257,7 +260,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
   },
-  ravintoarvonNimiVihrea: {
+  nimiVihrea: {
     fontSize: 15,
     width: 160,
     color: 'darkgreen',
@@ -266,7 +269,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
   },
-  ravintoarvonNimiSininen: {
+  nimiSininen: {
     fontSize: 15,
     width: 160,
     color: 'blue',
@@ -289,7 +292,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0f7ff',
     width: 300
   },
-  painikePainettu: {
+  korostus: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#cdd0d4'

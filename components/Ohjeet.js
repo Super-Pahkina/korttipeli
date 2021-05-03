@@ -218,14 +218,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         letterSpacing: 1.5,
         color: '#7F5CF3'
-
     },
     alaotsikko2: {
         fontSize: 16,
         fontWeight: 'bold',
         letterSpacing: 1.5,
         color: '#7F5CF3'
-
     },
     taustakuva: {
         flex: 1,

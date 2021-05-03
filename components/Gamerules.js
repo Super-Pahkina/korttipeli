@@ -243,6 +243,7 @@ const styles = StyleSheet.create({
         width: 100,
         margin: 20,
         borderColor: 'black',
+        backgroundColor: '#c2efff',
         borderWidth: 3,
     },
 
@@ -283,7 +284,11 @@ const styles = StyleSheet.create({
         letterSpacing: 1.1,
         textAlign: 'center',
         fontSize: 15,
-        fontWeight: 'bold'
+        color: 'black',
+        fontWeight: 'bold',
+        textShadowColor: 'white',
+        textShadowOffset: { width: -1, height: 1 },
+        textShadowRadius: 1,
     },
     kuvausJaNapit: {
         marginBottom: 20,

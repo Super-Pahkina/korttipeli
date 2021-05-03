@@ -4,7 +4,7 @@ import { TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback } from '
 import { ImageBackground, View, StyleSheet, Text, Button } from 'react-native';
 import Carousel from 'react-native-snap-carousel'
 import KarusellinKortti, { SLIDER_WIDTH, ITEM_WIDTH } from './KarusellinKortti'
-
+import { Icon } from 'react-native-elements'
 export default function PakanValinta(props) {
     const [pakka, setPakka] = useState([]);
     const navigaatio = useNavigation();
@@ -20,7 +20,7 @@ export default function PakanValinta(props) {
     let tarvittavienKorttienMaara = propsit.voittoPisteet * 2 - 1;
     let teksti = "Valitse kortteja: " + String(valittuPakka.length) + "/" + String(tarvittavienKorttienMaara);
     const [napinTeksti, setNapinTeksti] = useState(teksti);
-    const taustakuva = propsit.kuvaUrl
+    const taustakuva = { uri: propsit.kuvaUrl }
 
     const VaihdaIndeksi = (currentIndex) => {
         setKarusellinIndeksi(currentIndex);
@@ -102,14 +102,22 @@ export default function PakanValinta(props) {
 
     return (
         <ImageBackground
-            source={{ uri: taustakuva }}
-            style={{ width: '100%', height: '100%' }}>
+            source={taustakuva}
+            style={styles.taustakuva}>
 
             <View style={styles.container}>
+                <Icon
+                    name='home'
+                    type='font-awesome'
+                    size={22}
+                    reverse
+                    raised
+                    onPress={() => navigaatio.navigate('Koti')}
+                />
                 {tarvittavienKorttienMaara == 1 ?
-                    <Text style={styles.teksti}>Valitse {tarvittavienKorttienMaara} kortti</Text>
+                    <Text style={styles.ylaTeksti}>Valitse {tarvittavienKorttienMaara} kortti</Text>
                     :
-                    <Text style={styles.teksti}>Valitse {tarvittavienKorttienMaara} korttia</Text>}
+                    <Text style={styles.ylaTeksti}>Valitse {tarvittavienKorttienMaara} korttia</Text>}
                 {/*Kortin tulostus*/}
                 <View style={styles.carousel}>
                     <TouchableWithoutFeedback style={styles.carousel} onPress={() => { LisaaTaiPoistaKortti(karusellinIndeksi) }}>
@@ -135,7 +143,7 @@ export default function PakanValinta(props) {
                         {valitutIndeksit.includes(karusellinIndeksi) ?
                             <Text style={styles.teksti}>Poista kortti</Text>
                             :
-                            <Text style={styles.teksti}>Valitse kortti</Text>}
+                            <Text style={styles.ylaTeksti}>Valitse kortti</Text>}
                     </TouchableHighlight>
                 </View>
                 <View style={styles.napit}>
@@ -145,11 +153,12 @@ export default function PakanValinta(props) {
                 </View>
                 <View style={styles.napit}>
                     {valittuPakka.length == tarvittavienKorttienMaara ?
-                        <Button
-                            title="Aloita peli"
-                            onPress={() => AloitaPeli()}
-                            paddingTop="20"
-                        />
+                        <TouchableHighlight
+                            style={styles.button}
+                            onPress={() => AloitaPeli()}>
+                            <Text style={styles.ylaTeksti}>Aloita peli</Text>
+                        </TouchableHighlight>
+
                         :
                         valittuPakka.length > tarvittavienKorttienMaara ?
                             <Button
@@ -203,21 +212,30 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderWidth: 3
     },
-    teksti: {
+    ylaTeksti: {
         justifyContent: 'center',
         textAlign: 'center',
-
         letterSpacing: 1.1,
         fontWeight: 'bold',
-        fontSize: 15,
+        fontSize: 20,
         alignItems: 'center',
         justifyContent: 'center',
+        textShadowColor: 'white',
+        textShadowOffset: { width: -1, height: 1 },
+        textShadowRadius: 1,
     },
     pakassa: {
         backgroundColor: 'green'
     },
     eiPakassa: {
         backgroundColor: 'red'
+    },
+    taustakuva: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center",
+        width: '100%',
+        height: '100%'
     },
 
 });

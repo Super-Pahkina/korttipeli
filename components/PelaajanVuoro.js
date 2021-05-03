@@ -23,7 +23,7 @@ export default function PelaajanVuoro(props) {
   const [pelatutKortit, setPelatutKortit] = useState(propsit.pelatutKortit);
   const [omaPakka, setOmaPakka] = useState(propsit.omaPakka)
   const [vastustajanPakka, setVastustajanPakka] = useState(propsit.vastustajanPakka);
-  const taustakuva = propsit.kuvaUrl
+  const taustakuva = { uri: propsit.kuvaUrl }
 
   const ValitseIkoni = () => {
     if (elintarvike.jokeri === 'true') {
@@ -238,8 +238,8 @@ export default function PelaajanVuoro(props) {
 
   return (
     <ImageBackground
-      source={{ uri: taustakuva }}
-      style={{ width: '100%', height: '100%' }}
+      source={taustakuva}
+      style={styles.taustakuva}
     >
       <View style={styles.container}>
         <View style={styles.timer}>
@@ -320,8 +320,13 @@ export default function PelaajanVuoro(props) {
         }
         {painettu == null ?
           <></> :
-          <View style={styles.nappi}>
-            <Button title="Lukitse valinta" onPress={() => Lukitse()}></Button>
+          <View style={styles.napit}>
+            <TouchableHighlight
+              style={styles.valitseKortti}
+              underlayColor='#c5eba4'
+              onPress={() => Lukitse()}>
+              <Text syle={styles.teksti}>Lukitse valinta</Text>
+            </TouchableHighlight>
           </View>
         }
         {viesti == null ?
@@ -442,5 +447,12 @@ const styles = StyleSheet.create({
     width: 200,
     borderColor: 'black',
     borderWidth: 3
-  }
+  },
+  taustakuva: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    width: '100%',
+    height: '100%'
+  },
 });

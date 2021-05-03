@@ -21,7 +21,7 @@ export default function Vastus(props) {
   const [pelattavanKortinValinta, setPelattavanKortinValinta] = useState(0);
   const [vastustajanPakka, setVastustajanPakka] = useState(propsit.vastustajanPakka);
   const [vastustajanValinta, setVastustajanValinta] = useState(true);
-  const taustakuva = propsit.kuvaUrl
+  const taustakuva = { uri: propsit.kuvaUrl }
   const [aika, setAika] = useState(3);
   const [karusellinLukitus, setKarusellinLukitus] = useState(false);
 
@@ -240,8 +240,8 @@ export default function Vastus(props) {
 
   return (
     <ImageBackground
-      source={{ uri: taustakuva }}
-      style={{ width: '100%', height: '100%' }}
+      source={taustakuva}
+      style={styles.taustakuva}
     >
       <View style={styles.container}>
         <View style={styles.timer}>
@@ -317,7 +317,12 @@ export default function Vastus(props) {
         }
         {vastustajanValinta ? <></> : pelattavanKortinValinta == 1 ?
           <View style={styles.nappi}>
-            <Button title="Lukitse valinta" onPress={() => Lukitse()}></Button>
+            <TouchableHighlight
+              style={styles.valitseKortti}
+              underlayColor='#c5eba4'
+              onPress={() => Lukitse()}>
+              <Text style={styles.teksti}>Lukitse valinta</Text>
+            </TouchableHighlight>
           </View>
           :
           <></>
@@ -432,5 +437,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 15,
     fontWeight: 'bold'
-  }
+  },
+  taustakuva: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    width: '100%',
+    height: '100%'
+  },
 });

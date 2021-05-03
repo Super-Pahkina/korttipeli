@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ImageBackground } from 'react-native';
 
@@ -17,56 +17,76 @@ export default function Tulossivu(props) {
     const TaustakuvaAsettaja = () => {
         if (tulos.tulos === 'Voitit pelin') {
             setTaustakuva("https://bit.ly/3nkPrYJ");
-        }   else {
+        } else {
             setTaustakuva("https://bit.ly/32LKpeg");
         }
     }
-        return (
-            <ImageBackground
-                source={{ uri: taustakuva }}
-                style={{ width: '100%', height: '100%' }}
-            >
-                <View style={styles.container}>
-                    <View style={styles.teksti}>
-                        <Text>Tulos: {tulos.tulos}</Text>
-                        <Text>Pisteesi: {tulos.pisteesi}</Text>
-                        <Text>Vastustajan pisteet: {tulos.vastustajanPisteet}</Text>
-                        <Text>Voittoon tarvittavat pisteet: {tulos.voittoPisteet}</Text>
-                    </View>
-                    <View style={styles.nappi}>
-                        <Button
-                            title="Palaa etusivulle"
-                            onPress={() => navigaatio.navigate('Koti')}
-                        />
-                    </View>
+    return (
+        <ImageBackground
+            source={{ uri: taustakuva }}
+            style={styles.taustakuva}
+        >
+            <View style={styles.container}>
+                <View>
+                    <Text style={styles.tekstiRivi}>{tulos.tulos}</Text>
+                    <Text style={styles.tekstiRivi}>Pisteesi: {tulos.pisteesi}</Text>
+                    <Text style={styles.tekstiRivi}>Vastustajan pisteet: {tulos.vastustajanPisteet}</Text>
+                    <Text style={styles.tekstiRivi}>Voittoon tarvittavat pisteet: {tulos.voittoPisteet}</Text>
                 </View>
-            </ImageBackground>
-        )
+                <View>
+                    <TouchableHighlight
+                        style={styles.siirryNappi}
+                        underlayColor='#c5eba4'
+                        onPress={() => navigaatio.navigate('Koti')}>
+                        <Text style={styles.teksti}>Palaa etusivulle</Text>
+                    </TouchableHighlight>
+                </View>
+            </View>
+        </ImageBackground>
+    )
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 3,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%'
+    },
+    teksti: {
+        marginBottom: 10,
+        letterSpacing: 1.1,
+        textAlign: 'center',
+        fontSize: 15,
+        fontWeight: 'bold'
+    },
+    tekstiRivi: {
+        marginBottom: 5,
+        letterSpacing: 1.1,
+        textAlign: 'center',
+        fontSize: 25,
+        fontWeight: 'bold',
+        textShadowColor: 'white',
+        textShadowOffset: { width: -1, height: 1 },
+        textShadowRadius: 1,
+    },
+    siirryNappi: {
+        marginTop: 10,
+        justifyContent: 'center',
+        alignItems: "center",
+        letterSpacing: 1.1,
+        borderRadius: 10,
+        padding: 10,
+        backgroundColor: '#c2efff',
+        width: 200,
+        borderColor: 'black',
+        borderWidth: 3
+    },
+    taustakuva: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center",
+        width: '100%',
+        height: '100%'
     }
-
-    const styles = StyleSheet.create({
-        container: {
-            flex: 3,
-            //  backgroundColor: '#fff',
-            alignItems: 'center',
-            justifyContent: 'center',
-            //  backgroundColor: '#c2efff',
-            width: '100%'
-        },
-
-        teksti: {
-            flex: 1,
-          //  backgroundColor: '#fff',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-        //    backgroundColor: '#c2efff',
-            width: '100%'
-        },
-
-        nappi: {
-            flex: 1,
-            alignItems: 'flex-start',
-            justifyContent: 'flex-start',
-            paddingTop: 20
-        },
-    })
+})

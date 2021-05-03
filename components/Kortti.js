@@ -24,7 +24,7 @@ export default function Kortti(props) {
   const [pelatutKortit, setPelatutKortit] = useState(propsit.pelatutKortit);
   const [omaPakka, setOmaPakka] = useState(propsit.omaPakka)
   const [vastustajanPakka, setVastustajanPakka] = useState(propsit.vastustajanPakka);
-  const taustakuva = {uri : propsit.kuvaUrl}
+  const taustakuva = { uri: propsit.kuvaUrl }
 
   const valitseIkoni = () => {
     if (elintarvike.jokeri === 'true') {

@@ -23,7 +23,7 @@ export default function Vastus(props) {
   const [pelattavanKortinValinta, setPelattavanKortinValinta] = useState(0);
   const [vastustajanPakka, setVastustajanPakka] = useState(propsit.vastustajanPakka);
   const [vastustajanValinta, setVastustajanValinta] = useState(true);
-  const taustakuva = {uri: propsit.kuvaUrl}
+  const taustakuva = { uri: propsit.kuvaUrl }
   const [aika, setAika] = useState(3);
 
   //Annetaan uudet kortit vuoron alussa.
@@ -427,5 +427,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: '100%',
     height: '100%'
-},
+  },
 });

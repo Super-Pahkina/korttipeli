@@ -2,27 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StyleSheet, Text, Button, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { useNavigation } from '@react-navigation/native';
 
-export default function Gamerules({ navigation }) {
+export default function PelinAsetukset() {
     const [voittopisteet, setVoittopisteet] = useState(5);
     const [aika, setAika] = useState(30);
     const [valittuElintarvikeLuokka, setValittuElintarvikeLuokka] = useState({});
     const [url, setUrl] = useState('');
+    const navigaatio = useNavigation();
     const [kuvaUrl, setKuvaUrl] = useState('');
-
-    const baseUrl = 'https://elintarvikepeli.herokuapp.com/howmany';
+    const alkuUrl = 'https://elintarvikepeli.herokuapp.com/howmany';
     useEffect(() => {
-        urlSetter();
+        UrlAsettaja();
     }, [valittuElintarvikeLuokka])
 
     // Tällä sivulla määritetään fetchattava url joka siirretään propseilla eteenpäin
-    const urlSetter = () => {
+    const UrlAsettaja = () => {
         if (valittuElintarvikeLuokka.parent === 'raaka') {
-            setUrl(`${baseUrl}/ingredient/${voittopisteet * 5}/${valittuElintarvikeLuokka.value}`);
+            setUrl(`${alkuUrl}/ingredient/${voittopisteet * 5}/${valittuElintarvikeLuokka.value}`);
             setKuvaUrl("https://source.unsplash.com/1600x900/?" + valittuElintarvikeLuokka.value + "/" + (Math.random() * 100).toFixed(0))
         }
         else if (valittuElintarvikeLuokka.parent === 'valio') {
-            setUrl(`${baseUrl}/diet/${voittopisteet * 5}/${valittuElintarvikeLuokka.value}`);
+            setUrl(`${alkuUrl}/diet/${voittopisteet * 5}/${valittuElintarvikeLuokka.value}`);
             if (valittuElintarvikeLuokka.value === 'CHOLFREE') {
                 setKuvaUrl("https://source.unsplash.com/1600x900/?oatmeal")
             } else if (valittuElintarvikeLuokka.value === 'GLUTFREE') {
@@ -44,26 +45,10 @@ export default function Gamerules({ navigation }) {
                 setKuvaUrl("https://bit.ly/3aFhblP");
             }
         } else {
-            setUrl(`${baseUrl}/${voittopisteet * 5}`);
+            setUrl(`${alkuUrl}/${voittopisteet * 5}`);
             setKuvaUrl("https://source.unsplash.com/1600x900/?food/" + (Math.random() * 20).toFixed(0))
-            console.log("else", kuvaUrl)
         }
-        console.log("urli", url)
-        console.log("etluokka", valittuElintarvikeLuokka.value)
-        console.log("valittuetluokka", valittuElintarvikeLuokka)
-        console.log("kuvaurli", kuvaUrl)
     }
-    /*const kuvaUrlSetter = () => {
-        console.log("setteri", kuvaurl)
-        if (valittuElintarvikeLuokka.value === 'CHOLFREE') {
-            setKuvaUrl("https://source.unsplash.com/1600x900/?car")
-            console.log("setteri", kuvaurl)
-        }
-        else {
-            setKuvaUrl("https://source.unsplash.com/1600x900/?" + valittuElintarvikeLuokka.value + "/" + (Math.random() * 100).toFixed(0))
-            console.log("setteri2", kuvaurl)
-        }
-    }*/
 
     // Funktiot voittoon tarvittavien pisteiden ja käytössä olevan vuoroajan määrittelemiseen
     const PlusVoittopisteet = () => {
@@ -83,29 +68,26 @@ export default function Gamerules({ navigation }) {
     }
 
     // Ohjaa käyttäjän pakanvalintasivulle ja välittää tarvittavat propsit
-    const aloitaPeli = () => {
-        Propsit = {
+    const AloitaPeli = () => {
+        let Propsit = {
             url: url,
-            VoittoPisteet: voittopisteet,
+            voittoPisteet: voittopisteet,
             peliAika: aika,
             kaynnissa: true,
-            Pisteesi: 0,
-            VastustajanPisteet: 0,
+            pisteesi: 0,
+            vastustajanPisteet: 0,
             pelatutKortit: 0,
-            ValittuElintarvikeLuokka: valittuElintarvikeLuokka,
+            valittuElintarvikeLuokka: valittuElintarvikeLuokka,
             kuvaUrl: kuvaUrl,
         }
-        navigation.navigate('PakanValinta', { Propsit: Propsit })
+        navigaatio.navigate('PakanValinta', { Propsit: Propsit })
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.pelinAsetukset}>
-
                 <View style={styles.kuvausJaNapit}>
-
                     <Text style={styles.teksti}>Valitse vuoroaika (10-60)</Text>
-
                     <View style={styles.valinta}>
                         {aika < 11 ?
                             <TouchableOpacity style={styles.plusTaiMiinusNappiEiAktiivinen}>
@@ -194,7 +176,7 @@ export default function Gamerules({ navigation }) {
             <View style={styles.aloitaPeliView}>
                 <TouchableOpacity
                     style={styles.aloitaPeliNappi}
-                    onPress={() => aloitaPeli()}
+                    onPress={() => AloitaPeli()}
                 ><Text style={styles.teksti}>Aloita peli</Text></TouchableOpacity>
             </View>
 

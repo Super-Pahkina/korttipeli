@@ -5,16 +5,16 @@ import { ImageBackground } from 'react-native';
 
 export default function Tulossivu(props) {
     const { route } = props
-    const { Tulokset } = route.params
-    const [tulos, setTulos] = useState(Tulokset);
-    const navigation = useNavigation();
+    const { tulokset } = route.params
+    const [tulos, setTulos] = useState(tulokset);
+    const navigaatio = useNavigation();
     const [taustakuva, setTaustakuva] = useState('');
 
     useEffect(() => {
-        taustakuvaSetter();
+        TaustakuvaAsettaja();
     },)
 
-    const taustakuvaSetter = () => {
+    const TaustakuvaAsettaja = () => {
         if (tulos.tulos === 'Voitit pelin') {
             setTaustakuva("https://bit.ly/3nkPrYJ");
         }   else {
@@ -29,14 +29,14 @@ export default function Tulossivu(props) {
                 <View style={styles.container}>
                     <View style={styles.teksti}>
                         <Text>Tulos: {tulos.tulos}</Text>
-                        <Text>Pisteesi: {tulos.Pisteesi}</Text>
-                        <Text>Vastustajan pisteet: {tulos.VastustajanPisteet}</Text>
-                        <Text>Voittoon tarvittavat pisteet: {tulos.VoittoPisteet}</Text>
+                        <Text>Pisteesi: {tulos.pisteesi}</Text>
+                        <Text>Vastustajan pisteet: {tulos.vastustajanPisteet}</Text>
+                        <Text>Voittoon tarvittavat pisteet: {tulos.voittoPisteet}</Text>
                     </View>
                     <View style={styles.nappi}>
                         <Button
                             title="Palaa etusivulle"
-                            onPress={() => navigation.navigate('Koti')}
+                            onPress={() => navigaatio.navigate('Koti')}
                         />
                     </View>
                 </View>

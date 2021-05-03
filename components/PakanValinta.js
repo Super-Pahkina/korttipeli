@@ -2,44 +2,33 @@ import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { ImageBackground, View, StyleSheet, Text, Button } from 'react-native';
-import { SafeAreaView } from 'react-native'
 import Carousel from 'react-native-snap-carousel'
-import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarouselCardItem'
-import { CarouselTest } from './CarouselCardItem'
+import KarusellinKortti, { SLIDER_WIDTH, ITEM_WIDTH } from './KarusellinKortti'
 
 export default function PakanValinta(props) {
     const [pakka, setPakka] = useState([]);
-
-    //const [kortit, setKortit] = useState([]);
-    const navigation = useNavigation();
-    const isCarousel = React.useRef((c) => { this._carousel = c; })
+    const navigaatio = useNavigation();
+    const onKaruselli = React.useRef((c) => { this._carousel = c; })
     let { route } = props
     let { Propsit } = route.params
     let propsit = Propsit
     let url = propsit.url
-
-    //const [state, setState] = useState({currentIndex:0});
-    const [nyt, setNyt] = useState(0);
-    let kortit = pakka.slice(0, Math.round((propsit.VoittoPisteet * 2 - 1) * 1.5))
+    const [karusellinIndeksi, setKarusellinIndeksi] = useState(0);
+    let kortit = pakka.slice(0, Math.round((propsit.voittoPisteet * 2 - 1) * 1.5))
     const [valittuPakka, setValittuPakka] = useState([]);
     const [valitutIndeksit, setValitutIndeksit] = useState([])
-    let tarvittavienKorttienMaara = propsit.VoittoPisteet * 2 - 1;
+    let tarvittavienKorttienMaara = propsit.voittoPisteet * 2 - 1;
     let teksti = "Valitse kortteja: " + String(valittuPakka.length) + "/" + String(tarvittavienKorttienMaara);
     const [napinTeksti, setNapinTeksti] = useState(teksti);
     const taustakuva = propsit.kuvaUrl
-    //this.changeIndex = this.changeIndex.bind(this);
 
-    const changeIndex = (currentIndex) => {
-        setNyt(currentIndex);
-        console.log(taustakuva);
-        console.log(nyt, "ny");
-        console.log(currentIndex, "Indeks");
-        console.log("testi", propsit.ValittuElintarvikeLuokka.value);
+    const VaihdaIndeksi = (currentIndex) => {
+        setKarusellinIndeksi(currentIndex);
     }
 
     useEffect(() => {
         let mounted = true;
-        const fetchCards = async () => {
+        const HaeKortit = async () => {
             try {
                 let response = await fetch(url)
                 let pakkaJson = await response.json()
@@ -49,55 +38,31 @@ export default function PakanValinta(props) {
                 console.log("ERROR FETCHISSÄ", error)
             }
         }
-        fetchCards()
+        HaeKortit()
         return () => {
             mounted = false;
         }
     }, [])
-    // TODO:
-    // cancel all subscriptions and asynchronous tasks in a useEffect cleanup function
-    /*useEffect(() => {
-        //const testi = valittavatKortit();
-        fetchCards()
-        console.log("URRLI", url)
-        console.log("PAKKA", pakka.length)
-    }, [])
 
-    // hakee tarvittavan määrän kortteja
-    const fetchCards = async () => {
-        try {
-            let response = await fetch(url)
-            setPakka(await response.json())
-        } catch (error) {
-            console.log("ERROR FETCHISSÄ", error)
-        }
-    }
- */
     //Ohjataan käyttäjän vuorolle ja annetaan tarvittavat tiedot
-    const aloitaPeli = () => {
-        console.log(pakka.length)
-        let vastuksenKortit = pakka.splice(Math.round((propsit.VoittoPisteet * 2 - 1) * 1.5))
-        console.log(pakka.length)
-        Propsit = {
-            VoittoPisteet: propsit.VoittoPisteet,
+    const AloitaPeli = () => {
+        let vastuksenKortit = pakka.splice(Math.round((propsit.voittoPisteet * 2 - 1) * 1.5))
+        let Propsit = {
+            voittoPisteet: propsit.voittoPisteet,
             peliAika: propsit.peliAika,
             kaynnissa: true,
-            Pisteesi: 0,
-            VastustajanPisteet: 0,
+            pisteesi: 0,
+            vastustajanPisteet: 0,
             omaPakka: valittuPakka,
             vastustajanPakka: vastuksenKortit,
             pelatutKortit: 0,
             kuvaUrl: propsit.kuvaUrl,
         }
-        navigation.navigate('Kortti', { Propsit: Propsit })
+        navigaatio.navigate('PelaajanVuoro', { Propsit: Propsit })
     }
-    /*const kasvataArvo = () => {
-        String(valittuPakka.length) + "/" + String.(tarvittavienKorttienMaara);
-    }*/
 
     //Napin painaminen lisää kortin pelattavaan pakkaan, ei duplikaatteja.
-    const kokeilu = (i) => {
-        console.log("NO NYTTE", i)
+    const LisaaTaiPoistaKortti = (i) => {
         if (valittuPakka.includes(pakka[i], 0)) {
 
             var x = 0;
@@ -116,7 +81,7 @@ export default function PakanValinta(props) {
         setNapinTeksti(teksti);
     }
 
-    const satunnaisetKortit = () => {
+    const SatunnaisetKortit = () => {
         let i = 0;
         while (valittuPakka.length < tarvittavienKorttienMaara) {
             if (!valittuPakka.includes(pakka[i], 0)) {
@@ -135,16 +100,6 @@ export default function PakanValinta(props) {
         setNapinTeksti(teksti);
     }
 
-    const korostus = (i) => {
-        const a = {
-            activeOpacity: 1,
-            underlayColor: 'blue',
-            style: valittuPakka.includes(pakka[i], 0) ? styles.pakassa : styles.eiPakassa,
-            onPress: () => console.log('HELLO'),
-        }
-        return a
-    };
-
     return (
         <ImageBackground
             source={{ uri: taustakuva }}
@@ -157,36 +112,34 @@ export default function PakanValinta(props) {
                     <Text style={styles.teksti}>Valitse {tarvittavienKorttienMaara} korttia</Text>}
                 {/*Kortin tulostus*/}
                 <View style={styles.carousel}>
-                    <TouchableWithoutFeedback style={styles.carousel} onPress={() => { kokeilu(nyt) }}>
+                    <TouchableWithoutFeedback style={styles.carousel} onPress={() => { LisaaTaiPoistaKortti(karusellinIndeksi) }}>
                         <Carousel
-                            {...korostus()}
                             layout="stack"
                             layoutCardOffset={9}
-                            ref={isCarousel}
-                            //ref={(c) => { this._carousel = c; }}
+                            ref={onKaruselli}
                             data={kortit.map((kortti, index) => ({ kortti, valittu: valittuPakka }))}
-                            renderItem={CarouselCardItem}
+                            renderItem={KarusellinKortti}
                             sliderWidth={SLIDER_WIDTH}
                             itemWidth={ITEM_WIDTH}
                             sliderHeight={2000}
                             itemHeight={2000}
                             inactiveSlideShift={0}
                             useScrollView={true}
-                            onSnapToItem={changeIndex}
+                            onSnapToItem={VaihdaIndeksi}
                         />
                     </TouchableWithoutFeedback>
                 </View>
 
                 <View style={styles.napit}>
-                    <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { kokeilu(nyt) }}>
-                        {valitutIndeksit.includes(nyt) ?
+                    <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { LisaaTaiPoistaKortti(karusellinIndeksi) }}>
+                        {valitutIndeksit.includes(karusellinIndeksi) ?
                             <Text style={styles.teksti}>Poista kortti</Text>
                             :
                             <Text style={styles.teksti}>Valitse kortti</Text>}
                     </TouchableHighlight>
                 </View>
                 <View style={styles.napit}>
-                    <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { satunnaisetKortit() }}>
+                    <TouchableHighlight style={styles.button} underlayColor='#c5eba4' onPress={() => { SatunnaisetKortit() }}>
                         <Text style={styles.teksti}>Arvo loput kortit</Text>
                     </TouchableHighlight>
                 </View>
@@ -194,7 +147,7 @@ export default function PakanValinta(props) {
                     {valittuPakka.length == tarvittavienKorttienMaara ?
                         <Button
                             title="Aloita peli"
-                            onPress={() => aloitaPeli()}
+                            onPress={() => AloitaPeli()}
                             paddingTop="20"
                         />
                         :

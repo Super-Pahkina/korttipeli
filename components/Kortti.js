@@ -24,7 +24,7 @@ export default function Kortti(props) {
   const [pelatutKortit, setPelatutKortit] = useState(propsit.pelatutKortit);
   const [omaPakka, setOmaPakka] = useState(propsit.omaPakka)
   const [vastustajanPakka, setVastustajanPakka] = useState(propsit.vastustajanPakka);
-  const taustakuva = propsit.kuvaUrl
+  const taustakuva = { uri: propsit.kuvaUrl }
 
   const valitseIkoni = () => {
     if (elintarvike.jokeri === 'true') {
@@ -254,8 +254,8 @@ export default function Kortti(props) {
 
   return (
     <ImageBackground
-      source={{ uri: taustakuva }}
-      style={{ width: '100%', height: '100%' }}
+      source={taustakuva}
+      style={styles.taustakuva}
     >
       <View style={styles.container}>
         <View style={styles.timer}>
@@ -463,5 +463,12 @@ const styles = StyleSheet.create({
     width: 200,
     borderColor: 'black',
     borderWidth: 3
-  }
+  },
+  taustakuva: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    width: '100%',
+    height: '100%'
+  },
 });

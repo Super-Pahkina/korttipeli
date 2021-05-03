@@ -15,7 +15,7 @@ export default function Tulokset(props) {
   let vastustajanPisteet = propsit.VastustajanPisteet
   let elintarvike = propsit.elintarvike
   let elintarvike2 = propsit.elintarvike2
-  const taustakuva = propsit.kuvaUrl
+  const taustakuva = { uri: propsit.kuvaUrl }
 
   const labels = {
     salt: "Suola (mg)",
@@ -157,8 +157,8 @@ export default function Tulokset(props) {
 
   return (
     <ImageBackground
-      source={{ uri: taustakuva }}
-      style={{ width: '100%', height: '100%' }}
+      source={taustakuva}
+      style={styles.taustakuva}
     >
       <View style={styles.container}>
         <Text></Text>
@@ -215,7 +215,7 @@ export default function Tulokset(props) {
           </TouchableHighlight>
         </View>
       </View>
-    </ImageBackground>
+    </ImageBackground >
 
 
   )
@@ -369,5 +369,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 15,
     fontWeight: 'bold'
+
+  },
+  taustakuva: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    width: '100%',
+    height: '100%'
   },
 });

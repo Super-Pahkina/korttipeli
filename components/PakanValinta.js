@@ -27,7 +27,7 @@ export default function PakanValinta(props) {
     let tarvittavienKorttienMaara = propsit.VoittoPisteet * 2 - 1;
     let teksti = "Valitse kortteja: " + String(valittuPakka.length) + "/" + String(tarvittavienKorttienMaara);
     const [napinTeksti, setNapinTeksti] = useState(teksti);
-    const taustakuva = propsit.kuvaUrl
+    const taustakuva = { uri: propsit.kuvaUrl }
     //this.changeIndex = this.changeIndex.bind(this);
 
     const changeIndex = (currentIndex) => {
@@ -148,8 +148,8 @@ export default function PakanValinta(props) {
 
     return (
         <ImageBackground
-            source={{ uri: taustakuva }}
-            style={{ width: '100%', height: '100%' }}>
+            source={taustakuva}
+            style={styles.taustakuva}>
 
             <View style={styles.container}>
                 <Icon
@@ -277,6 +277,13 @@ const styles = StyleSheet.create({
     },
     eiPakassa: {
         backgroundColor: 'red'
+    },
+    taustakuva: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center",
+        width: '100%',
+        height: '100%'
     },
 
 });

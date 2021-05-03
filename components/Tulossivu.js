@@ -24,7 +24,7 @@ export default function Tulossivu(props) {
     return (
         <ImageBackground
             source={{ uri: taustakuva }}
-            style={{ width: '100%', height: '100%' }}
+            style={styles.taustakuva}
         >
             <View style={styles.container}>
                 <View>
@@ -82,4 +82,11 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderWidth: 3
     },
+    taustakuva: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center",
+        width: '100%',
+        height: '100%'
+    }
 })

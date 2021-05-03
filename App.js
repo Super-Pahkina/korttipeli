@@ -41,7 +41,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Koti" component={Koti} />
         <Stack.Screen name="Gamerules" component={Gamerules} />
         <Stack.Screen name="Kortti" component={Kortti} />

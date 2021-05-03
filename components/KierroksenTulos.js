@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ImageBackground, StyleSheet, Text, View, Button } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { Card, Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
@@ -160,49 +160,64 @@ export default function Tulokset(props) {
       source={{ uri: taustakuva }}
       style={{ width: '100%', height: '100%' }}
     >
-     <View style={styles.container}>
-      <Text></Text>
-      <View>
-        <Text style={styles.ylarivinTeksti}>Pisteesi: {Pisteesi()} / {propsit.VoittoPisteet} </Text>
-        <Text style={styles.ylarivinTeksti}>Vastustajan pisteet: {VastustajanPisteet()} / {propsit.VoittoPisteet} </Text>
-      </View>
-      <Card containerStyle={styles.kortti}>
-        <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike2)}{elintarvike2.name}</Card.Title>
-        {ravintoarvot2.map((ravintoarvo, index) => (
-          <View {...kosketus(ravintoarvo)}>
-            <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
-            <Text style={styles.nutrition2}>{Number(elintarvike2.nutrition[ravintoarvo]).toFixed(3)}</Text>
-            {Vertaa(ravintoarvo) == 2 ?
-              <AntDesign name="caretup" size={24} color="green" />
-              : Vertaa(ravintoarvo) == 1 ?
-                <AntDesign name="caretdown" size={24} color="red" />
-                :
-                <FontAwesome5 name="equals" size={24} color="blue" />}
+      <View style={styles.container}>
+        <Text></Text>
+        <View style={styles.ylarivinTyyli}>
+          <Icon
+            name='home'
+            type='font-awesome'
+            size={22}
+            reverse
+            raised
+            onPress={() => navigation.navigate('Koti')}
+          />
+          <View>
+            <Text style={styles.ylarivinTeksti}>Pisteesi: {Pisteesi()} / {propsit.VoittoPisteet} </Text>
+            <Text style={styles.ylarivinTeksti}>Vastustajan pisteet: {VastustajanPisteet()} / {propsit.VoittoPisteet} </Text>
           </View>
-        ))}
-      </Card>
-      <Card containerStyle={styles.kortti}>
-        <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike)}{elintarvike.name}</Card.Title>
-        {ravintoarvot.map((ravintoarvo, index) => (
-          <View key={index} {...kosketus(ravintoarvo)}>
-            <Text {...tekstinVari(ravintoarvo)}>{labels[ravintoarvo]}: </Text>
-            <Text style={styles.nutrition2}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
-            {Vertaa(ravintoarvo) == 1 ?
-              <AntDesign name="caretup" size={24} color="green" />
-              : Vertaa(ravintoarvo) == 2 ?
-                <AntDesign name="caretdown" size={24} color="red" />
-                :
-                <FontAwesome5 name="equals" size={24} color="blue" />}
-          </View>
-        ))}
-      </Card>
-      <View style={styles.nappi}>
-        <Button title="Siirry" onPress={() => siirry()}></Button>
+        </View>
+        <Card containerStyle={styles.kortti}>
+          <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike2)}{elintarvike2.name}</Card.Title>
+          {ravintoarvot2.map((ravintoarvo, index) => (
+            <View {...kosketus(ravintoarvo)}>
+              <Text style={styles.name}>{labels[ravintoarvo]}:  </Text>
+              <Text style={styles.nutrition2}>{Number(elintarvike2.nutrition[ravintoarvo]).toFixed(3)}</Text>
+              {Vertaa(ravintoarvo) == 2 ?
+                <AntDesign name="caretup" size={24} color="green" />
+                : Vertaa(ravintoarvo) == 1 ?
+                  <AntDesign name="caretdown" size={24} color="red" />
+                  :
+                  <FontAwesome5 name="equals" size={24} color="blue" />}
+            </View>
+          ))}
+        </Card>
+        <Card containerStyle={styles.kortti}>
+          <Card.Title style={styles.otsikko}>{valitseIkoni(elintarvike)}{elintarvike.name}</Card.Title>
+          {ravintoarvot.map((ravintoarvo, index) => (
+            <View key={index} {...kosketus(ravintoarvo)}>
+              <Text {...tekstinVari(ravintoarvo)}>{labels[ravintoarvo]}: </Text>
+              <Text style={styles.nutrition2}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
+              {Vertaa(ravintoarvo) == 1 ?
+                <AntDesign name="caretup" size={24} color="green" />
+                : Vertaa(ravintoarvo) == 2 ?
+                  <AntDesign name="caretdown" size={24} color="red" />
+                  :
+                  <FontAwesome5 name="equals" size={24} color="blue" />}
+            </View>
+          ))}
+        </Card>
+        <View style={styles.nappi}>
+          <TouchableHighlight
+            style={styles.siirryNappi}
+            underlayColor='#c5eba4'
+            onPress={() => siirry()}>
+            <Text style={styles.teksti}>Jatka</Text>
+          </TouchableHighlight>
+        </View>
       </View>
-    </View>
-      </ImageBackground>
+    </ImageBackground>
 
-    
+
   )
 }
 
@@ -324,7 +339,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   ylarivinTeksti: {
-    marginBottom: 10,
+    marginBottom: 5,
     letterSpacing: 1.1,
     textAlign: 'center',
     fontSize: 15,
@@ -332,6 +347,27 @@ const styles = StyleSheet.create({
     textShadowColor: 'white',
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 1,
-
-  }
+  },
+  ylarivinTyyli: {
+    flexDirection: 'row',
+  },
+  siirryNappi: {
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: "center",
+    letterSpacing: 1.1,
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: '#c2efff',
+    width: 200,
+    borderColor: 'black',
+    borderWidth: 3
+  },
+  teksti: {
+    marginBottom: 10,
+    letterSpacing: 1.1,
+    textAlign: 'center',
+    fontSize: 15,
+    fontWeight: 'bold'
+  },
 });

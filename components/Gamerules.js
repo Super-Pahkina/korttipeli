@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StyleSheet, Text, Button, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { Icon } from 'react-native-elements'
 
 export default function Gamerules({ navigation }) {
     const [voittopisteet, setVoittopisteet] = useState(5);
@@ -103,7 +104,15 @@ export default function Gamerules({ navigation }) {
             <View style={styles.pelinAsetukset}>
 
                 <View style={styles.kuvausJaNapit}>
-
+                    <Text></Text>
+                    <Icon
+                        name='home'
+                        type='font-awesome'
+                        size={22}
+                        reverse
+                        raised
+                        onPress={() => navigation.navigate('Koti')}
+                    />
                     <Text style={styles.teksti}>Valitse vuoroaika (10-60)</Text>
 
                     <View style={styles.valinta}>

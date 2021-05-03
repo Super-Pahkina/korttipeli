@@ -336,8 +336,13 @@ export default function Kortti(props) {
         }
         {painettu == null ?
           <></> :
-          <View style={styles.nappi}>
-            <Button title="Lukitse valinta" onPress={() => lukitse()}></Button>
+          <View style={styles.napit}>
+            <TouchableHighlight
+              style={styles.valitseKortti}
+              underlayColor='#c5eba4'
+              onPress={() => lukitse()}>
+              <Text syle={styles.teksti}>Lukitse valinta</Text>
+            </TouchableHighlight>
           </View>
         }
         {viesti == null ?

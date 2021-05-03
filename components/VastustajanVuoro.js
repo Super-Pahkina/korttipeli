@@ -305,7 +305,12 @@ export default function Vastus(props) {
         }
         {vastustajanValinta ? <></> : pelattavanKortinValinta == 1 ?
           <View style={styles.nappi}>
-            <Button title="Lukitse valinta" onPress={() => lukitse()}></Button>
+            <TouchableHighlight
+              style={styles.valitseKortti}
+              underlayColor='#c5eba4'
+              onPress={() => lukitse()}>
+              <Text style={styles.teksti}>Lukitse valinta</Text>
+            </TouchableHighlight>
           </View>
           :
           <></>

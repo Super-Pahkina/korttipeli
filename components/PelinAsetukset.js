@@ -195,7 +195,7 @@ export default function PelinAsetukset() {
                 <TouchableOpacity
                     style={styles.aloitaPeliNappi}
                     onPress={() => AloitaPeli()}
-                ><Text style={styles.teksti}>Aloita peli</Text></TouchableOpacity>
+                ><Text style={styles.painikkeenTeksti}>Aloita peli</Text></TouchableOpacity>
             </View>
         </ImageBackground>
         </View>
@@ -265,11 +265,19 @@ const styles = StyleSheet.create({
         letterSpacing: 1.1,
         textAlign: 'center',
         fontSize: 15,
-        color: 'black',
         fontWeight: 'bold',
-        textShadowColor: 'white',
+        textShadowColor: 'black',
         textShadowOffset: { width: -1, height: 1 },
         textShadowRadius: 1,
+        color: '#c2efff'
+    },
+    painikkeenTeksti: {
+        padding: 10,
+        letterSpacing: 1.1,
+        textAlign: 'center',
+        fontSize: 15,
+        color: 'black',
+        fontWeight: 'bold',
     },
     kuvausJaNapit: {
         marginBottom: 20,

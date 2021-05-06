@@ -141,14 +141,14 @@ export default function PakanValinta(props) {
                 <View style={styles.painikkeet}>
                     <TouchableHighlight style={styles.painike} underlayColor='#c5eba4' onPress={() => { LisaaTaiPoistaKortti(karusellinIndeksi) }}>
                         {valitutIndeksit.includes(karusellinIndeksi) ?
-                            <Text style={styles.ylaTeksti}>Poista kortti</Text>
+                            <Text style={styles.painikkeenTeksti}>Poista kortti</Text>
                             :
-                            <Text style={styles.ylaTeksti}>Valitse kortti</Text>}
+                            <Text style={styles.painikkeenTeksti}>Valitse kortti</Text>}
                     </TouchableHighlight>
                 </View>
                 <View style={styles.painikkeet}>
                     <TouchableHighlight style={styles.painike} underlayColor='#c5eba4' onPress={() => { SatunnaisetKortit() }}>
-                        <Text style={styles.ylaTeksti}>Arvo loput kortit</Text>
+                        <Text style={styles.painikkeenTeksti}>Arvo loput kortit</Text>
                     </TouchableHighlight>
                 </View>
                 <View>
@@ -156,7 +156,7 @@ export default function PakanValinta(props) {
                         <TouchableHighlight
                             style={styles.painike}
                             onPress={() => AloitaPeli()}>
-                            <Text style={styles.ylaTeksti}>Aloita peli</Text>
+                            <Text style={styles.painikkeenTeksti}>Aloita peli</Text>
                         </TouchableHighlight>
 
                         :
@@ -215,9 +215,18 @@ const styles = StyleSheet.create({
         fontSize: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        textShadowColor: 'white',
+        textShadowColor: 'black',
         textShadowOffset: { width: -1, height: 1 },
         textShadowRadius: 1,
+        color: '#c2efff'
+    },
+    painikkeenTeksti: {
+        padding: 7,
+        letterSpacing: 1.1,
+        textAlign: 'center',
+        fontSize: 15,
+        color: 'black',
+        fontWeight: 'bold',
     },
     pakassa: {
         backgroundColor: 'green'

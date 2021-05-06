@@ -184,7 +184,7 @@ export default function Tulokset(props) {
             raised
             onPress={vahvistaSiirtyminenKoti}
           />
-          <View>
+          <View style={styles.pelitilanne}>
             <Text style={styles.ylarivinTeksti}>Pisteesi: {PelaajanPisteidenPaivitys()} / {propsit.voittoPisteet} </Text>
             <Text style={styles.ylarivinTeksti}>Vastustajan pisteet: {VastustajanPisteidenPaivitys()} / {propsit.voittoPisteet} </Text>
           </View>
@@ -323,10 +323,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 15,
     fontWeight: 'bold',
-    textShadowColor: 'white',
+    textShadowColor: 'black',
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 1,
+    color: '#c2efff'
   },
+
   ylarivinTyyli: {
     flexDirection: 'row',
   },
@@ -356,4 +358,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%'
   },
+  pelitilanne: {
+    marginLeft: 20,
+    alignItems: 'flex-start',
+    marginTop: 4,
+    justifyContent: 'center'
+  }
 });

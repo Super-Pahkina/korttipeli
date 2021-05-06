@@ -415,9 +415,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 15,
     fontWeight: 'bold',
-    textShadowColor: 'white',
+    textShadowColor: 'black',
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 1,
+    color: '#c2efff'
   },
   valitseKorttiPainike: {
     marginTop: 10,

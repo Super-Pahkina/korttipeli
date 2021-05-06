@@ -102,7 +102,7 @@ Ruudulle tulostuu pelatun kierroksen tulos. Ruudun yläosassa näkyy vastustajan
 
 Käyttäjä saa pisteen mikäli käyttäjän kortilla oleva valittu ravintoarvo on suurempi tai yhtäsuuri kuin vastustajalla.
 
-![Kierroksen tulos](kuvat/8.jpg)
+![Kierroksen tulos](kuvat/8.jpg)![Asetukset2](kuvat/15.jpg)
 
  ### Vastustajan vuoro
 Vuoro siirtyy vastustajalle. Ruudun yläreunaan tulostuu vastustajan valitsema ravintoarvokategoria.

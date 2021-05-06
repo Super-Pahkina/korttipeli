@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ImageBackground, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, TouchableHighlight, Alert } from 'react-native';
 import { Card, Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
@@ -154,6 +154,20 @@ export default function Tulokset(props) {
     return a
   };
 
+  const vahvistaSiirtyminenKoti = () => {
+    Alert.alert(
+      "Vahvista",
+      "Oletko varma, että haluat keskeyttää pelin ja siirtyä etusivulle?",
+      [
+        {
+          text: "Peruuta",
+          style: "cancel"
+        },
+        { text: "Siirry", onPress: () => navigaatio.navigate('Koti') }
+      ]
+    );
+  }
+
   return (
     <ImageBackground
       source={taustakuva}
@@ -168,7 +182,7 @@ export default function Tulokset(props) {
             size={22}
             reverse
             raised
-            onPress={() => navigaatio.navigate('Koti')}
+            onPress={vahvistaSiirtyminenKoti}
           />
           <View>
             <Text style={styles.ylarivinTeksti}>Pisteesi: {PelaajanPisteidenPaivitys()} / {propsit.voittoPisteet} </Text>

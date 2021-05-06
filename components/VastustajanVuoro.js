@@ -338,6 +338,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     width: '100%',
+    marginTop: 20
   },
   ravintoarvolukema: {
     alignContent: 'flex-end',
@@ -417,7 +418,7 @@ const styles = StyleSheet.create({
     borderWidth: 3
   },
   teksti: {
-    marginBottom: 10,
+    //marginBottom: 10,
     letterSpacing: 1.1,
     textAlign: 'center',
     fontSize: 15,

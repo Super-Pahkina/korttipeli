@@ -333,9 +333,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   siirryPainike: {
-    marginTop: 10,
-    justifyContent: 'center',
-    alignItems: "center",
+    //marginTop: 10,
+    //justifyContent: 'center',
+    //alignItems: "center",
     letterSpacing: 1.1,
     borderRadius: 10,
     padding: 10,
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
     borderWidth: 3
   },
   teksti: {
-    marginBottom: 10,
+    //marginBottom: 10,
     letterSpacing: 1.1,
     textAlign: 'center',
     fontSize: 15,

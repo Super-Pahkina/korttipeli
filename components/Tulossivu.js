@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     teksti: {
-        marginBottom: 10,
+        //marginBottom: 10,
         letterSpacing: 1.1,
         textAlign: 'center',
         fontSize: 15,
@@ -72,12 +72,12 @@ const styles = StyleSheet.create({
         color: '#c2efff'
     },
     siirryNappi: {
-        marginTop: 10,
+        marginTop: 100,
         justifyContent: 'center',
         alignItems: "center",
         letterSpacing: 1.1,
         borderRadius: 10,
-        padding: 10,
+        padding: 15,
         backgroundColor: '#c2efff',
         width: 200,
         borderColor: 'black',

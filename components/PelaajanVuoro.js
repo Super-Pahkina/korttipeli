@@ -329,7 +329,7 @@ export default function PelaajanVuoro(props) {
               style={styles.valitseKorttiPainike}
               underlayColor='#c5eba4'
               onPress={() => Lukitse()}>
-              <Text syle={styles.teksti}>Lukitse valinta</Text>
+              <Text style={styles.teksti}>Lukitse valinta</Text>
             </TouchableHighlight>
           </View>
         }
@@ -344,6 +344,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     width: '100%',
+    marginTop: 20
   },
   ravintoarvolukema: {
     alignContent: 'flex-end',
@@ -403,7 +404,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#cdd0d4'
   },
   teksti: {
-    marginBottom: 10,
+    //marginBottom: 10,
     letterSpacing: 1.1,
     textAlign: 'center',
     fontSize: 15,
@@ -426,7 +427,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     letterSpacing: 1.1,
     borderRadius: 10,
-    padding: 10,
+    padding: 15,
     backgroundColor: '#c2efff',
     width: 200,
     borderColor: 'black',
@@ -437,6 +438,6 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     justifyContent: "center",
     width: '100%',
-    height: '100%'
+    height: '100%',
   },
 });

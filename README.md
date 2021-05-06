@@ -80,7 +80,7 @@ Oletusselain siirtyy Expon sivulle, jonne ilmestyy QR-koodi. Lue QR-koodi mobiil
 ### Pelin asetukset
 Käyttäjä aloittaa pelaamisen valitsemalla pelin asetuksista vuoroajan pituuden, voittoon tarvittavat pisteet ja pelattavan kategorian. 
 
-![Kuva](kuvat/10.png)
+![Kuva](kuvat/11.jpg)
 
 ### Pakan valinta
 Käyttäjä siirtyy pakanvalintasivulle, jossa on mahdollisuus valita ruudulla olevista vaihtoehdoista elintarvikekortteja omaan pakkaan tai arpoa pelattavat kortit.

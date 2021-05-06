@@ -85,6 +85,7 @@ Käyttäjä aloittaa pelaamisen valitsemalla pelin asetuksista vuoroajan pituude
 
 ### Pakan valinta
 Käyttäjä siirtyy pakanvalintasivulle, jossa on mahdollisuus valita ruudulla olevista vaihtoehdoista elintarvikekortteja omaan pakkaan tai arpoa pelattavat kortit.
+
 ![valinta](kuvat/4.jpg)
 ![valinta2](kuvat/5.jpg)
 

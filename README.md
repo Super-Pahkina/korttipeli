@@ -34,24 +34,23 @@ Android/iOS-emulaattori
 
 Projektin voi kloonata komennolla
 
- ```
- $ git clone https://github.com/Super-Pahkina/korttipeli.git
- ```
+ 
+    $ git clone https://github.com/Super-Pahkina/korttipeli.git
+ 
 
   Osoitteesta https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository löytyvät tarkemmat ohjeet projektin kloonaamiseksi.
 
 Aja projektin juurihakemistossa komento
  
- ```
- $ npm install
- ```
+ 
+    $ npm install
+ 
 riippuvuuksien lataamiseksi.
 
 Projekti käynnistyy syöttämällä komento
 
-```
- $ expo start
-```
+    $ expo start
+
  
 projektin juurihakemistossa.
 
@@ -61,7 +60,7 @@ Oletusselain siirtyy Expon sivulle, jonne ilmestyy QR-koodi. Lue QR-koodi mobiil
 - Moninpeli
 - Käyttäjätunnuksen luominen
 - Animaatiot
-- 
+
 
 --------------
 
@@ -81,7 +80,7 @@ Oletusselain siirtyy Expon sivulle, jonne ilmestyy QR-koodi. Lue QR-koodi mobiil
 ### Pelin asetukset
 Käyttäjä aloittaa pelaamisen valitsemalla pelin asetuksista vuoroajan pituuden, voittoon tarvittavat pisteet ja pelattavan kategorian. 
 
-// selventävä KUVA RUUDUSTA joss näkyy kategoriat
+![Kuva](kuvat/10.png)
 
 ### Pakan valinta
 Käyttäjä siirtyy pakanvalintasivulle, jossa on mahdollisuus valita ruudulla olevista vaihtoehdoista elintarvikekortteja omaan pakkaan tai arpoa pelattavat kortit.

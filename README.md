@@ -133,4 +133,10 @@ Lumikortin tunnistaa elintarvikkeen nimen edessä olevasta lumihiutaleikonista.
 ![Kierroksen tulos](kuvat/14.jpg)
 ![Kierroksen tulos](kuvat/9.jpg)
 
+### Lisenssi
+[MIT](https://choosealicense.com/licenses/mit/)
+
+Finelin data:
+[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.fi)
+
 

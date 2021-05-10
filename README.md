@@ -133,6 +133,10 @@ Lumikortin tunnistaa elintarvikkeen nimen edessä olevasta lumihiutaleikonista.
 ![Kierroksen tulos](kuvat/14.jpg)
 ![Kierroksen tulos](kuvat/9.jpg)
 
+### Julkaistu versio
+Peliä voi kokeilla lukemalla QR-koodi osoitteessa: https://expo.io/@kri-ku/projects/korttipeli.
+Pelin kokeilemiseksi tarvitset Android-puhelimen ja asennetun Expo GO -sovelluksen.
+
 ### Lisenssi
 [MIT](https://choosealicense.com/licenses/mit/)
 

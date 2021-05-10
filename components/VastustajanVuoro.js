@@ -186,11 +186,56 @@ export default function Vastus(props) {
     return vastustajanKortti
   }
 
-  //Tekoälynä toimiva Math.random() funktio tekee tekoälyn
+  const Tekoaly = () => {
+    console.log(vastustajanPakka[Number(propsit.pelatutKortit)].salt)
+    let valinta = Number((Math.random() * (vastustajanPakka[Number(propsit.pelatutKortit)].salt / 80)).toFixed(0)) //Suola
+    let valinta2 = Number((Math.random() * (vastustajanPakka[Number(propsit.pelatutKortit)].energyKcal / 20)).toFixed(0)) //Energia
+    let valinta3 = Number((Math.random() * (vastustajanPakka[Number(propsit.pelatutKortit)].fat)).toFixed(0)) //Rasva
+    let valinta4 = Number((Math.random() * (vastustajanPakka[Number(propsit.pelatutKortit)].protein)).toFixed(0)) //Proteiini
+    let valinta5 = Number((Math.random() * (vastustajanPakka[Number(propsit.pelatutKortit)].carbohydrate)).toFixed(0)) //Hiilihydraatti
+    let valinta6 = Number((Math.random() * (vastustajanPakka[Number(propsit.pelatutKortit)].sugar)).toFixed(0)) //Sokeri
+    let valinta7 = Number((Math.random() * (vastustajanPakka[Number(propsit.pelatutKortit)].fiber * 8)).toFixed(0)) //Kuitu
+    let lista = [valinta, valinta2, valinta3, valinta4, valinta5, valinta6, valinta7]
+    let jarjestetty = lista.sort((a,b)=>a-b)
+    let suurinArvo = jarjestetty[jarjestetty.length - 1]
+    let isoinIndeksi = 0
+    if(valinta == suurinArvo){
+      isoinIndeksi = 0
+      console.log("muutos " + isoinIndeksi)
+    }
+    else if(valinta2 == suurinArvo){
+      isoinIndeksi = 1
+      console.log("muutos " + isoinIndeksi)
+    }
+    else if(valinta3 == suurinArvo){
+      isoinIndeksi = 2
+      console.log("muutos " + isoinIndeksi)
+    }
+    else if(valinta4 == suurinArvo){
+      isoinIndeksi = 3
+      console.log("muutos " + isoinIndeksi)
+    }
+    else if(valinta5 == suurinArvo){
+      isoinIndeksi = 4
+      console.log("muutos " + isoinIndeksi)
+    }
+    else if(valinta6 == suurinArvo){
+      isoinIndeksi = 5
+      console.log("muutos " + isoinIndeksi)
+    }
+    else if(valinta7 == suurinArvo){
+      isoinIndeksi = 6
+      console.log("muutos " + isoinIndeksi)
+    }
+    return isoinIndeksi
+  }
+
+  //Käsittelee ajan loppumisen vastustajan vuorolla. Ensimäinen parin sekunnin mittainen aika on vastustajan "miettiminen", jonka jälkeen arvotaan valittu arvo
+  //Säännöissä valuttu vuoroaika alkaa sen jälkeen ja jos pelaaja ei siirry vuoroajan aikana kierroksen tulokseen, pelaajalle annetaan sen hetken kortti
   const TekoalyVuoro = () => {
     if (vastustajanValinta) {
       setKarusellinLukitus(true)
-      let valinta = (Math.random() * 6).toFixed(0)
+      let valinta = Tekoaly()
       setAika(propsit.peliAika)
       setVastustajanValinta(false);
       setPainettu(ravintoarvot[valinta])

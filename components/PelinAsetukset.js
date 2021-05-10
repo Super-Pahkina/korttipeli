@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { ImageBackground, StyleSheet, Text, Button, View } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useNavigation } from '@react-navigation/native';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 
 export default function PelinAsetukset() {
     const [voittopisteet, setVoittopisteet] = useState(5);
@@ -189,15 +189,15 @@ export default function PelinAsetukset() {
                         />
                     </View>
                 </View>
-            
 
-            <View style={styles.aloitaPeliView}>
-                <TouchableOpacity
-                    style={styles.aloitaPeliNappi}
-                    onPress={() => AloitaPeli()}
-                ><Text style={styles.painikkeenTeksti}>Aloita peli</Text></TouchableOpacity>
-            </View>
-        </ImageBackground>
+
+                <View style={styles.aloitaPeliView}>
+                    <TouchableOpacity
+                        style={styles.aloitaPeliNappi}
+                        onPress={() => AloitaPeli()}
+                    ><Text style={styles.painikkeenTeksti}>Aloita peli</Text></TouchableOpacity>
+                </View>
+            </ImageBackground>
         </View>
 
     );

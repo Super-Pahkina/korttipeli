@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { ImageBackground, StyleSheet, Text, View, Button, ScrollView } from 'react-native';
+import React from 'react';
+import { ImageBackground, StyleSheet, Text, View, ScrollView } from 'react-native';
 import CollapsibleView from '@eliav2/react-native-collapsible-view';
 import { Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';

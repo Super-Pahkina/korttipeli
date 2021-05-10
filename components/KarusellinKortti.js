@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight } from "react-native"
+import React from 'react';
+import { View, Text, StyleSheet, Dimensions } from "react-native"
 import { Card, Icon } from 'react-native-elements'
 
 
@@ -8,7 +8,7 @@ export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7)
 export const SLIDER_HEIGHT = Dimensions.get('window').height + 900
 export const ITEM_HEIGHT = Math.round(SLIDER_HEIGHT * 0.9)
 
-const KarusellinKortti = ( {item, index} ) => {
+const KarusellinKortti = ({ item, index }) => {
   let elintarvike = ({
     name: `${item.kortti.name_fi}`,
     jokeri: `${item.kortti.jokeri}`,
@@ -57,28 +57,28 @@ const KarusellinKortti = ( {item, index} ) => {
 
   return (
     <>
-    {item.valittu.includes(item.kortti) ? <Card containerStyle={styles.korttiValittu}>
-    <Card.Title>{ValitseIkoni()}{elintarvike.name}</Card.Title>
-    {ravintoarvot.map((ravintoarvo, index) => (
-      <View style={styles.rivi}>
-        <Text style={styles.nimi}>{leimat[ravintoarvo]}:  </Text>
-        <Text style={styles.ravinto}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
-      </View>
-    ))} 
-  </Card> 
-  : 
-    <Card containerStyle={styles.kortti}>
-    <Card.Title>{ValitseIkoni()}{elintarvike.name}</Card.Title>
-    {ravintoarvot.map((ravintoarvo, index) => (
-      <View style={styles.rivi}>
-        <Text style={styles.nimi}>{leimat[ravintoarvo]}:  </Text>
-        <Text style={styles.ravinto}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
-      </View>
-    ))}
-  </Card>}
-  </>
+      {item.valittu.includes(item.kortti) ? <Card containerStyle={styles.korttiValittu}>
+        <Card.Title>{ValitseIkoni()}{elintarvike.name}</Card.Title>
+        {ravintoarvot.map((ravintoarvo, index) => (
+          <View style={styles.rivi}>
+            <Text style={styles.nimi}>{leimat[ravintoarvo]}:  </Text>
+            <Text style={styles.ravinto}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
+          </View>
+        ))}
+      </Card>
+        :
+        <Card containerStyle={styles.kortti}>
+          <Card.Title>{ValitseIkoni()}{elintarvike.name}</Card.Title>
+          {ravintoarvot.map((ravintoarvo, index) => (
+            <View style={styles.rivi}>
+              <Text style={styles.nimi}>{leimat[ravintoarvo]}:  </Text>
+              <Text style={styles.ravinto}>{Number(elintarvike.nutrition[ravintoarvo]).toFixed(3)}</Text>
+            </View>
+          ))}
+        </Card>}
+    </>
   )
-  
+
 }
 
 const styles = StyleSheet.create({
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0f7ff',
     width: 300
   },
-  korttiValittu:{
+  korttiValittu: {
     flex: 1,
     marginLeft: 1,
     marginRight: 1,

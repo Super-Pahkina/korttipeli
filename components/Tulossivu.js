@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ImageBackground } from 'react-native';
 
@@ -12,7 +12,7 @@ export default function Tulossivu(props) {
 
     useEffect(() => {
         TaustakuvaAsettaja();
-    },)
+    })
 
     const TaustakuvaAsettaja = () => {
         if (tulos.tulos === 'Voitit pelin') {

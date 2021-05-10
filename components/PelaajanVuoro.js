@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { ImageBackground, StyleSheet, Text, View, Button, TouchableHighlight, Animated } from 'react-native';
-import { Card, Icon } from 'react-native-elements'
+import { ImageBackground, StyleSheet, Text, View, TouchableHighlight, Animated } from 'react-native';
+import { Card, Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
+import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import { useIsFocused } from "@react-navigation/native";
-import Carousel from 'react-native-snap-carousel'
-import KarusellinKortti, { SLIDER_WIDTH, ITEM_WIDTH } from './KarusellinKortti'
+import Carousel from 'react-native-snap-carousel';
+import KarusellinKortti from './KarusellinKortti';
 
 export default function PelaajanVuoro(props) {
   const isFocused = useIsFocused();

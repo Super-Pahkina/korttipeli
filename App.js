@@ -8,7 +8,7 @@ import Vastus from './components/VastustajanVuoro';
 import PelinAsetukset from './components/PelinAsetukset';
 import PakanValinta from './components/PakanValinta';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack';
 //import { Button } from '@material-ui/core';
 
 const Stack = createStackNavigator();

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { TouchableHighlight, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { ImageBackground, View, StyleSheet, Text, Button } from 'react-native';
-import Carousel from 'react-native-snap-carousel'
-import KarusellinKortti, { SLIDER_WIDTH, ITEM_WIDTH } from './KarusellinKortti'
-import { Icon } from 'react-native-elements'
+import Carousel from 'react-native-snap-carousel';
+import KarusellinKortti, { SLIDER_WIDTH, ITEM_WIDTH } from './KarusellinKortti';
+import { Icon } from 'react-native-elements';
+
 export default function PakanValinta(props) {
     const [pakka, setPakka] = useState([]);
     const navigaatio = useNavigation();

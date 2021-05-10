@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ImageBackground, StyleSheet, Text, View, TouchableHighlight, Alert } from 'react-native';
-import { Card, Icon } from 'react-native-elements'
+import { Card, Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 

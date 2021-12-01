@@ -1,5 +1,8 @@
 # Elintarvikepeli
 
+Peliä voi kokeilla lukemalla QR-koodi osoitteessa: https://expo.io/@kri-ku/projects/korttipeli.
+Pelin kokeilemiseksi tarvitset Android-puhelimen ja asennetun Expo GO -sovelluksen.
+
 Elintarvikepeli on ryhmätyönä toteutettu mobiilipeli, joka on toteutettu keväällä 2021 Haaga-Helian kurssilla Ohjelmointiprojekti 2.
 
 Peli hyödyntää Terveyden ja hyvinvoinnin laitos [Finelin](https://fineli.fi/fineli/fi/ohje/19) dataa. Finelin datasta olemme poimineet itseämme kiinnostavan ravintosisällön, erikoisruokavaliot ja tuoteryhmät. Näiden lisäksi olemme muokannet dataa lisäämällä boolean-arvot "jokeri" ja "pommi" kuvastamaan korkeita tai matalia ravintosisältöjä.
@@ -133,9 +136,6 @@ Lumikortin tunnistaa elintarvikkeen nimen edessä olevasta lumihiutaleikonista.
 ![Kierroksen tulos](kuvat/14.jpg)
 ![Kierroksen tulos](kuvat/9.jpg)
 
-### Julkaistu versio
-Peliä voi kokeilla lukemalla QR-koodi osoitteessa: https://expo.io/@kri-ku/projects/korttipeli.
-Pelin kokeilemiseksi tarvitset Android-puhelimen ja asennetun Expo GO -sovelluksen.
 
 ### Lisenssi
 [MIT](https://choosealicense.com/licenses/mit/)
